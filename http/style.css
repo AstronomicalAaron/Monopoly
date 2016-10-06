@@ -29,4 +29,10 @@ body {
 	left: 107px;
 	width: 586px;
 	height: 586px;
+	font-family: Kabel;
+}
+
+@font-face{
+       font-family: Kabel;
+       src: url('kabel.ttf');
 }
