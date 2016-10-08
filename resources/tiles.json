@@ -1,0 +1,343 @@
+[
+	{
+		name:'GO',
+		color:'white'
+	},{
+		name:'MEDITERRANEAN AVENUE',
+		type: 'Property',
+		color:'#955436',
+		rent:			2,
+		with1House:    10,
+		with2Houses:   30,
+		with3Houses:   90,
+		with4Houses:  160,
+		withHotel:    250,
+		mortgageValue: 30,
+		houseCost:     50,
+		hotelCost:     50
+	},{
+		name:'COMMUNITY CHEST',
+		color:'white'
+	},{
+		name:'BALTIC AVENUE',
+		type: 'Property',
+		color:'#955436',
+		rent:			4,
+		with1House:    20,
+		with2Houses:   60,
+		with3Houses:  180,
+		with4Houses:  320,
+		withHotel:    450,
+		mortgageValue: 30,
+		houseCost:     50,
+		hotelCost:     50
+	},{
+		name:'INCOME TAX',
+		color:'white'
+	},{
+		name:'READING RAILROAD',
+		color:'white'
+	},{
+		name:'ORIENTAL AVENUE',
+		type:'Property',
+		color:'#aae0fa',
+		rent:			6,
+		with1House:    30,
+		with2Houses:   90,
+		with3Houses:  270,
+		with4Houses:  400,
+		withHotel:    550,
+		mortgageValue: 50,
+		houseCost:     50,
+		hotelCost:     50
+	},{
+		name:'CHANCE',
+		color:'white'
+	},{
+		name:'VERMONT AVENUE',
+		type: 'Property',
+		color:'#aae0fa',
+		rent:			6,
+		with1House:    30,
+		with2Houses:   90,
+		with3Houses:  270,
+		with4Houses:  400,
+		withHotel:    550,
+		mortgageValue: 50,
+		houseCost:     50,
+		hotelCost:     50
+	},{
+		name:'CONNECTICUT AVENUE',
+		type:'Property',
+		color:'#aae0fa',
+		rent:			8,
+		with1House:    40,
+		with2Houses:  100,
+		with3Houses:  300,
+		with4Houses:  450,
+		withHotel:    600,
+		mortgageValue: 60,
+		houseCost:     50,
+		hotelCost:     50
+	},{
+		name:'JAIL',
+		color:'white'
+	},{
+		name:'ST CHARLES PLACE',
+		type:'Property',
+		color:'#d93a96',
+		rent:		   10,
+		with1House:    50,
+		with2Houses:  150,
+		with3Houses:  450,
+		with4Houses:  625,
+		withHotel:    750,
+		mortgageValue: 70,
+		houseCost:    100,
+		hotelCost:    100
+	},{
+		name:'ELECTRIC COMPANY',
+		color:'white'
+	},{
+		name:'STATES AVENUE',
+		type:'Property',
+		color:'#d93a96',
+		rent:		   10,
+		with1House:    50,
+		with2Houses:  150,
+		with3Houses:  450,
+		with4Houses:  625,
+		withHotel:    750,
+		mortgageValue: 70,
+		houseCost:    100,
+		hotelCost:    100
+	},{
+		name:'VIRGINIA AVENUE',
+		type:'Property',
+		color:'#d93a96',
+		rent:		   12,
+		with1House:    60,
+		with2Houses:  180,
+		with3Houses:  500,
+		with4Houses:  700,
+		withHotel:    900,
+		mortgageValue: 80,
+		houseCost:    100,
+		hotelCost:    100
+	},{
+		name:'PENNSYLVANIA RAILROAD',
+		color:'white'
+	},{
+		name:'ST. JAMES PLACE',
+		type:'Property',
+		color:'#f7941d',
+		rent:		   14,
+		with1House:    70,
+		with2Houses:  200,
+		with3Houses:  550,
+		with4Houses:  750,
+		withHotel:    950,
+		mortgageValue: 90,
+		houseCost:    100,
+		hotelCost:    100
+	},{
+		name:'COMMUNITY CHEST',
+		color:'white'
+	},{
+		name:'TENNESSEE AVENUE',
+		type:'Property',
+		color:'#f7941d',
+		rent:		   14,
+		with1House:    70,
+		with2Houses:  200,
+		with3Houses:  550,
+		with4Houses:  750,
+		withHotel:    950,
+		mortgageValue: 90,
+		houseCost:    100,
+		hotelCost:    100
+	},{
+		name:'NEW YORK AVENUE',
+		type:'Property',
+		color:'#f7941d',
+		rent:		   16,
+		with1House:    80,
+		with2Houses:  220,
+		with3Houses:  600,
+		with4Houses:  800,
+		withHotel:   1000,
+		mortgageValue:100,
+		houseCost:    100,
+		hotelCost:    100
+	},{
+		name:'FREE PARKING',
+		color:'white'
+	},{
+		name:'KENTUCKY AVENUE',
+		type:'Property',
+		color:'#ed1b24',
+		rent:		   18,
+		with1House:    90,
+		with2Houses:  250,
+		with3Houses:  700,
+		with4Houses:  875,
+		withHotel:   1050,
+		mortgageValue:110,
+		houseCost:    150,
+		hotelCost:    150
+	},{
+		name:'CHANCE',
+		color:'white'
+	},{
+		name:'INDIANA AVENUE',
+		type:'Property',
+		color:'#ed1b24',
+		rent:		   18,
+		with1House:    90,
+		with2Houses:  250,
+		with3Houses:  700,
+		with4Houses:  875,
+		withHotel:   1050,
+		mortgageValue:110,
+		houseCost:    150,
+		hotelCost:    150
+	},{
+		name:'ILLINOIS AVENUE',
+		type:'Property',
+		color:'#ed1b24',
+		rent:		   20,
+		with1House:   100,
+		with2Houses:  300,
+		with3Houses:  750,
+		with4Houses:  925,
+		withHotel:   1100,
+		mortgageValue:120,
+		houseCost:    150,
+		hotelCost:    150
+	},{
+		name:'B. & O. RAILROAD',
+		color:'white'
+	},{
+		name:'ATLANTIC AVENUE',
+		type:'Property',
+		color:'#fef200',
+		rent:		   22,
+		with1House:   110,
+		with2Houses:  330,
+		with3Houses:  800,
+		with4Houses:  975,
+		withHotel:   1150,
+		mortgageValue:130,
+		houseCost:    150,
+		hotelCost:    150
+	},{
+		name:'VENTNOR AVENUE',
+		type:'Property',
+		color:'#fef200',
+		rent:		   22,
+		with1House:   110,
+		with2Houses:  330,
+		with3Houses:  800,
+		with4Houses:  975,
+		withHotel:   1150,
+		mortgageValue:130,
+		houseCost:    150,
+		hotelCost:    150
+	},{
+		name:'WATER WORKS',
+		color:'white'
+	},{
+		name:'MARVIN GARDENS',
+		type:'Property',
+		color:'#fef200',
+		rent:		   24,
+		with1House:   120,
+		with2Houses:  360,
+		with3Houses:  850,
+		with4Houses: 1025,
+		withHotel:   1200,
+		mortgageValue:140,
+		houseCost:    150,
+		hotelCost:    150
+	},{
+		name:'GO TO JAIL',
+		color:'white'
+	},{
+		name:'PACIFIC AVENUE',
+		type:'Property',
+		color:'#1fb25a',
+		rent:		   26,
+		with1House:   130,
+		with2Houses:  390,
+		with3Houses:  900,
+		with4Houses: 1100,
+		withHotel:   1275,
+		mortgageValue:150,
+		houseCost:    200,
+		hotelCost:    200
+	},{
+		name:'NORTH CAROLINA AVENUE',
+		type:'Property',
+		color:'#1fb25a',
+		rent:		   26,
+		with1House:   130,
+		with2Houses:  390,
+		with3Houses:  900,
+		with4Houses: 1100,
+		withHotel:   1275,
+		mortgageValue:150,
+		houseCost:    200,
+		hotelCost:    200
+	},{
+		name:'COMMUNITY CHEST',
+		color:'white'
+	},{
+		name:'PENNSYLVANIA AVENUE',
+		type:'Property',
+		color:'#1fb25a',
+		rent:		   28,
+		with1House:   150,
+		with2Houses:  450,
+		with3Houses: 1000,
+		with4Houses: 1200,
+		withHotel:   1400,
+		mortgageValue:160,
+		houseCost:    200,
+		hotelCost:    200
+	},{
+		name:'SHORT LINE',
+		color:'white'
+	},{
+		name:'CHANCE',
+		color:'white'
+	},{
+		name:'PARK PLACE',
+		type:'Property',
+		color:'#0072bb',
+		rent:		   35,
+		with1House:   175,
+		with2Houses:  500,
+		with3Houses: 1100,
+		with4Houses: 1300,
+		withHotel:   1500,
+		mortgageValue:175,
+		houseCost:    200,
+		hotelCost:    200
+	},{
+		name:'LUXURY TAX',
+		color:'white'
+	},{
+		name:'BOARDWALK',
+		type:'Property',
+		color:'#0072bb',
+		rent:		   50,
+		with1House:   200,
+		with2Houses:  600,
+		with3Houses: 1400,
+		with4Houses: 1700,
+		withHotel:   2000,
+		mortgageValue:200,
+		houseCost:    200,
+		hotelCost:    200
+	},
+]
