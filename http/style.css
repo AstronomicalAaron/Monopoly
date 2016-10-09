@@ -69,6 +69,7 @@ body {
 	
 	font-family: Raleway;
 	font-size: 16px;
+	line-height: 18px;
 	font-weight: bold;
 	text-align: center;
 }
@@ -92,6 +93,7 @@ body {
 
 #property-info p {
 	font-size: 9px;
+	line-height: 10px;
 }
 
 #card-header span {

@@ -28,7 +28,7 @@ app.controller('monopolyController', function($scope) {
 	$scope.cardHover = false;
 	
 	// Used a short name so the html isn't as bad
-	$scope.card = function(c) {
+	$scope.card = function($event, c) {
 		if ($scope.cardHover == true) {
 			return;
 		}
@@ -43,7 +43,7 @@ app.controller('monopolyController', function($scope) {
 		$scope.cardHeaderStyle = {'background':$scope.selected.color};
 		
 		// Stuffs about to get gnar
-		var td = $(window.event.target);
+		var td = $($event.target);
 		// Get td position
 		var offset = td.offset();
 		var eventX = offset.left + td.width() / 2;
@@ -62,11 +62,11 @@ app.controller('monopolyController', function($scope) {
 		// clamp
 		var xLimit = uiWidth / 2 + overlap - halfWidth;
 		if (Math.abs(cardX) > xLimit) {
-			cardX = Math.sign(cardX) * xLimit;
+			cardX = (cardX / Math.abs(cardX)) * xLimit;
 		}
 		var yLimit = uiHeight / 2 + overlap - halfHeight;
 		if (Math.abs(cardY) > yLimit) {
-			cardY = Math.sign(cardY) * yLimit;
+			cardY = (cardY / Math.abs(cardY)) * yLimit;
 		}
 		// position relative to upper left corner
 		cardX += centerX;
