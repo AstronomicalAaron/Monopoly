@@ -26,21 +26,36 @@ var app = angular.module('monopolyApp', []);
 app.controller('monopolyController', function($scope) {
 	
 	$scope.cardHover = false;
+	$scope.cardHeaderStyle = {'background':'white','color':'black'};
 	
 	// Used a short name so the html isn't as bad
-	$scope.card = function($event, c) {
+	$scope.card = function($event) {
 		if ($scope.cardHover == true) {
 			return;
 		}
 		
-		$scope.selected = cards[c];
-		
-		if (c == null) {
+		var isTile = $.isNumeric($event.target.id) ^ ($event.type == 'mouseleave');
+		if (isTile) {
+			var c = $event.target.id;
+			$scope.selected = cards[c];
+		}
+		else {
+			$scope.selected = null;
 			return;
 		}
 		
-		// Configure card style
-		$scope.cardHeaderStyle = {'background':$scope.selected.color};
+		switch ($scope.selected.type) {
+			case 'Property':
+		
+				// Configure card style
+				var color = $scope.selected.color;
+				$scope.cardHeaderStyle.background = color;
+
+				// invert the dark blue ones
+				$scope.cardHeaderStyle.color = color == '#0072bb' ? 'white' : 'black';
+				
+				break;	
+		}
 		
 		// Stuffs about to get gnar
 		var td = $($event.target);
@@ -81,8 +96,34 @@ app.controller('monopolyController', function($scope) {
 	$scope.isSelected = function() {
 		return $scope.selected != null;
 	}
-	
 	$scope.isProperty = function() {
 		return $scope.selected != null && $scope.selected.type == 'Property';
+	}
+	$scope.isUtility = function() {
+		return $scope.selected != null && $scope.selected.type == 'Utility';
+	}
+	$scope.isTaxes = function() {
+		return $scope.selected != null && $scope.selected.type == 'Taxes';
+	}
+	$scope.isRailroad = function() {
+		return $scope.selected != null && $scope.selected.type == 'Railroad';
+	}
+	$scope.isChance = function() {
+		return $scope.selected != null && $scope.selected.type == 'Chance';
+	}
+	$scope.isCommunityChest = function() {
+		return $scope.selected != null && $scope.selected.type == 'CommunityChest';
+	}
+	$scope.isGo = function() {
+		return $scope.selected != null && $scope.selected.type == 'Go';
+	}
+	$scope.isJail = function() {
+		return $scope.selected != null && $scope.selected.type == 'Jail';
+	}
+	$scope.isFreeParking = function() {
+		return $scope.selected != null && $scope.selected.type == 'FreeParking';
+	}
+	$scope.isGoToJail = function() {
+		return $scope.selected != null && $scope.selected.type == 'GoToJail';
 	}
 });

@@ -21,6 +21,90 @@ body {
 	background: url('background.jpg');
 	background-size: 100% auto;
 	font-family: Kabel;
+	
+	/* Turn off text highlighting for everything */
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none;   /* Chrome/Safari/Opera */
+	-khtml-user-select: none;    /* Konqueror */
+	-moz-user-select: none;      /* Firefox */
+	-ms-user-select: none;       /* Internet Explorer/Edge */
+	user-select: none;           /* Non-prefixed version, currently
+									  not supported by any browser */
+}
+
+button {
+	box-shadow: 1px 1px 5px #333;
+	font: 17px Raleway;
+	border: none;
+	padding: 0px 12px;
+	background: #ffffff;
+	background-image: url('material.png');
+	background-blend-mode: multiply;
+	height: 32px;
+}
+
+button:hover {
+	background: #f0f0f0;
+	background-image: url('material.png');
+}
+
+button:active {
+	box-shadow: 0px 0px 2px #333;
+	background: #e0e0e0;
+	background-image: url('material.png');
+}
+
+<!-- More pastel-y versions of the monopoly colors -->
+.brown {
+	background: #BA907C;
+	background-image: url('material.png');
+}
+.light-blue {
+	background: #CCECFC;
+	background-image: url('material.png');
+}
+.magenta {
+	background: #E889C0;
+	background-image: url('material.png');
+}
+.orange {
+	background: #FABF77;
+	background-image: url('material.png');
+}
+.red {
+	background: #F4767C;
+	background-image: url('material.png');
+}
+.red:hover {
+	background: #E87076;
+	background-image: url('material.png');
+}
+.red:active {
+	background: #DC6A70;
+	background-image: url('material.png');
+}
+.yellow {
+	background: #FFFA99;
+	background-image: url('material.png');
+}
+.green {
+	background: #73D99C;
+	background-image: url('material.png');
+}
+.green:hover {
+	background: #6DCE94;
+	background-image: url('material.png');
+}
+.green:active {
+	background: #68C38C;
+	background-image: url('material.png');
+}
+.green-text {
+	color: #136c37;
+}
+.blue {
+	background: #59A3D3;
+	background-image: url('material.png');
 }
 
 #grid {
@@ -42,8 +126,11 @@ body {
 	width: 586px;
 	height: 586px;
 	margin-left: 5px;
-	
 	text-align: left;
+}
+
+#ui-margin {
+	padding: 16px;
 }
 
 #card {
@@ -54,32 +141,33 @@ body {
 	width: 240px;
 	height: 275px;
 	z-index: 100;
+	pointer-events: none;
 }
 
 #card-header {
-	margin: 5px;
+	margin: 8px;
 	height: 45px;
 	border: 3px solid #333;
 	text-align: center;
 	
 }
 
-#property-info {
+#property {
 	margin: 8px;
 	
 	font-family: Raleway;
 	font-size: 16px;
 	line-height: 18px;
-	font-weight: bold;
+	font-weight: 600;
 	text-align: center;
 }
 
-#property-info span {
+#property > span {
 	display: block;
 	width: 100%;
 }
 
-#property-info table {
+#property table {
 	border-collapse: collapse;
 	text-align: left;
 	margin-left:auto;
@@ -87,11 +175,11 @@ body {
 	width: 175px;
 }
 
-#property-info td:last-child {
+#property td:last-child {
 	text-align: right;
 }
 
-#property-info p {
+#property p {
 	font-size: 9px;
 	line-height: 10px;
 }
