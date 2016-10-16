@@ -11,6 +11,14 @@
     <script src='script.js' type='text/javascript'></script>
   </head>
   <body ng-app='monopolyApp' ng-controller='monopolyController' class='noselect'>
+  
+	<a id='menu-toggle' href='#' ng-click='toggleMenu()'>
+		<img src='menu.png' />
+	</a>
+  
+	<nav id="menu" class="menu">
+		
+	</nav>
 	
 	<!-- Card -->
 	<div id='card' ng-show='isSelected()'>

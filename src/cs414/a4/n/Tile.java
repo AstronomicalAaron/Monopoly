@@ -4,9 +4,9 @@ public class Tile {
 
 	public String name;
 	public TileType type;
-	public String color;
 	
 	// Property
+	public String color;
 	public double rent;
 	public double with1House;
 	public double with2Houses;

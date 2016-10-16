@@ -4,12 +4,17 @@ var uiWidth, uiHeight;
 var $card;
 var cardWidth, cardHeight;
 
+var $menu;
+var $menuToggle;
+
 var cards;
 $.getJSON("tiles", function(json) {
 	cards = json;
 });
 
 $(document).ready(function() {
+	
+	// ui
 	$ui = $('#ui');
 	uiWidth = $ui.width();
 	uiHeight = $ui.height();
@@ -17,9 +22,14 @@ $(document).ready(function() {
 	uiOffsetLeft = uiOffset.left;
 	uiOffsetTop = uiOffset.top;
 	
+	// card
 	$card = $('#card');
 	cardWidth = $card.width();
 	cardHeight = $card.height();
+	
+	// menu
+	$menu = $('#menu');
+	$menuToggle = $('#menu-toggle');
 });
 
 var app = angular.module('monopolyApp', []);
@@ -27,6 +37,21 @@ app.controller('monopolyController', function($scope) {
 	
 	$scope.cardHover = false;
 	$scope.cardHeaderStyle = {'background':'white','color':'black'};
+	
+	$scope.toggleMenu = function() {
+		
+		if ($menu.is(':visible')) {
+			$menu.animate({left:'-300px'}, 100, 'swing', function() {
+				// hide after animation is complete
+				$menu.hide();
+			});
+			$menuToggle.animate
+		}
+		else {
+			$menu.animate({left:'0px'}, 100, 'swing');
+			$menu.show();
+		}
+	}
 	
 	// Used a short name so the html isn't as bad
 	$scope.card = function($event) {

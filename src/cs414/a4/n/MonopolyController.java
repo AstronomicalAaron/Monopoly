@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @EnableAutoConfiguration
 public class MonopolyController {
     
-	// HTTP
+	private static Monopoly game;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
@@ -28,11 +28,12 @@ public class MonopolyController {
     @RequestMapping(value = "/tiles", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public TileList getTiles() {
-		return MonopolyGame.board.tiles;
+		return game.getBoard().getTiles();
     }
-    
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(MonopolyController.class, args);
+        
+        game = new Monopoly();
     }
 }
