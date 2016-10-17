@@ -179,8 +179,9 @@ button:active {
 }
 
 #card-header-railroad {
-	margin: 8px;
+	margin: 7px;
 	text-align: center;
+	font-family: Kabel;
 }
 
 #property {

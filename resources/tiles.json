@@ -128,7 +128,7 @@
 		houseCost:    100,
 		hotelCost:    100
 	},{
-		name:'PENNSYLVANIA RAILROAD',
+		name:'PENNSYLVANIA R.R.',
 		type:'Railroad',
 		color:'white',
 		mortgageValue: 100,
@@ -314,7 +314,7 @@
 		houseCost:    200,
 		hotelCost:    200
 	},{
-		name:'SHORT LINE RAILROAD',
+		name:'SHORT LINE R.R.',
 		type:'Railroad',
 		color:'white',
 		mortgageValue: 100,
