@@ -18,4 +18,8 @@ public class Tile {
 	public double hotelCost;
 	//
 	
+	public double with2Railroads = 50;
+	public double with3Railroads = 100;
+	public double with4Railroads = 200;
+	
 }

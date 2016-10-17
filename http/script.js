@@ -79,7 +79,15 @@ app.controller('monopolyController', function($scope) {
 				// invert the dark blue ones
 				$scope.cardHeaderStyle.color = color == '#0072bb' ? 'white' : 'black';
 				
-				break;	
+				break;
+			case 'Railroad':
+				// Configure card style
+				var color = $scope.selected.color;
+				$scope.cardHeaderStyle.background = color;
+
+				// invert the dark blue ones
+				$scope.cardHeaderStyle.color = color == '#0072bb' ? 'white' : 'black';
+				break;
 		}
 		
 		// Stuffs about to get gnar

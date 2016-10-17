@@ -42,7 +42,7 @@
 		</div>
 		
 		<div id='utility' ng-show='isUtility()'>
-			<!-- TODO -->
+			<!-- TODO -->		
 		</div>
 		
 		<div id='taxes' ng-show='isTaxes()'>
@@ -50,7 +50,20 @@
 		</div>
 		
 		<div id='railroad' ng-show='isRailroad()'>
-			<!-- TODO -->
+			<p><img src="train.png" style="width:40%;"></p>
+			
+			<hr>
+			<div id='card-header-railroad' ng-style='cardHeaderStyle' ng-show='isRailroad()'>
+				<span>{{ selected.name }}</span>
+			</div>
+			<hr>
+			<table>
+				<tr><td>Rent</td><td class='green-text'>$ {{ selected.rent }}</td></tr>
+				<tr><td>If 2 R.R.'s are owned</td><td class='green-text'>{{ selected.with2Railroads }}</td></tr>
+				<tr><td>If 3 R.R.'s are owned</td><td class='green-text'>{{ selected.with3Railroads }}</td></tr>
+				<tr><td>If 4 R.R.'s are owned</td><td class='green-text'>{{ selected.with4Railroads }}</td></tr>
+			</table>
+			<span>Mortgage Value <span class='green-text'>${{ selected.mortgageValue }}</span></span>
 		</div>
 		
 		<div id='chance' ng-show='isChance()'>

@@ -36,7 +36,10 @@
 		color:'white'
 	},{
 		name:'READING RAILROAD',
-		color:'white'
+		type:'Railroad',
+		color:'white',
+		mortgageValue: 100,
+		rent:			25
 	},{
 		name:'ORIENTAL AVENUE',
 		type:'Property',
@@ -126,7 +129,10 @@
 		hotelCost:    100
 	},{
 		name:'PENNSYLVANIA RAILROAD',
-		color:'white'
+		type:'Railroad',
+		color:'white',
+		mortgageValue: 100,
+		rent:			25
 	},{
 		name:'ST. JAMES PLACE',
 		type:'Property',
@@ -216,7 +222,10 @@
 		hotelCost:    150
 	},{
 		name:'B. & O. RAILROAD',
-		color:'white'
+		type:'Railroad',
+		color:'white',
+		mortgageValue: 100,
+		rent:			25
 	},{
 		name:'ATLANTIC AVENUE',
 		type:'Property',
@@ -305,8 +314,11 @@
 		houseCost:    200,
 		hotelCost:    200
 	},{
-		name:'SHORT LINE',
-		color:'white'
+		name:'SHORT LINE RAILROAD',
+		type:'Railroad',
+		color:'white',
+		mortgageValue: 100,
+		rent:			25
 	},{
 		name:'CHANCE',
 		color:'white'
