@@ -184,6 +184,12 @@ button:active {
 	font-family: Kabel;
 }
 
+#card-header-utility {
+	margin: 7px;
+	text-align: center;
+	font-family: Kabel;
+}
+
 #property {
 	margin: 8px;
 	
@@ -244,6 +250,37 @@ button:active {
 }
 
 #railroad p {
+	line-height: 18px;
+}
+
+#utility {
+	margin: 8px;
+	
+	font-family: Raleway;
+	font-size: 14px;
+	line-height: 18px;
+	font-weight: 600;
+	text-align: center;
+}
+
+#utility > span {
+	display: block;
+	width: 100%;
+}
+
+#utility table {
+	border-collapse: collapse;
+	text-align: left;
+	margin-left:auto;
+	margin-right:auto;
+	width: 190px;
+}
+
+#utility td:last-child {
+	text-align: right;
+}
+
+#utility p {
 	line-height: 18px;
 }
 

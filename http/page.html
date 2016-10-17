@@ -42,7 +42,21 @@
 		</div>
 		
 		<div id='utility' ng-show='isUtility()'>
-			<!-- TODO -->		
+			<img id="utilityImage" style="width:30%;">
+			
+			<hr>
+			<div id='card-header-utility' ng-style='cardHeaderStyle' ng-show='isUtility()'>
+				<span>{{ selected.name }}</span>
+			</div>
+			<hr>
+			
+			<span>If one Utility is owned</span>
+			<span>rent is 4 times amount</span>
+			<span>shown on dice.<br><br></span>
+			<span>If both Utilities are owned,</span>
+			<span>rent is 10 times amount</span>
+			<span>shown on dice.</span>
+			
 		</div>
 		
 		<div id='taxes' ng-show='isTaxes()'>

@@ -88,6 +88,22 @@ app.controller('monopolyController', function($scope) {
 				// invert the dark blue ones
 				$scope.cardHeaderStyle.color = color == '#0072bb' ? 'white' : 'black';
 				break;
+			case 'Utility':
+				// Configure card style
+				var color = $scope.selected.color;
+				$scope.cardHeaderStyle.background = color;
+
+				// invert the dark blue ones
+				$scope.cardHeaderStyle.color = color == '#0072bb' ? 'white' : 'black';
+				
+				var imageLocation;
+				if ($scope.selected.name == "WATER WORKS") {
+					imageLocation = "waterworks.png";
+				} else {
+					imageLocation = "electricompany.png";
+				}
+				document.getElementById('utilityImage').src=imageLocation;
+				break;
 		}
 		
 		// Stuffs about to get gnar

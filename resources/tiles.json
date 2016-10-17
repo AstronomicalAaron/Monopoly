@@ -14,7 +14,8 @@
 		withHotel:    250,
 		mortgageValue: 30,
 		houseCost:     50,
-		hotelCost:     50
+		hotelCost:     50,
+		propertyCost:  60
 	},{
 		name:'COMMUNITY CHEST',
 		color:'white'
@@ -30,7 +31,8 @@
 		withHotel:    450,
 		mortgageValue: 30,
 		houseCost:     50,
-		hotelCost:     50
+		hotelCost:     50,
+		propertyCost:  60
 	},{
 		name:'INCOME TAX',
 		color:'white'
@@ -39,7 +41,8 @@
 		type:'Railroad',
 		color:'white',
 		mortgageValue: 100,
-		rent:			25
+		rent:			25,
+		propertyCost:  200
 	},{
 		name:'ORIENTAL AVENUE',
 		type:'Property',
@@ -52,7 +55,8 @@
 		withHotel:    550,
 		mortgageValue: 50,
 		houseCost:     50,
-		hotelCost:     50
+		hotelCost:     50,
+		propertyCost: 100
 	},{
 		name:'CHANCE',
 		color:'white'
@@ -68,7 +72,8 @@
 		withHotel:    550,
 		mortgageValue: 50,
 		houseCost:     50,
-		hotelCost:     50
+		hotelCost:     50,
+		propertyCost: 100
 	},{
 		name:'CONNECTICUT AVENUE',
 		type:'Property',
@@ -81,7 +86,8 @@
 		withHotel:    600,
 		mortgageValue: 60,
 		houseCost:     50,
-		hotelCost:     50
+		hotelCost:     50,
+		propertyCost: 120
 	},{
 		name:'JAIL',
 		color:'white'
@@ -97,9 +103,11 @@
 		withHotel:    750,
 		mortgageValue: 70,
 		houseCost:    100,
-		hotelCost:    100
+		hotelCost:    100,
+		propertyCost: 140
 	},{
 		name:'ELECTRIC COMPANY',
+		type:'Utility',
 		color:'white'
 	},{
 		name:'STATES AVENUE',
@@ -113,7 +121,8 @@
 		withHotel:    750,
 		mortgageValue: 70,
 		houseCost:    100,
-		hotelCost:    100
+		hotelCost:    100,
+		propertyCost: 140
 	},{
 		name:'VIRGINIA AVENUE',
 		type:'Property',
@@ -126,13 +135,15 @@
 		withHotel:    900,
 		mortgageValue: 80,
 		houseCost:    100,
-		hotelCost:    100
+		hotelCost:    100,
+		propertyCost: 160
 	},{
 		name:'PENNSYLVANIA R.R.',
 		type:'Railroad',
 		color:'white',
 		mortgageValue: 100,
-		rent:			25
+		rent:			25,
+		propertyCost:  200
 	},{
 		name:'ST. JAMES PLACE',
 		type:'Property',
@@ -145,7 +156,8 @@
 		withHotel:    950,
 		mortgageValue: 90,
 		houseCost:    100,
-		hotelCost:    100
+		hotelCost:    100,
+		propertyCost: 180
 	},{
 		name:'COMMUNITY CHEST',
 		color:'white'
@@ -161,7 +173,8 @@
 		withHotel:    950,
 		mortgageValue: 90,
 		houseCost:    100,
-		hotelCost:    100
+		hotelCost:    100,
+		propertyCost: 180
 	},{
 		name:'NEW YORK AVENUE',
 		type:'Property',
@@ -174,7 +187,8 @@
 		withHotel:   1000,
 		mortgageValue:100,
 		houseCost:    100,
-		hotelCost:    100
+		hotelCost:    100,
+		propertyCost: 200
 	},{
 		name:'FREE PARKING',
 		color:'white'
@@ -190,7 +204,8 @@
 		withHotel:   1050,
 		mortgageValue:110,
 		houseCost:    150,
-		hotelCost:    150
+		hotelCost:    150,
+		propertyCost: 220
 	},{
 		name:'CHANCE',
 		color:'white'
@@ -206,7 +221,8 @@
 		withHotel:   1050,
 		mortgageValue:110,
 		houseCost:    150,
-		hotelCost:    150
+		hotelCost:    150,
+		propertyCost: 220
 	},{
 		name:'ILLINOIS AVENUE',
 		type:'Property',
@@ -219,13 +235,15 @@
 		withHotel:   1100,
 		mortgageValue:120,
 		houseCost:    150,
-		hotelCost:    150
+		hotelCost:    150,
+		propertyCost: 240
 	},{
 		name:'B. & O. RAILROAD',
 		type:'Railroad',
 		color:'white',
 		mortgageValue: 100,
-		rent:			25
+		rent:			25,
+		propertyCost:  200
 	},{
 		name:'ATLANTIC AVENUE',
 		type:'Property',
@@ -238,7 +256,8 @@
 		withHotel:   1150,
 		mortgageValue:130,
 		houseCost:    150,
-		hotelCost:    150
+		hotelCost:    150,
+		propertyCost: 260
 	},{
 		name:'VENTNOR AVENUE',
 		type:'Property',
@@ -251,10 +270,13 @@
 		withHotel:   1150,
 		mortgageValue:130,
 		houseCost:    150,
-		hotelCost:    150
+		hotelCost:    150,
+		propertyCost: 260
 	},{
 		name:'WATER WORKS',
-		color:'white'
+		type:'Utility',
+		color:'white',
+		propertyCost: 150
 	},{
 		name:'MARVIN GARDENS',
 		type:'Property',
@@ -267,7 +289,8 @@
 		withHotel:   1200,
 		mortgageValue:140,
 		houseCost:    150,
-		hotelCost:    150
+		hotelCost:    150,
+		propertyCost: 280
 	},{
 		name:'GO TO JAIL',
 		color:'white'
@@ -283,7 +306,8 @@
 		withHotel:   1275,
 		mortgageValue:150,
 		houseCost:    200,
-		hotelCost:    200
+		hotelCost:    200,
+		propertyCost: 300
 	},{
 		name:'NORTH CAROLINA AVENUE',
 		type:'Property',
@@ -296,7 +320,8 @@
 		withHotel:   1275,
 		mortgageValue:150,
 		houseCost:    200,
-		hotelCost:    200
+		hotelCost:    200,
+		propertyCost: 300
 	},{
 		name:'COMMUNITY CHEST',
 		color:'white'
@@ -312,13 +337,15 @@
 		withHotel:   1400,
 		mortgageValue:160,
 		houseCost:    200,
-		hotelCost:    200
+		hotelCost:    200,
+		propertyCost: 320
 	},{
 		name:'SHORT LINE R.R.',
 		type:'Railroad',
 		color:'white',
 		mortgageValue: 100,
-		rent:			25
+		rent:			25,
+		propertyCost:  200
 	},{
 		name:'CHANCE',
 		color:'white'
@@ -334,7 +361,8 @@
 		withHotel:   1500,
 		mortgageValue:175,
 		houseCost:    200,
-		hotelCost:    200
+		hotelCost:    200,
+		propertyCost: 350
 	},{
 		name:'LUXURY TAX',
 		color:'white'
@@ -350,6 +378,7 @@
 		withHotel:   2000,
 		mortgageValue:200,
 		houseCost:    200,
-		hotelCost:    200
+		hotelCost:    200,
+		propertyCost: 400
 	},
 ]
