@@ -27,6 +27,12 @@ public abstract class Owner {
 	public ArrayList<Deed> getDeeds() {
 		return deeds;
 	}
+	
+	public boolean hasDeed(Deed deed){
+		
+		return deeds.contains(deed);
+		
+	}
 
 	public void transfer(Owner recipient, Double amount) {
 		if (money >= amount) {
