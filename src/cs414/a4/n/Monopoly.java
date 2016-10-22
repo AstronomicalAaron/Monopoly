@@ -112,7 +112,7 @@ public class Monopoly {
 					//Update player deed status
 					player.getDeeds().get(deedIndex).boughtMortgage = true;
 					
-					double mortgageAmount = currentTile.getDeed().mortgageValue;
+					double mortgageAmount = currentTile.mortgageValue;
 					
 					//Player pays bank the mortgage value
 					currentTile.getDeed().getOwner().transfer(bank, mortgageAmount);
@@ -151,7 +151,7 @@ public class Monopoly {
 				//What it's saying is the current tile that the player is own
 				//transfers ownership from the bank to the player.
 				currentTile.getDeed().getOwner().transfer(bank,
-						currentTile.getDeed().propertyCost);
+						currentTile.propertyCost);
 				
 				//Add the deed to the player's deed list
 				player.getDeeds().add(currentTile.getDeed());
