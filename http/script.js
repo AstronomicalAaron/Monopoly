@@ -45,11 +45,12 @@ app.controller('monopolyController', function($scope) {
 				// hide after animation is complete
 				$menu.hide();
 			});
-			$menuToggle.animate
+			$menuToggle.animateRotate(90, 0, 100);
 		}
 		else {
 			$menu.animate({left:'0px'}, 100, 'swing');
 			$menu.show();
+			$menuToggle.animateRotate(0, 90, 100);
 		}
 	}
 	
@@ -176,3 +177,17 @@ app.controller('monopolyController', function($scope) {
 		return $scope.selected != null && $scope.selected.type == 'GoToJail';
 	}
 });
+
+$.fn.animateRotate = function(start, end, duration, easing, complete) {
+  var args = $.speed(duration, easing, complete);
+  var step = args.step;
+  return this.each(function(i, e) {
+    args.complete = $.proxy(args.complete, e);
+    args.step = function(now) {
+      $.style(e, 'transform', 'rotate(' + now + 'deg)');
+      if (step) return step.apply(e, arguments);
+    };
+
+    $({deg: start}).animate({deg: end}, args);
+  });
+};

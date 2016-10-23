@@ -16,8 +16,12 @@
 		<img src='menu.png' />
 	</a>
   
-	<nav id="menu" class="menu">
-		
+	<nav id='menu' class='menu' hidden>
+		<div id='menu-header'>Monopoly</div>
+		<h1>Servers:</h1>
+		<ul>
+			<li ng-repeat='s in servers'><a>{{ s.name }}</a></li>
+		</ul>
 	</nav>
 	
 	<!-- Card -->
@@ -97,41 +101,39 @@
 	  		<td width='800'>
 	  			<div id='board'>
 					<table id='board-grid' ng-mouseleave='card($event)'>
-						<tr height='104'>
-							<td id=20 ng-mouseover='card($event)' width='100' /><td id=21 ng-mouseover='card($event)' />
+						<tr height='106'>
+							<td id=20 ng-mouseover='card($event)' width='105' /><td id=21 ng-mouseover='card($event)' />
 							<td id=22 ng-mouseover='card($event)' /><td id=23 ng-mouseover='card($event)' />
 							<td id=24 ng-mouseover='card($event)' /><td id=25 ng-mouseover='card($event)' />
 							<td id=26 ng-mouseover='card($event)' /><td id=27 ng-mouseover='card($event)' />
-							<td id=28 ng-mouseover='card($event)' /><td id=29 ng-mouseover='card($event)' /><td id=30 ng-mouseover='card($event)' width='100' />
+							<td id=28 ng-mouseover='card($event)' /><td id=29 ng-mouseover='card($event)' /><td id=30 ng-mouseover='card($event)' width='102' />
 						</tr>
 						<tr>
-							<td id=19 ng-mouseover='card($event,19)' width='100' />
-							<td rowspan=9 colspan=9>
-								<div id='ui' ng-mouseover='card($event)'>
-									<div id='ui-margin'>
-										<!-- UI -->
-										<button>Button</button>
-										<button class='red'>Close</button>
-										<button class='green'>Purchase</button>
-									</div>
+							<td id=19 ng-mouseover='card($event,19)' width='105' />
+							<td rowspan=9 colspan=9 id='ui' ng-mouseover='card($event)'>
+								<div id='ui-wrapper'>
+									<!-- UI -->
+									<button>Button</button>
+									<button class='red'>Close</button>
+									<button class='green'>Purchase</button>
 								</div>
 							</td>
-							<td id=31 ng-mouseover='card($event)' width='100' />
+							<td id=31 ng-mouseover='card($event)' width='102' />
 						</tr>
-						<tr><td id=18 ng-mouseover='card($event)' width='100' /><td id=32 ng-mouseover='card($event)' width='100' /></tr>
-						<tr><td id=17 ng-mouseover='card($event)' width='100' /><td id=33 ng-mouseover='card($event)' width='100' /></tr>
-						<tr><td id=16 ng-mouseover='card($event)' width='100' /><td id=34 ng-mouseover='card($event)' width='100' /></tr>
-						<tr><td id=15 ng-mouseover='card($event)' width='100' /><td id=35 ng-mouseover='card($event)' width='100' /></tr>
-						<tr><td id=14 ng-mouseover='card($event)' width='100' /><td id=36 ng-mouseover='card($event)' width='100' /></tr>
-						<tr><td id=13 ng-mouseover='card($event)' width='100' /><td id=37 ng-mouseover='card($event)' width='100' /></tr>
-						<tr><td id=12 ng-mouseover='card($event)' width='100' /><td id=38 ng-mouseover='card($event)' width='100' /></tr>
-						<tr><td id=11 ng-mouseover='card($event)' width='100' /><td id=39 ng-mouseover='card($event)' width='100' /></tr>
-						<tr height='104'>
-							<td id=10 ng-mouseover='card($event)' width='100' /><td id=9 ng-mouseover='card($event)' />
+						<tr><td id=18 ng-mouseover='card($event)' width='105' /><td id=32 ng-mouseover='card($event)' width='102' /></tr>
+						<tr><td id=17 ng-mouseover='card($event)' width='105' /><td id=33 ng-mouseover='card($event)' width='102' /></tr>
+						<tr><td id=16 ng-mouseover='card($event)' width='105' /><td id=34 ng-mouseover='card($event)' width='102' /></tr>
+						<tr><td id=15 ng-mouseover='card($event)' width='105' /><td id=35 ng-mouseover='card($event)' width='102' /></tr>
+						<tr><td id=14 ng-mouseover='card($event)' width='105' /><td id=36 ng-mouseover='card($event)' width='102' /></tr>
+						<tr><td id=13 ng-mouseover='card($event)' width='105' /><td id=37 ng-mouseover='card($event)' width='102' /></tr>
+						<tr><td id=12 ng-mouseover='card($event)' width='105' /><td id=38 ng-mouseover='card($event)' width='102' /></tr>
+						<tr><td id=11 ng-mouseover='card($event)' width='105' /><td id=39 ng-mouseover='card($event)' width='102' /></tr>
+						<tr height='103'>
+							<td id=10 ng-mouseover='card($event)' width='105' /><td id=9 ng-mouseover='card($event)' />
 							<td id=8 ng-mouseover='card($event)' /><td id=7 ng-mouseover='card($event)' />
 							<td id=6 ng-mouseover='card($event)' /><td id=5 ng-mouseover='card($event)' />
 							<td id=4 ng-mouseover='card($event)' /><td id=3 ng-mouseover='card($event)' />
-							<td id=2 ng-mouseover='card($event)' /><td id=1 ng-mouseover='card($event)' /><td id=0 ng-mouseover='card($event)' width='100' />
+							<td id=2 ng-mouseover='card($event)' /><td id=1 ng-mouseover='card($event)' /><td id=0 ng-mouseover='card($event)' width='102' />
 						</tr>
 					</table>
 	  			</div>

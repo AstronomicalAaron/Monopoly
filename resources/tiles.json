@@ -380,5 +380,5 @@
 		houseCost:    200,
 		hotelCost:    200,
 		propertyCost: 400
-	},
+	}
 ]
