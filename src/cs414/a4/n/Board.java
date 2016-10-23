@@ -1,9 +1,10 @@
 package cs414.a4.n;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Board {
 
 	private TileList tiles;
-
 	private Die[] dice;
 
 	public Board() {
@@ -19,6 +20,7 @@ public class Board {
 		return dice;
 	}
 	
+	@JsonIgnore
 	public Tile getGo() {
 		return tiles.get(0);
 	}

@@ -25,10 +25,33 @@ public class MonopolyController {
     }
     
     // Operations
-    @RequestMapping(value = "/tiles", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/state", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public TileList getTiles() {
-		return game.getBoard().getTiles();
+    public Monopoly getState() {
+    	return game;
+    }
+    
+    @RequestMapping(value = "/join", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly start(
+    		@RequestParam String name, 
+    		@RequestParam TokenType token) {
+    	game.join(name, token);
+    	return game;
+    }
+    
+    @RequestMapping(value = "/start", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly start() {
+    	game.start();
+    	return game;
+    }
+    
+    @RequestMapping(value = "/rolldice", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly rollDice() {
+    	game.rollDice();
+    	return game;
     }
 
     public static void main(String[] args) throws Exception {

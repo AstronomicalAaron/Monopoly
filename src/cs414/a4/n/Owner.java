@@ -4,20 +4,20 @@ import java.util.*;
 
 public abstract class Owner {
 
-	private String id;
+	private String name;
 	
 	private double money;
 	
 	private ArrayList<Deed> deeds;
 	
 	public Owner(String id, double initialMoney) {
-		this.id = id;
+		this.name = id;
 		money = initialMoney;
 		deeds = new ArrayList<Deed>();
 	}
 	
-	public String getId() {
-		return id;
+	public String getName() {
+		return name;
 	}
 
 	public double getMoney() {

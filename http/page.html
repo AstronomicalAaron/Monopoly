@@ -24,6 +24,36 @@
 		</ul>
 	</nav>
 	
+	<!-- Join -->
+	<div id='join-background'>
+		
+	</div>
+	
+	<div id='join'>
+		<div id='join-name'>
+			<h3>Enter name:</h3>
+			<input ng-model='username'>
+			<button ng-click='spectate()'>Spectate</button>
+			<button ng-click='chooseToken()'>Join</button>
+		</div>
+		<div id='join-token' hidden>
+			<table>
+				<tr>
+					<td ng-click='join("CAR")'></td>
+					<td ng-click='join("DOG")'></td>
+					<td ng-click='join("HAT")'></td>
+					<td ng-click='join("IRON")'></td>
+				</tr>
+				<tr>
+					<td ng-click='join("SHIP")'></td>
+					<td ng-click='join("SHOE")'></td>
+					<td ng-click='join("THIMBLE")'></td>
+					<td ng-click='join("WHEELBARROW")'></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
 	<!-- Card -->
 	<div id='card' ng-show='isSelected()'>
 	
@@ -93,6 +123,10 @@
 		</div>
 	</div>
   
+	<!-- Token -->
+	<div id='token' ng-repeat='player in state.players'>
+	</div>
+  
 	<!-- Board -->
   	<table id='grid'>
   		<tr />
@@ -113,9 +147,14 @@
 							<td rowspan=9 colspan=9 id='ui' ng-mouseover='card($event)'>
 								<div id='ui-wrapper'>
 									<!-- UI -->
-									<button>Button</button>
-									<button class='red'>Close</button>
-									<button class='green'>Purchase</button>
+									<button ng-click='start()'>Start</button>
+									<button ng-click='rolldice()'>Roll</button>
+									<p>{{ state.board.dice }}</p>
+									<div id='players'>
+										<div ng-repeat='player in state.players'>
+											<p>{{ player.name }}</p>
+										</div>
+									</div>
 								</div>
 							</td>
 							<td id=31 ng-mouseover='card($event)' width='102' />

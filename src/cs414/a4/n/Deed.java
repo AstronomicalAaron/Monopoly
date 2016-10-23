@@ -12,7 +12,7 @@ public class Deed {
 	public boolean hasOwner(){
 		
 		//There might be a better way?
-		return !owner.getId().isEmpty();
+		return !owner.getName().isEmpty();
 		
 	}
 	

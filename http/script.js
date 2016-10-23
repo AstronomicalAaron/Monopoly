@@ -7,10 +7,10 @@ var cardWidth, cardHeight;
 var $menu;
 var $menuToggle;
 
-var cards;
-$.getJSON("tiles", function(json) {
-	cards = json;
-});
+var $join;
+var $joinBackground;
+var $joinName;
+var $joinToken;
 
 $(document).ready(function() {
 	
@@ -30,13 +30,62 @@ $(document).ready(function() {
 	// menu
 	$menu = $('#menu');
 	$menuToggle = $('#menu-toggle');
+	
+	// join
+	$join = $('#join');
+	$joinBackground = $('#join-background');
+	$joinName = $('#join-name');
+	$joinToken = $('#join-token');
 });
+
+function update($scope) {
+	$.getJSON('state', function(json) {
+		$scope.state = json;
+		$scope.$apply();
+		
+		setTimeout(function() {
+			update($scope)
+		}, 1000);
+	});
+}
 
 var app = angular.module('monopolyApp', []);
 app.controller('monopolyController', function($scope) {
 	
 	$scope.cardHover = false;
 	$scope.cardHeaderStyle = {'background':'white','color':'black'};
+	
+	update($scope);
+	
+	$scope.getOp = function(path, callback) {
+		$.getJSON(path, function(json) {
+			$scope.state = json;
+			
+			if (callback != undefined) {
+				callback(true);
+			}
+		})
+		.fail(function(json) {
+			if (callback != undefined) {
+				callback(false);
+			}
+		});
+	}
+	
+	$scope.postOp = function(path, data, callback) {
+		$.post(path, data, function(json) {
+			$scope.state = json;
+			
+			if (callback != undefined) {
+				callback(true);
+			}
+		}, 'json')
+		.fail(function() {
+			if (callback != undefined) {
+				callback(false);
+			}
+		});
+	}
 	
 	$scope.toggleMenu = function() {
 		
@@ -63,15 +112,17 @@ app.controller('monopolyController', function($scope) {
 		var isTile = $.isNumeric($event.target.id) ^ ($event.type == 'mouseleave');
 		if (isTile) {
 			var c = $event.target.id;
-			$scope.selected = cards[c];
+			$scope.selected = $scope.state.board.tiles[c];
 		}
 		else {
 			$scope.selected = null;
 			return;
 		}
 		
+		if ($scope.selected == null) return;
+		
 		switch ($scope.selected.type) {
-			case 'Property':
+			case 'PROPERTY':
 		
 				// Configure card style
 				var color = $scope.selected.color;
@@ -81,7 +132,7 @@ app.controller('monopolyController', function($scope) {
 				$scope.cardHeaderStyle.color = color == '#0072bb' ? 'white' : 'black';
 				
 				break;
-			case 'Railroad':
+			case 'RAILROAD':
 				// Configure card style
 				var color = $scope.selected.color;
 				$scope.cardHeaderStyle.background = color;
@@ -89,7 +140,7 @@ app.controller('monopolyController', function($scope) {
 				// invert the dark blue ones
 				$scope.cardHeaderStyle.color = color == '#0072bb' ? 'white' : 'black';
 				break;
-			case 'Utility':
+			case 'UTILITY':
 				// Configure card style
 				var color = $scope.selected.color;
 				$scope.cardHeaderStyle.background = color;
@@ -143,38 +194,70 @@ app.controller('monopolyController', function($scope) {
 		$card.css({left: cardX, top: cardY});
 	}
 	
+	$scope.spectate = function() {
+		$join.hide();
+		$joinBackground.hide();
+	}
+	
+	$scope.chooseToken = function() {
+		$joinName.hide();
+		$joinToken.show();
+	}
+	
+	$scope.join = function(token) {
+		$scope.getOp('join?name=' + $scope.username + "&token=" + token,
+		function(success) {
+			if (success) {
+				$join.hide();
+				$joinBackground.hide();
+			}
+			else {
+				$joinToken.hide();
+				$joinName.show();
+			}
+		});
+	}
+	
+	$scope.start = function () {
+		$scope.getOp('start');
+	}
+	
+	$scope.rolldice = function () {
+		$scope.getOp('rolldice');
+	}
+	
 	$scope.isSelected = function() {
 		return $scope.selected != null;
 	}
 	$scope.isProperty = function() {
-		return $scope.selected != null && $scope.selected.type == 'Property';
+		return $scope.selected != null && $scope.selected.type == 'PROPERTY';
 	}
 	$scope.isUtility = function() {
-		return $scope.selected != null && $scope.selected.type == 'Utility';
+		return $scope.selected != null && $scope.selected.type == 'UTILITY';
 	}
 	$scope.isTaxes = function() {
-		return $scope.selected != null && $scope.selected.type == 'Taxes';
+		return $scope.selected != null && $scope.selected.type == 'TAXES';
 	}
 	$scope.isRailroad = function() {
-		return $scope.selected != null && $scope.selected.type == 'Railroad';
+		return $scope.selected != null && $scope.selected.type == 'RAILROAD';
 	}
 	$scope.isChance = function() {
-		return $scope.selected != null && $scope.selected.type == 'Chance';
+		return $scope.selected != null && $scope.selected.type == 'CHANCE';
 	}
 	$scope.isCommunityChest = function() {
-		return $scope.selected != null && $scope.selected.type == 'CommunityChest';
+		return $scope.selected != null && $scope.selected.type == 'COMMUNITYCHEST';
 	}
 	$scope.isGo = function() {
-		return $scope.selected != null && $scope.selected.type == 'Go';
+		return $scope.selected != null && $scope.selected.type == 'GO';
 	}
 	$scope.isJail = function() {
-		return $scope.selected != null && $scope.selected.type == 'Jail';
+		return $scope.selected != null && $scope.selected.type == 'JAIL';
 	}
 	$scope.isFreeParking = function() {
-		return $scope.selected != null && $scope.selected.type == 'FreeParking';
+		return $scope.selected != null && $scope.selected.type == 'FREEPARKING';
 	}
 	$scope.isGoToJail = function() {
-		return $scope.selected != null && $scope.selected.type == 'GoToJail';
+		return $scope.selected != null && $scope.selected.type == 'GOTOJAIL';
 	}
 });
 

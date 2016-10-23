@@ -4,7 +4,7 @@
 		color:'white'
 	},{
 		name:'MEDITERRANEAN AVENUE',
-		type: 'Property',
+		type: 'PROPERTY',
 		color:'#955436',
 		rent:			2,
 		with1House:    10,
@@ -21,7 +21,7 @@
 		color:'white'
 	},{
 		name:'BALTIC AVENUE',
-		type: 'Property',
+		type: 'PROPERTY',
 		color:'#955436',
 		rent:			4,
 		with1House:    20,
@@ -38,14 +38,14 @@
 		color:'white'
 	},{
 		name:'READING RAILROAD',
-		type:'Railroad',
+		type:'RAILROAD',
 		color:'white',
 		mortgageValue: 100,
 		rent:			25,
 		propertyCost:  200
 	},{
 		name:'ORIENTAL AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#aae0fa',
 		rent:			6,
 		with1House:    30,
@@ -62,7 +62,7 @@
 		color:'white'
 	},{
 		name:'VERMONT AVENUE',
-		type: 'Property',
+		type: 'PROPERTY',
 		color:'#aae0fa',
 		rent:			6,
 		with1House:    30,
@@ -76,7 +76,7 @@
 		propertyCost: 100
 	},{
 		name:'CONNECTICUT AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#aae0fa',
 		rent:			8,
 		with1House:    40,
@@ -93,7 +93,7 @@
 		color:'white'
 	},{
 		name:'ST CHARLES PLACE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#d93a96',
 		rent:		   10,
 		with1House:    50,
@@ -107,11 +107,11 @@
 		propertyCost: 140
 	},{
 		name:'ELECTRIC COMPANY',
-		type:'Utility',
+		type:'UTILITY',
 		color:'white'
 	},{
 		name:'STATES AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#d93a96',
 		rent:		   10,
 		with1House:    50,
@@ -125,7 +125,7 @@
 		propertyCost: 140
 	},{
 		name:'VIRGINIA AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#d93a96',
 		rent:		   12,
 		with1House:    60,
@@ -139,14 +139,14 @@
 		propertyCost: 160
 	},{
 		name:'PENNSYLVANIA R.R.',
-		type:'Railroad',
+		type:'RAILROAD',
 		color:'white',
 		mortgageValue: 100,
 		rent:			25,
 		propertyCost:  200
 	},{
 		name:'ST. JAMES PLACE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#f7941d',
 		rent:		   14,
 		with1House:    70,
@@ -163,7 +163,7 @@
 		color:'white'
 	},{
 		name:'TENNESSEE AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#f7941d',
 		rent:		   14,
 		with1House:    70,
@@ -177,7 +177,7 @@
 		propertyCost: 180
 	},{
 		name:'NEW YORK AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#f7941d',
 		rent:		   16,
 		with1House:    80,
@@ -194,7 +194,7 @@
 		color:'white'
 	},{
 		name:'KENTUCKY AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#ed1b24',
 		rent:		   18,
 		with1House:    90,
@@ -211,7 +211,7 @@
 		color:'white'
 	},{
 		name:'INDIANA AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#ed1b24',
 		rent:		   18,
 		with1House:    90,
@@ -225,7 +225,7 @@
 		propertyCost: 220
 	},{
 		name:'ILLINOIS AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#ed1b24',
 		rent:		   20,
 		with1House:   100,
@@ -239,14 +239,14 @@
 		propertyCost: 240
 	},{
 		name:'B. & O. RAILROAD',
-		type:'Railroad',
+		type:'RAILROAD',
 		color:'white',
 		mortgageValue: 100,
 		rent:			25,
 		propertyCost:  200
 	},{
 		name:'ATLANTIC AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#fef200',
 		rent:		   22,
 		with1House:   110,
@@ -260,7 +260,7 @@
 		propertyCost: 260
 	},{
 		name:'VENTNOR AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#fef200',
 		rent:		   22,
 		with1House:   110,
@@ -274,12 +274,12 @@
 		propertyCost: 260
 	},{
 		name:'WATER WORKS',
-		type:'Utility',
+		type:'UTILITY',
 		color:'white',
 		propertyCost: 150
 	},{
 		name:'MARVIN GARDENS',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#fef200',
 		rent:		   24,
 		with1House:   120,
@@ -296,7 +296,7 @@
 		color:'white'
 	},{
 		name:'PACIFIC AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#1fb25a',
 		rent:		   26,
 		with1House:   130,
@@ -310,7 +310,7 @@
 		propertyCost: 300
 	},{
 		name:'NORTH CAROLINA AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#1fb25a',
 		rent:		   26,
 		with1House:   130,
@@ -327,7 +327,7 @@
 		color:'white'
 	},{
 		name:'PENNSYLVANIA AVENUE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#1fb25a',
 		rent:		   28,
 		with1House:   150,
@@ -341,7 +341,7 @@
 		propertyCost: 320
 	},{
 		name:'SHORT LINE R.R.',
-		type:'Railroad',
+		type:'RAILROAD',
 		color:'white',
 		mortgageValue: 100,
 		rent:			25,
@@ -351,7 +351,7 @@
 		color:'white'
 	},{
 		name:'PARK PLACE',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#0072bb',
 		rent:		   35,
 		with1House:   175,
@@ -368,7 +368,7 @@
 		color:'white'
 	},{
 		name:'BOARDWALK',
-		type:'Property',
+		type:'PROPERTY',
 		color:'#0072bb',
 		rent:		   50,
 		with1House:   200,

@@ -54,6 +54,11 @@ button:active {
 	background-image: url('material.png');
 }
 
+input {
+	height: 28px;
+	font-size: 20px;
+}
+
 <!-- More pastel-y versions of the monopoly colors -->
 .brown {
 	background: #BA907C;
@@ -148,6 +153,68 @@ button:active {
 	padding-right: 30px;
 	
 	background: #181822;
+}
+
+#join-background {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: 0.75;
+	z-index: 100;
+}
+
+#join {
+	position: absolute;
+	width: 280px;
+	height: 150px;
+	background: #aaa;
+	border: 1px solid #ccc;
+	box-shadow: 1px 1px 4px #000;
+	z-index: 110;
+	
+	left: 50%;
+	margin-left: -140px;
+	top: 50%;
+	margin-top: -75px;
+}
+
+#join-name {
+	text-align: center;
+}
+
+#join-name h3 {
+	margin: 14px auto;
+}
+
+#join-name input {
+	display: block;
+	text-align: center;
+	margin: auto;
+}
+
+#join-name button {
+	margin: 14px 8px;
+}
+
+#join-token {
+	width: 100%;
+	height: 100%;
+	margin: auto 0;
+}
+
+#join-token table {
+	margin: 10px auto;
+}
+
+#join-token td {
+	width: 60px;
+	height: 60px;
+}
+
+#join-token td:hover {
+	
+	background: #888;
 }
 
 #grid {
