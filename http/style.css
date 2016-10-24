@@ -324,8 +324,17 @@ More pastel-y versions of the monopoly colors -->.brown {
 }
 
 #buy-property-controls {
-	width: 50%;
-	margin-left: 50%;
+	width: 56%;
+	margin-left: 44%;
+	padding-top: 60px;
+}
+
+#buy-property-controls button {
+	display: block;
+	width: 120px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 20px;
 }
 
 #players {
@@ -370,7 +379,9 @@ More pastel-y versions of the monopoly colors -->.brown {
 
 #buy-card {
 	z-index: 10;
-	transform: scale(0.9, 0.9);
+	transform: scale(0.85, 0.85);
+    margin-top: -10px;
+    margin-left: 40px;
 }
 
 .card {
@@ -507,15 +518,15 @@ More pastel-y versions of the monopoly colors -->.brown {
 	border-collapse: collapse;
 }
 
-#board-grid>td:not (#ui ) {
+#board-grid>tbody>tr>td:not(#ui) {
 	opacity: 0.5;
 }
 
-#board-grid>td:not (#ui ):hover {
+#board-grid>tbody>tr>td:not(#ui):hover {
 	background: #466;
 }
 
-#board-grid>td.selected {
+#board-grid>tbody>tr>td.selected {
 	
 }
 

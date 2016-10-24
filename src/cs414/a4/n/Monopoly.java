@@ -98,8 +98,6 @@ public class Monopoly {
 			throw new IllegalStateException("Cannot roll dice unless in the turn phase.");
 		}
 		
-		phase = GamePhase.ROLLING;
-		
 		int dieOneValue = 0;
 		int dieTwoValue = 0;
 
@@ -113,23 +111,22 @@ public class Monopoly {
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
 		Tile currentTile = board.getTiles().get(currentTileIndex);
 		
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			
-			e.printStackTrace();
-		}
-		
-		if(currentTile.propertyCost !=0 && !currentTile.hasOwner())
-		{
-			phase = GamePhase.BUY_PROPERTY;
-		}
-		else
-		{
-			phase = GamePhase.TURN;
-		}	
-		
-		
+		new java.util.Timer().schedule( 
+	        new java.util.TimerTask() {
+	            @Override
+	            public void run() {
+	            	if(currentTile.propertyCost !=0 && !currentTile.hasOwner())
+	        		{
+	        			phase = GamePhase.BUY_PROPERTY;
+	        		}
+	        		else
+	        		{
+	        			phase = GamePhase.TURN;
+	        		}
+	            }
+	        }, 
+	        3000 
+		);
 	}
 
 	public void buyMortgage(Player player){

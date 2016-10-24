@@ -52,6 +52,10 @@ function update($scope, json) {
 	$scope.state = json;
 	$scope.$apply();
 	
+	if ($scope.state.phase == "WAITING") {
+		return;
+	}
+	
 	$scope.currentPlayer = $scope.state.players[$scope.state.currentPlayerIndex];
 	$scope.currentTile = $scope.state.board.tiles[$scope.currentPlayer.token.tileIndex];
 }
@@ -311,9 +315,9 @@ function rolldiceaux($scope) {
 	"url('dice5.png')",
 	"url('dice6.png')"];
 	
-	if (counter > 20){
-		die1.style.backgroundImage = backgrounds[$scope.state.board.dice[0].value];
-		die2.style.backgroundImage = backgrounds[$scope.state.board.dice[1].value];
+	if (counter > 10){
+		die1.style.backgroundImage = backgrounds[$scope.state.board.dice[0].value - 1];
+		die2.style.backgroundImage = backgrounds[$scope.state.board.dice[1].value - 1];
 		return;
 	}		
 	else{
@@ -325,5 +329,5 @@ function rolldiceaux($scope) {
 	
 	setTimeout(function(){
 		rolldiceaux($scope);
-	}, 50);
+	}, 100);
 }
