@@ -13,12 +13,16 @@ public class Monopoly {
 
 	private ArrayList<Player> players;
 	
-	private Player currentPlayer;
+	private int currentPlayerIndex;
 
 	public Monopoly() {
 		board = new Board();
 		bank = new Bank();
 		players = new ArrayList<Player>();
+	}
+	
+	public GamePhase getPhase() {
+		return phase;
 	}
 	
 	public Board getBoard() {
@@ -33,8 +37,8 @@ public class Monopoly {
 		return players;
 	}
 	
-	public Player currentPlayer() {
-		return currentPlayer;
+	public int getCurrentPlayerIndex() {
+		return currentPlayerIndex;
 	}
 	
 	public void join(String name, TokenType token) {
@@ -77,19 +81,18 @@ public class Monopoly {
 			return;
 		}
 		
-		int first = (new Random()).nextInt(players.size());
-		currentPlayer = players.get(first);
+		currentPlayerIndex = (new Random()).nextInt(players.size());
 
 		// Reset player positions on board
 		for (Player player : players) {
 			player.getToken().moveTo(0);
 		}
 		
-		phase = GamePhase.TURN;
+		phase = GamePhase.ROLL;
 	}
 
 	public void rollDice(){
-		if (phase != GamePhase.TURN) {
+		if (phase != GamePhase.ROLL) {
 			throw new IllegalStateException("Cannot roll dice unless in the turn phase.");
 		}
 		
@@ -99,7 +102,12 @@ public class Monopoly {
 		dieOneValue = board.getDice()[0].roll();
 		dieTwoValue = board.getDice()[1].roll();
 
+		Player currentPlayer = players.get(currentPlayerIndex);
 		currentPlayer.getToken().moveBy(dieOneValue + dieTwoValue);
+		
+		if (dieOneValue != dieTwoValue) {
+			currentPlayerIndex = (currentPlayerIndex + 1) % players.size(); 
+		}
 	}
 
 	public void buyMortgage(Player player){

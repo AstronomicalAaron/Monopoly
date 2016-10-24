@@ -268,10 +268,16 @@ app.controller('monopolyController', function($scope) {
 		// Get copy the position to the token
 		var position = tile.position();
 		
+		// Put the token in the center of the tile
+		var marginLeft = tile.width() / 2 - 20;
+		var marginTop = tile.height() / 2 - 20;
+		
 		return {
 			'background-image': 'url("' + player.token.type.toLowerCase() + '.png")',
 			left: position.left,
-			top: position.top
+			top: position.top,
+			'margin-left': marginLeft,
+			'margin-top': marginTop
 		};
 	}
 });

@@ -147,12 +147,22 @@
 							<td rowspan=9 colspan=9 id='ui' ng-mouseover='card($event)'>
 								<div id='ui-wrapper'>
 									<!-- UI -->
-									<button ng-click='start()'>Start</button>
-									<button ng-click='rolldice()'>Roll</button>
-									<p>{{ state.board.dice }}</p>
+									<div id='phase-ui'>
+										<div id='waiting' ng-show='state.phase=="WAITING"'>
+											<h3>Waiting for players...</h3>
+											<button ng-click='start()'>Start</button>
+										</div>
+										<div id='roll' ng-show='state.phase=="ROLL"'>
+											<div id='roll-text'>Rolling: <span>{{ state.players[state.currentPlayerIndex].name }}</span></div>
+											<div id='roll-dice'>{{ state.board.dice }}</div>
+											<button ng-click='rolldice()'>Roll</button>
+										</div>
+									</div>
 									<div id='players'>
-										<div ng-repeat='player in state.players'>
-											<p>{{ player.name }}</p>
+										<div class='player-tile' ng-repeat='player in state.players'>
+											<img ng-src='{{player.token.type.toLowerCase()}}.png' />
+											<div id='player-name'>{{ player.name }}</div>
+											<div id='player-money'>$ <span class='green-text'>{{ player.money }}</span></div>
 										</div>
 									</div>
 								</div>
