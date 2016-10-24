@@ -105,6 +105,7 @@ public class Monopoly {
 		rolledDoubles = dieOneValue == dieTwoValue;	
 
 		Player currentPlayer = players.get(currentPlayerIndex);
+		int previousTileIndex = currentPlayer.getToken().getTileIndex();
 		currentPlayer.getToken().moveBy(dieOneValue + dieTwoValue);
 		
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
@@ -126,6 +127,10 @@ public class Monopoly {
 	        }, 
 	        3000 
 		);
+		
+		if(previousTileIndex > currentTileIndex) {
+			bank.transfer(currentPlayer, 200.0);
+		}
 	}
 
 	public void buyMortgage(Player player){
