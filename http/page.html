@@ -55,12 +55,11 @@
 	</div>
 	
 	<!-- Card -->
-	<div id='card' ng-show='isSelected()'>
-	
-		<div id='card-header' ng-style='cardHeaderStyle' ng-show='isProperty()'>
-			<span>{{ selected.name }}</span>
-		</div>
-		<div id='property' ng-show='isProperty()'>
+	<div id='hover-card' class='card' ng-show='isSelected()'>
+		<div class='property' ng-show='isProperty(selected)'>
+			<div class='card-header' ng-style='cardStyle(selected)'>
+				<span>{{ selected.name }}</span>
+			</div>
 			<span>RENT <span class='green-text'>${{ selected.rent }}.</span></span>
 			<table>
 				<tr><td>With 1 House</td><td class='green-text'>$ {{ selected.with1House }}</td></tr>
@@ -75,11 +74,11 @@
 			<p>If a player owns ALL the Lots of any Color-Group, the rent is Doubled on Unimproved Lots in that group.</p>
 		</div>
 		
-		<div id='utility' ng-show='isUtility()'>
-			<img id="utilityImage" style="width:30%;">
+		<div class='utility' ng-show='isUtility(selected)'>
+			<img class="utilityImage" style="width:30%;">
 			
 			<hr>
-			<div id='card-header-utility' ng-style='cardHeaderStyle' ng-show='isUtility()'>
+			<div class='card-header-utility' ng-style='cardStyle(selected)'>
 				<span>{{ selected.name }}</span>
 			</div>
 			<hr>
@@ -93,15 +92,15 @@
 			
 		</div>
 		
-		<div id='taxes' ng-show='isTaxes()'>
+		<div class='taxes' ng-show='isTaxes(selected)'>
 			<!-- TODO -->
 		</div>
 		
-		<div id='railroad' ng-show='isRailroad()'>
+		<div class='railroad' ng-show='isRailroad(selected)'>
 			<p><img src="train.png" style="width:40%;"></p>
 			
 			<hr>
-			<div id='card-header-railroad' ng-style='cardHeaderStyle' ng-show='isRailroad()'>
+			<div class='card-header-railroad' ng-style='cardStyle(selected)'>
 				<span>{{ selected.name }}</span>
 			</div>
 			<hr>
@@ -114,11 +113,11 @@
 			</table>
 		</div>
 		
-		<div id='chance' ng-show='isChance()'>
+		<div class='chance' ng-show='isChance(selected)'>
 			<!-- TODO -->
 		</div>
 		
-		<div id='communityChest' ng-show='isCommunityChest()'>
+		<div class='communityChest' ng-show='isCommunityChest(selected)'>
 			<!-- TODO -->
 		</div>
 	</div>
@@ -153,9 +152,79 @@
 											<button ng-click='start()'>Start</button>
 										</div>
 										<div id='roll' ng-show='state.phase=="ROLL"'>
-											<div id='roll-text'>Rolling: <span>{{ state.players[state.currentPlayerIndex].name }}</span></div>
+											<div id='roll-text'>Rolling: <span>{{ currentPlayer.name }}</span></div>
 											<div id='roll-dice'>{{ state.board.dice }}</div>
 											<button ng-click='rolldice()'>Roll</button>
+										</div>
+										<div id='buy-property' ng-show='state.phase=="BUY_PROPERTY"'>
+										<!-- Card -->
+											<div id='buy-card' class='card'>
+												<div class='property' ng-show='isProperty(currentTile)'>
+													<div class='card-header' ng-style='cardStyle(currentTile)'>
+														<span>{{ currentTile.name }}</span>
+													</div>
+													<span>RENT <span class='green-text'>${{ currentTile.rent }}.</span></span>
+													<table>
+														<tr><td>With 1 House</td><td class='green-text'>$ {{ currentTile.with1House }}</td></tr>
+														<tr><td>With 2 Houses</td><td class='green-text'>{{ currentTile.with2Houses }}</td></tr>
+														<tr><td>With 3 Houses</td><td class='green-text'>{{ currentTile.with3Houses }}</td></tr>
+														<tr><td>With 4 Houses</td><td class='green-text'>{{ currentTile.with4Houses }}</td></tr>
+													</table>
+													<span>With HOTEL <span class='green-text'>${{ currentTile.withHotel }}</span></span>
+													<span>Mortgage Value <span class='green-text'>${{ currentTile.mortgageValue }}</span></span>
+													<span>Houses cost <span class='green-text'>${{ currentTile.houseCost }}</span>. each</span>
+													<span>Hotels, <span class='green-text'>${{ currentTile.hotelCost }}</span>. plus 4 houses</span>
+													<p>If a player owns ALL the Lots of any Color-Group, the rent is Doubled on Unimproved Lots in that group.</p>
+												</div>
+												
+												<div class='utility' ng-show='isUtility(currentTile)'>
+													<img class="utilityImage" style="width:30%;">
+													
+													<hr>
+													<div class='card-header-utility' ng-style='cardStyle(currentTile)' >
+														<span>{{ currentTile.name }}</span>
+													</div>
+													<hr>
+													
+													<span>If one Utility is owned</span>
+													<span>rent is 4 times amount</span>
+													<span>shown on dice.<br><br></span>
+													<span>If both Utilities are owned,</span>
+													<span>rent is 10 times amount</span>
+													<span>shown on dice.</span>
+													
+												</div>
+												
+												<div class='railroad' ng-show='isRailroad(currentTile)'>
+													<p><img src="train.png" style="width:40%;"></p>
+													
+													<hr>
+													<div class='card-header-railroad' ng-style='cardStyle(currentTile)' >
+														<span>{{ currentTile.name }}</span>
+													</div>
+													<hr>
+													<table>
+														<tr><td>Rent</td><td class='green-text'>$ {{ currentTile.rent }}</td></tr>
+														<tr><td>If 2 R.R.'s are owned</td><td class='green-text'>{{ currentTile.with2Railroads }}</td></tr>
+														<tr><td>If 3 R.R.'s are owned</td><td class='green-text'>{{ currentTile.with3Railroads }}</td></tr>
+														<tr><td>If 4 R.R.'s are owned</td><td class='green-text'>{{ currentTile.with4Railroads }}</td></tr>
+														<tr><td>Mortgage Value</td><td class='green-text'>{{ currentTile.mortgageValue }}</td></tr>
+													</table>
+												</div>
+												
+												<div class='chance' ng-show='isChance(currentTile)'>
+													<!-- TODO -->
+												</div>
+												
+												<div class='communityChest' ng-show='isCommunityChest(currentTile)'>
+													<!-- TODO -->
+												</div>
+											</div>
+											<div id='buy-property-controls'>
+												<button class='green'>Buy Property</button>
+												<button>Mortgage Property</button>
+												<button class='red'>Pass</button>
+											</div>
 										</div>
 									</div>
 									<div id='players'>

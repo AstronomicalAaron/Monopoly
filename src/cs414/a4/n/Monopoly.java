@@ -14,6 +14,8 @@ public class Monopoly {
 	private ArrayList<Player> players;
 	
 	private int currentPlayerIndex;
+	
+	private boolean rolledDoubles = false;
 
 	public Monopoly() {
 		board = new Board();
@@ -101,33 +103,40 @@ public class Monopoly {
 
 		dieOneValue = board.getDice()[0].roll();
 		dieTwoValue = board.getDice()[1].roll();
+		rolledDoubles = dieOneValue == dieTwoValue;	
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 		currentPlayer.getToken().moveBy(dieOneValue + dieTwoValue);
 		
-		if (dieOneValue != dieTwoValue) {
-			currentPlayerIndex = (currentPlayerIndex + 1) % players.size(); 
+		int currentTileIndex = currentPlayer.getToken().getTileIndex();
+		Tile currentTile = board.getTiles().get(currentTileIndex);
+		
+		if(currentTile.propertyCost !=0 && !currentTile.hasOwner())
+		{
+			phase = GamePhase.BUY_PROPERTY;
 		}
+		else
+		{
+			phase = GamePhase.TURN;
+		}	
 	}
 
 	public void buyMortgage(Player player){
 
-		Tile currentTile = board.getTiles().get(player.getToken().getTileIndex());
-
+		int currentTileIndex = player.getToken().getTileIndex();
+		Tile currentTile = board.getTiles().get(currentTileIndex);
 
 		if(!currentTile.isProperty() && !currentTile.isRailRoad()){
-
 			//create error message that the current tile is not a property tile
-
 		}
 
-		if(currentTile.getDeed().hasOwner()){
+		if(currentTile.hasOwner()){
 
-			if(player.hasDeed(currentTile.getDeed())){
+			if(player.hasDeed(currentTileIndex)){
 
 				int deedIndex = player.getDeeds().indexOf(currentTile);
 
-				if(player.getDeeds().get(deedIndex).hasMortgage()){
+				if(currentTile.isMortgaged()){
 
 					//create an error message telling player they already have a
 					//mortgage on this property
@@ -135,15 +144,15 @@ public class Monopoly {
 				}else{
 					
 					//Update mortgage status
-					currentTile.getDeed().boughtMortgage = true;
+					currentTile.setMortgaged(true);
 					
 					//Update player deed status
-					player.getDeeds().get(deedIndex).boughtMortgage = true;
+					//player.getDeeds().get(deedIndex).boughtMortgage = true;
 					
 					double mortgageAmount = currentTile.mortgageValue;
 					
 					//Player pays bank the mortgage value
-					currentTile.getDeed().getOwner().transfer(bank, mortgageAmount);
+					//currentTile.getOwner().transfer(bank, mortgageAmount);
 
 				}
 
@@ -168,21 +177,14 @@ public class Monopoly {
 			//Have some sort of box/window that asks the player
 			//if they want to buy the property
 
-			if(currentTile.getDeed().hasOwner()){
+			if(currentTile.hasOwner()){
 
 				//If the property already has an owner, the player can
 				//ask the owner to buy the property or cancel
 
 			}else{
 
-				//I'm not sure if this is right.
-				//What it's saying is the current tile that the player is own
-				//transfers ownership from the bank to the player.
-				currentTile.getDeed().getOwner().transfer(bank,
-						currentTile.propertyCost);
 				
-				//Add the deed to the player's deed list
-				player.getDeeds().add(currentTile.getDeed());
 
 			}
 

@@ -6,7 +6,10 @@ public class Tile {
 
 	private String name;
 	private TileType type = TileType.NONE;
-	private Deed deed;
+	private int ownerIndex = -1;
+	
+	public int numHouses = 0;
+	private boolean mortgaged = false;
 	
 	public String color;
 	public double rent;
@@ -19,22 +22,33 @@ public class Tile {
 	public double houseCost;
 	public double hotelCost;
 	public double propertyCost;
-	//
 
 	public static double with2Railroads = 50;
 	public static double with3Railroads = 100;
 	public static double with4Railroads = 200;
 	
+	public Tile(){
+		
+	}
+	
 	public String getName() {
 		return name;
+	}
+	
+	public boolean isMortgaged(){
+		return mortgaged;
+	}
+	
+	public void setMortgaged(boolean isMortgaged){
+		mortgaged = isMortgaged;
 	}
 	
 	public TileType getType(){
 		return type;
 	}
 	
-	public Deed getDeed() {
-		return deed;
+	public int getOwnerIndex() {
+		return ownerIndex;
 	}
 	
 	@JsonIgnore
@@ -50,5 +64,10 @@ public class Tile {
 	@JsonIgnore
 	public boolean isUtility(){
 		return type.equals(TileType.UTILITY);
+	}
+	
+	@JsonIgnore
+	public boolean hasOwner(){
+		return ownerIndex != -1;
 	}
 }

@@ -8,12 +8,12 @@ public abstract class Owner {
 	
 	private double money;
 	
-	private ArrayList<Deed> deeds;
+	private ArrayList<Integer> deedIndices;
 	
 	public Owner(String id, double initialMoney) {
 		this.name = id;
 		money = initialMoney;
-		deeds = new ArrayList<Deed>();
+		deedIndices = new ArrayList<Integer>();
 	}
 	
 	public String getName() {
@@ -24,13 +24,13 @@ public abstract class Owner {
 		return money;
 	}
 	
-	public ArrayList<Deed> getDeeds() {
-		return deeds;
+	public ArrayList<Integer> getDeeds() {
+		return deedIndices;
 	}
 	
-	public boolean hasDeed(Deed deed){
+	public boolean hasDeed(int tileIndex){
 		
-		return deeds.contains(deed);
+		return deedIndices.contains(tileIndex);
 		
 	}
 

@@ -23,7 +23,7 @@ $(document).ready(function() {
 	uiOffsetTop = uiOffset.top;
 	
 	// card
-	$card = $('#card');
+	$card = $('#hover-card');
 	cardWidth = $card.width();
 	cardHeight = $card.height();
 	
@@ -38,15 +38,22 @@ $(document).ready(function() {
 	$joinToken = $('#join-token');
 });
 
-function update($scope) {
+function poll($scope) {
 	$.getJSON('state', function(json) {
-		$scope.state = json;
-		$scope.$apply();
+		update($scope, json);
 		
 		setTimeout(function() {
-			update($scope)
+			poll($scope)
 		}, 1000);
 	});
+}
+
+function update($scope, json) {
+	$scope.state = json;
+	$scope.$apply();
+	
+	$scope.currentPlayer = $scope.state.players[$scope.state.currentPlayerIndex];
+	$scope.currentTile = $scope.state.board.tiles[$scope.currentPlayer.token.tileIndex];
 }
 
 var app = angular.module('monopolyApp', []);
@@ -55,12 +62,11 @@ app.controller('monopolyController', function($scope) {
 	$scope.cardHover = false;
 	$scope.cardHeaderStyle = {'background':'white','color':'black'};
 	
-	update($scope);
+	poll($scope);
 	
 	$scope.getOp = function(path, callback) {
 		$.getJSON(path, function(json) {
-			$scope.state = json;
-			$scope.$apply();
+			update($scope, json)
 			
 			if (callback != undefined) {
 				callback(true);
@@ -75,8 +81,7 @@ app.controller('monopolyController', function($scope) {
 	
 	$scope.postOp = function(path, data, callback) {
 		$.post(path, data, function(json) {
-			$scope.state = json;
-			$scope.$apply();
+			update($scope, json)
 			
 			if (callback != undefined) {
 				callback(true);
@@ -122,44 +127,7 @@ app.controller('monopolyController', function($scope) {
 		}
 		
 		if ($scope.selected == null) return;
-		
-		switch ($scope.selected.type) {
-			case 'PROPERTY':
-		
-				// Configure card style
-				var color = $scope.selected.color;
-				$scope.cardHeaderStyle.background = color;
-
-				// invert the dark blue ones
-				$scope.cardHeaderStyle.color = color == '#0072bb' ? 'white' : 'black';
-				
-				break;
-			case 'RAILROAD':
-				// Configure card style
-				var color = $scope.selected.color;
-				$scope.cardHeaderStyle.background = color;
-
-				// invert the dark blue ones
-				$scope.cardHeaderStyle.color = color == '#0072bb' ? 'white' : 'black';
-				break;
-			case 'UTILITY':
-				// Configure card style
-				var color = $scope.selected.color;
-				$scope.cardHeaderStyle.background = color;
-
-				// invert the dark blue ones
-				$scope.cardHeaderStyle.color = color == '#0072bb' ? 'white' : 'black';
-				
-				var imageLocation;
-				if ($scope.selected.name == "WATER WORKS") {
-					imageLocation = "waterworks.png";
-				} else {
-					imageLocation = "electricompany.png";
-				}
-				document.getElementById('utilityImage').src=imageLocation;
-				break;
-		}
-		
+			
 		// Stuffs about to get gnar
 		var td = $($event.target);
 		// Get td position
@@ -228,38 +196,65 @@ app.controller('monopolyController', function($scope) {
 		$scope.getOp('rolldice');
 	}
 	
+	$scope.cardStyle = function (tile) {
+		if (tile == null) {
+			return;
+		}
+		
+		var style = {};
+		
+		// Configure card style
+		var color = tile.color;
+		style.background = color;
+
+		// invert the dark blue ones
+		style.color = color == '#0072bb' ? 'white' : 'black';
+		
+		if (tile.type == 'UTILITY'){
+			var imageLocation;
+			if (tile.name == "WATER WORKS") {
+				imageLocation = "waterworks.png";
+			} else {
+				imageLocation = "electricompany.png";
+			}
+			$('#utilityImage').src=imageLocation;
+		}
+		
+		return style;
+	}
+	
 	$scope.isSelected = function() {
 		return $scope.selected != null;
 	}
-	$scope.isProperty = function() {
-		return $scope.selected != null && $scope.selected.type == 'PROPERTY';
+	$scope.isProperty = function(tile) {
+		return tile != null && tile.type == 'PROPERTY';
 	}
-	$scope.isUtility = function() {
-		return $scope.selected != null && $scope.selected.type == 'UTILITY';
+	$scope.isUtility = function(tile) {
+		return tile != null && tile.type == 'UTILITY';
 	}
-	$scope.isTaxes = function() {
-		return $scope.selected != null && $scope.selected.type == 'TAXES';
+	$scope.isTaxes = function(tile) {
+		return tile != null && tile.type == 'TAXES';
 	}
-	$scope.isRailroad = function() {
-		return $scope.selected != null && $scope.selected.type == 'RAILROAD';
+	$scope.isRailroad = function(tile) {
+		return tile != null && tile.type == 'RAILROAD';
 	}
-	$scope.isChance = function() {
-		return $scope.selected != null && $scope.selected.type == 'CHANCE';
+	$scope.isChance = function(tile) {
+		return tile != null && tile.type == 'CHANCE';
 	}
-	$scope.isCommunityChest = function() {
-		return $scope.selected != null && $scope.selected.type == 'COMMUNITYCHEST';
+	$scope.isCommunityChest = function(tile) {
+		return tile != null && tile.type == 'COMMUNITYCHEST';
 	}
-	$scope.isGo = function() {
-		return $scope.selected != null && $scope.selected.type == 'GO';
+	$scope.isGo = function(tile) {
+		return tile != null && tile.type == 'GO';
 	}
-	$scope.isJail = function() {
-		return $scope.selected != null && $scope.selected.type == 'JAIL';
+	$scope.isJail = function(tile) {
+		return tile != null && tile.type == 'JAIL';
 	}
-	$scope.isFreeParking = function() {
-		return $scope.selected != null && $scope.selected.type == 'FREEPARKING';
+	$scope.isFreeParking = function(tile) {
+		return tile != null && tile.type == 'FREEPARKING';
 	}
-	$scope.isGoToJail = function() {
-		return $scope.selected != null && $scope.selected.type == 'GOTOJAIL';
+	$scope.isGoToJail = function(tile) {
+		return tile != null && tile.type == 'GOTOJAIL';
 	}
 	
 	$scope.tokenStyle = function(player) {
