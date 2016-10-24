@@ -90,13 +90,12 @@ public class Monopoly {
 			player.getToken().moveTo(0);
 		}
 		
-		phase = GamePhase.ROLL;
+		// Automatically roll the dice for the first player
+		rollDice();
 	}
 
-	public void rollDice(){
-		if (phase != GamePhase.ROLL) {
-			throw new IllegalStateException("Cannot roll dice unless in the turn phase.");
-		}
+	private void rollDice(){
+		phase = GamePhase.ROLLING;
 		
 		int dieOneValue = 0;
 		int dieTwoValue = 0;
@@ -199,5 +198,10 @@ public class Monopoly {
 		}
 
 	}
-
+	
+	public void endTurn() {
+		// Automatically start the next player's roll
+		currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+		rollDice();
+	}
 }

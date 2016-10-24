@@ -196,9 +196,21 @@ app.controller('monopolyController', function($scope) {
 		$scope.getOp('start');
 	}
 	
-	$scope.rolldice = function () {
-		$scope.getOp('rolldice');
-		rolldice($scope);
+	var rollAnimationStarted = false;
+	
+	$scope.phaseRolling = function() {
+		if ($scope.state != null && $scope.state.phase == "ROLLING") {
+			// Do the roll animation if it has not already started
+			if (rollAnimationStarted == false) {
+				rollAnimationStarted = true;
+				rolldice($scope);
+			}
+			return true;
+		}
+		else {
+			rollAnimationStarted = false;
+			return false;
+		}
 	}
 	
 	$scope.cardStyle = function (tile) {
@@ -315,7 +327,9 @@ function rolldiceaux($scope) {
 	"url('dice5.png')",
 	"url('dice6.png')"];
 	
-	if (counter > 10){
+	// There might be a case where the client lags, and the rolling phase
+	// ends before the client-side animation does. Check for this.
+	if (counter > 10 || $scope.state.phase != "ROLLING"){
 		die1.style.backgroundImage = backgrounds[$scope.state.board.dice[0].value - 1];
 		die2.style.backgroundImage = backgrounds[$scope.state.board.dice[1].value - 1];
 		return;

@@ -47,10 +47,10 @@ public class MonopolyController {
     	return game;
     }
     
-    @RequestMapping(value = "/rolldice", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/endturn", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Monopoly rollDice() {
-    	game.rollDice();
+    	game.endTurn();
     	return game;
     }
 

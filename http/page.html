@@ -59,8 +59,7 @@
 			<div class='card-header' ng-style='cardStyle(selected)'>
 				<span>{{ selected.name }}</span>
 			</div>
-			<span>RENT <span class='green-text'>${{ selected.rent
-					}}.</span></span>
+			<span>RENT <span class='green-text'>${{ selected.rent }}.</span></span>
 			<table>
 				<tr>
 					<td>With 1 House</td>
@@ -188,7 +187,7 @@
 											<h3>Waiting for players...</h3>
 											<button ng-click='start()'>Start</button>
 										</div>
-										<div id='roll' ng-show='state.phase=="ROLL"'>
+										<div id='roll' ng-show='phaseRolling()'>
 											<div id='roll-text'>
 												Rolling: <span>{{ currentPlayer.name }}</span>
 											</div>
@@ -196,7 +195,6 @@
 												<div id='dice-one'></div>
 												<div id='dice-two'></div>
 											</div>
-											<button ng-click='rolldice()'>Roll</button>
 										</div>
 										<div id='buy-property' ng-show='state.phase=="BUY_PROPERTY"'>
 											<!-- Card -->
