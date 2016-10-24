@@ -324,8 +324,8 @@ More pastel-y versions of the monopoly colors -->.brown {
 }
 
 #buy-property-controls {
-	float: right;
-	width: 60%;
+	width: 50%;
+	margin-left: 50%;
 }
 
 #players {
@@ -370,9 +370,7 @@ More pastel-y versions of the monopoly colors -->.brown {
 
 #buy-card {
 	z-index: 10;
-	transform: scale(0.7, 0.7);
-	position: relative;
-	float: left;
+	transform: scale(0.9, 0.9);
 }
 
 .card {
