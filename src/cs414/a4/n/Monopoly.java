@@ -52,7 +52,7 @@ public class Monopoly {
 		}
 		
 		Player player = new Player(name, token);
-		player.getToken().move(board.getGo());
+		player.getToken().moveTo(0);
 		players.add(player);
 	}
 
@@ -82,7 +82,7 @@ public class Monopoly {
 
 		// Reset player positions on board
 		for (Player player : players) {
-			player.getToken().move(board.getGo());
+			player.getToken().moveTo(0);
 		}
 		
 		phase = GamePhase.TURN;
@@ -93,24 +93,18 @@ public class Monopoly {
 			throw new IllegalStateException("Cannot roll dice unless in the turn phase.");
 		}
 		
-		int currentPos = 0;
 		int dieOneValue = 0;
 		int dieTwoValue = 0;
-		int destination = 0;
-
-		currentPos = board.getTiles().indexOf(currentPlayer.getToken().getCurrentTile());
 
 		dieOneValue = board.getDice()[0].roll();
 		dieTwoValue = board.getDice()[1].roll();
 
-		destination = (currentPos + (dieOneValue + dieTwoValue)) % 40;
-
-		currentPlayer.getToken().move(board.getTiles().get(destination));
+		currentPlayer.getToken().moveBy(dieOneValue + dieTwoValue);
 	}
 
 	public void buyMortgage(Player player){
 
-		Tile currentTile = player.getToken().getCurrentTile();
+		Tile currentTile = board.getTiles().get(player.getToken().getTileIndex());
 
 
 		if(!currentTile.isProperty() && !currentTile.isRailRoad()){
@@ -159,7 +153,7 @@ public class Monopoly {
 
 	public void buyProperty(Player player){
 		
-		Tile currentTile = player.getToken().getCurrentTile();
+		Tile currentTile = board.getTiles().get(player.getToken().getTileIndex());
 
 		if(currentTile.isProperty()){
 

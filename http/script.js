@@ -60,6 +60,7 @@ app.controller('monopolyController', function($scope) {
 	$scope.getOp = function(path, callback) {
 		$.getJSON(path, function(json) {
 			$scope.state = json;
+			$scope.$apply();
 			
 			if (callback != undefined) {
 				callback(true);
@@ -75,6 +76,7 @@ app.controller('monopolyController', function($scope) {
 	$scope.postOp = function(path, data, callback) {
 		$.post(path, data, function(json) {
 			$scope.state = json;
+			$scope.$apply();
 			
 			if (callback != undefined) {
 				callback(true);
@@ -258,6 +260,19 @@ app.controller('monopolyController', function($scope) {
 	}
 	$scope.isGoToJail = function() {
 		return $scope.selected != null && $scope.selected.type == 'GOTOJAIL';
+	}
+	
+	$scope.tokenStyle = function(player) {
+		// Get the tile the token is on
+		var tile = $("#" + player.token.tileIndex);
+		// Get copy the position to the token
+		var position = tile.position();
+		
+		return {
+			'background-image': 'url("' + player.token.type.toLowerCase() + '.png")',
+			left: position.left,
+			top: position.top
+		};
 	}
 });
 

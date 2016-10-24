@@ -4,7 +4,7 @@ public class Token {
 	
 	private TokenType type;
 	
-	private Tile currentTile;
+	private int tileIndex;
 	
 	public Token(TokenType type) {
 		this.type = type;
@@ -14,11 +14,15 @@ public class Token {
 		return type;
 	}
 	
-	public Tile getCurrentTile() {
-		return currentTile;
+	public int getTileIndex() {
+		return tileIndex;
 	}
 	
-	public void move(Tile tile) {
-		currentTile = tile;
+	public void moveTo(int tileIndex) {
+		this.tileIndex = tileIndex;
+	}
+	
+	public void moveBy(int amount) {
+		tileIndex = (tileIndex + amount) % 40;
 	}
 }
