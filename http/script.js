@@ -194,6 +194,7 @@ app.controller('monopolyController', function($scope) {
 	
 	$scope.rolldice = function () {
 		$scope.getOp('rolldice');
+		rolldice($scope);
 	}
 	
 	$scope.cardStyle = function (tile) {
@@ -290,3 +291,39 @@ $.fn.animateRotate = function(start, end, duration, easing, complete) {
     $({deg: start}).animate({deg: end}, args);
   });
 };
+
+var counter = 0;
+
+function rolldice($scope) {
+	counter = 0;
+	rolldiceaux($scope);
+}
+
+function rolldiceaux($scope) {
+	var die1 = document.getElementById('dice-one');
+	var die2 = document.getElementById('dice-two');
+	
+	var backgrounds = [
+	"url('dice1.png')",
+	"url('dice2.png')",
+	"url('dice3.png')",
+	"url('dice4.png')",
+	"url('dice5.png')",
+	"url('dice6.png')"];
+	
+	if (counter > 20){
+		die1.style.backgroundImage = backgrounds[$scope.state.board.dice[0].value];
+		die2.style.backgroundImage = backgrounds[$scope.state.board.dice[1].value];
+		return;
+	}		
+	else{
+		die1.style.backgroundImage = backgrounds[Math.floor((Math.random() * 6) + 1)];
+		die2.style.backgroundImage = backgrounds[Math.floor((Math.random() * 6) + 1)];
+	}
+	
+	counter++;
+	
+	setTimeout(function(){
+		rolldiceaux($scope);
+	}, 50);
+}

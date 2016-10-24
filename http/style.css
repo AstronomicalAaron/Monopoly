@@ -11,7 +11,6 @@
 		Green:		#1fb25a
 		Blue:		#0072bb
 */
-
 html, body {
 	margin: 0;
 	width: 100%;
@@ -22,14 +21,13 @@ body {
 	background: url('background.jpg');
 	background-size: 100% auto;
 	font-family: Kabel;
-	
 	/* Turn off text highlighting for everything */
 	-webkit-touch-callout: none; /* iOS Safari */
-	-webkit-user-select: none;   /* Chrome/Safari/Opera */
-	-khtml-user-select: none;    /* Konqueror */
-	-moz-user-select: none;      /* Firefox */
-	-ms-user-select: none;       /* Internet Explorer/Edge */
-	user-select: none;           /* Non-prefixed version, currently
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently
 									  not supported by any browser */
 }
 
@@ -60,54 +58,66 @@ input {
 	font-size: 20px;
 }
 
-<!-- More pastel-y versions of the monopoly colors -->
-.brown {
+<!--
+More pastel-y versions of the monopoly colors -->.brown {
 	background: #BA907C;
 	background-image: url('material.png');
 }
+
 .light-blue {
 	background: #CCECFC;
 	background-image: url('material.png');
 }
+
 .magenta {
 	background: #E889C0;
 	background-image: url('material.png');
 }
+
 .orange {
 	background: #FABF77;
 	background-image: url('material.png');
 }
+
 .red {
 	background: #F4767C;
 	background-image: url('material.png');
 }
+
 .red:hover {
 	background: #E87076;
 	background-image: url('material.png');
 }
+
 .red:active {
 	background: #DC6A70;
 	background-image: url('material.png');
 }
+
 .yellow {
 	background: #FFFA99;
 	background-image: url('material.png');
 }
+
 .green {
 	background: #73D99C;
 	background-image: url('material.png');
 }
+
 .green:hover {
 	background: #6DCE94;
 	background-image: url('material.png');
 }
+
 .green:active {
 	background: #68C38C;
 	background-image: url('material.png');
 }
+
 .green-text {
 	color: #136c37;
 }
+
 .blue {
 	background: #59A3D3;
 	background-image: url('material.png');
@@ -176,23 +186,20 @@ input {
 	width: 300px;
 	height: 100%;
 	left: -200px;
-	
 	color: #ccc;
 	text-shadow: #ddd;
-	background: rgba(0,0,0,0.8);
+	background: rgba(0, 0, 0, 0.8);
 	box-shadow: 2px 2px 8px #000;
 }
 
 #menu-header {
-    width: 270px;
+	width: 270px;
 	height: 51px;
-	
 	font-size: 30px;
 	text-align: right;
 	vertical-align: center;
 	padding-top: 14px;
 	padding-right: 30px;
-	
 	background: #181822;
 }
 
@@ -213,7 +220,6 @@ input {
 	border: 2px solid #444;
 	box-shadow: 1px 1px 4px #000;
 	z-index: 110;
-	
 	left: 50%;
 	margin-left: -140px;
 	top: 50%;
@@ -273,6 +279,7 @@ input {
 	width: 100%;
 	height: 100%;
 }
+
 #board {
 	background: url('board.jpg');
 	background-size: 100%;
@@ -291,7 +298,6 @@ input {
 	height: 553px;
 	padding: 16px;
 	background: #cde6d0;
-	
 	text-align: left;
 }
 
@@ -306,10 +312,6 @@ input {
 
 #roll-text {
 	font-size: 20px;
-}
-
-#roll button {
-	margin-top: 160px;
 }
 
 #roll-text span {
@@ -330,7 +332,7 @@ input {
 	width: 100%;
 	height: 50%;
 	border: 2px solid #9aa090;
-	box-shadow: inset 0px 0px 10px 5px rgba(0,0,0,0.5);
+	box-shadow: inset 0px 0px 10px 5px rgba(0, 0, 0, 0.5);
 }
 
 .player-tile {
@@ -339,7 +341,6 @@ input {
 	height: 102px;
 	margin-left: 20px;
 	margin-top: 20px;
-	
 	background: #AFC5B2;
 	border: 2px solid #243;
 	box-shadow: 0px 0px 10px #444;
@@ -350,7 +351,6 @@ input {
 	height: 60px;
 	margin-left: 14px;
 	margin-top: 21px;
-	
 	float: left;
 }
 
@@ -389,7 +389,7 @@ input {
 	margin: 8px;
 	height: 45px;
 	border: 3px solid #333;
-	text-align: center;	
+	text-align: center;
 }
 
 .card-header-railroad {
@@ -406,7 +406,6 @@ input {
 
 .property {
 	margin: 8px;
-	
 	font-family: Raleway;
 	font-size: 16px;
 	line-height: 18px;
@@ -414,7 +413,7 @@ input {
 	text-align: center;
 }
 
-.property > span {
+.property>span {
 	display: block;
 	width: 100%;
 }
@@ -422,8 +421,8 @@ input {
 .property table {
 	border-collapse: collapse;
 	text-align: left;
-	margin-left:auto;
-	margin-right:auto;
+	margin-left: auto;
+	margin-right: auto;
 	width: 175px;
 }
 
@@ -438,7 +437,6 @@ input {
 
 .railroad {
 	margin: 8px;
-	
 	font-family: Raleway;
 	font-size: 16px;
 	line-height: 18px;
@@ -446,7 +444,7 @@ input {
 	text-align: center;
 }
 
-.railroad > span {
+.railroad>span {
 	display: block;
 	width: 100%;
 }
@@ -454,8 +452,8 @@ input {
 .railroad table {
 	border-collapse: collapse;
 	text-align: left;
-	margin-left:auto;
-	margin-right:auto;
+	margin-left: auto;
+	margin-right: auto;
 	width: 190px;
 }
 
@@ -469,7 +467,6 @@ input {
 
 .utility {
 	margin: 8px;
-	
 	font-family: Raleway;
 	font-size: 14px;
 	line-height: 18px;
@@ -477,7 +474,7 @@ input {
 	text-align: center;
 }
 
-.utility > span {
+.utility>span {
 	display: block;
 	width: 100%;
 }
@@ -485,8 +482,8 @@ input {
 .utility table {
 	border-collapse: collapse;
 	text-align: left;
-	margin-left:auto;
-	margin-right:auto;
+	margin-left: auto;
+	margin-right: auto;
 	width: 190px;
 }
 
@@ -499,7 +496,7 @@ input {
 }
 
 .card-header span {
-	display:flex;
+	display: flex;
 	justify-content: center;
 	flex-direction: column;
 	height: 100%;
@@ -512,24 +509,51 @@ input {
 	border-collapse: collapse;
 }
 
-#board-grid > td:not(#ui) {
+#board-grid>td:not (#ui ) {
 	opacity: 0.5;
 }
 
-#board-grid > td:not(#ui):hover {
+#board-grid>td:not (#ui ):hover {
 	background: #466;
 }
 
-#board-grid > td.selected {
+#board-grid>td.selected {
 	
 }
 
-@font-face{
-    font-family: Kabel;
-    src: url('kabel.ttf');
+@font-face {
+	font-family: Kabel;
+	src: url('kabel.ttf');
 }
 
-@font-face{
-    font-family: Raleway;
-    src: url('raleway.ttf');
+@font-face {
+	font-family: Raleway;
+	src: url('raleway.ttf');
+}
+
+#die-main {
+	width: 200px;
+	margin: 30px auto;
+}
+
+#dice-one {
+	background-image: url('dice1.png');
+	background-size: 100%;
+	width: 96px;
+	height: 96px;
+	float: left;
+	-moz-box-shadow: inset 0 0 10px #000000;
+	-webkit-box-shadow: inset 0 0 10px #000000;
+	box-shadow: inset 0 0 10px #000000;
+}
+
+#dice-two {
+	background-image: url('dice1.png');
+	background-size: 100%;
+	width: 96px;
+	height: 96px;
+	margin-left: 108px;
+	-moz-box-shadow: inset 0 0 10px #000000;
+	-webkit-box-shadow: inset 0 0 10px #000000;
+	box-shadow: inset 0 0 10px #000000;
 }

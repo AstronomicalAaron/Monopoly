@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<meta charset="UTF-8"> 
+<meta charset="UTF-8">
 <html>
-  <head>
-    <title>Monopoly</title>
-    <!-- Libs -->
-    <script src='jquery-3.1.1.min.js' type='text/javascript'></script>
-    <script src='angular.min.js' type='text/javascript'></script>
-    <!-- Ours -->
-    <link href='style.css' type='text/css' rel="stylesheet" />
-    <script src='script.js' type='text/javascript'></script>
-  </head>
-  <body ng-app='monopolyApp' ng-controller='monopolyController' class='noselect'>
-  
-	<a id='menu-toggle' href='#' ng-click='toggleMenu()'>
-		<img src='menu.png' />
+<head>
+<title>Monopoly</title>
+<!-- Libs -->
+<script src='jquery-3.1.1.min.js' type='text/javascript'></script>
+<script src='angular.min.js' type='text/javascript'></script>
+<!-- Ours -->
+<link href='style.css' type='text/css' rel="stylesheet" />
+<script src='script.js' type='text/javascript'></script>
+</head>
+<body ng-app='monopolyApp' ng-controller='monopolyController'
+	class='noselect'>
+
+	<a id='menu-toggle' href='#' ng-click='toggleMenu()'> <img
+		src='menu.png' />
 	</a>
-  
+
 	<nav id='menu' class='menu' hidden>
 		<div id='menu-header'>Monopoly</div>
 		<h1>Servers:</h1>
@@ -23,12 +24,10 @@
 			<li ng-repeat='s in servers'><a>{{ s.name }}</a></li>
 		</ul>
 	</nav>
-	
+
 	<!-- Join -->
-	<div id='join-background'>
-		
-	</div>
-	
+	<div id='join-background'></div>
+
 	<div id='join'>
 		<div id='join-name'>
 			<h3>Enter name:</h3>
@@ -39,107 +38,145 @@
 		<div id='join-token' hidden>
 			<table>
 				<tr>
-					<td ng-click='join("CAR")'><div class='car'/></td>
-					<td ng-click='join("DOG")'><div class='dog'/></td>
-					<td ng-click='join("HAT")'><div class='hat'/></td>
-					<td ng-click='join("IRON")'><div class='iron'/></td>
+					<td ng-click='join("CAR")'><div class='car' /></td>
+					<td ng-click='join("DOG")'><div class='dog' /></td>
+					<td ng-click='join("HAT")'><div class='hat' /></td>
+					<td ng-click='join("IRON")'><div class='iron' /></td>
 				</tr>
 				<tr>
-					<td ng-click='join("SHIP")'><div class='ship'/></td>
-					<td ng-click='join("SHOE")'><div class='shoe'/></td>
-					<td ng-click='join("THIMBLE")'><div class='thimble'/></td>
-					<td ng-click='join("WHEELBARROW")'><div class='wheelbarrow'/></td>
+					<td ng-click='join("SHIP")'><div class='ship' /></td>
+					<td ng-click='join("SHOE")'><div class='shoe' /></td>
+					<td ng-click='join("THIMBLE")'><div class='thimble' /></td>
+					<td ng-click='join("WHEELBARROW")'><div class='wheelbarrow' /></td>
 				</tr>
 			</table>
 		</div>
 	</div>
-	
+
 	<!-- Card -->
 	<div id='hover-card' class='card' ng-show='isSelected()'>
 		<div class='property' ng-show='isProperty(selected)'>
 			<div class='card-header' ng-style='cardStyle(selected)'>
 				<span>{{ selected.name }}</span>
 			</div>
-			<span>RENT <span class='green-text'>${{ selected.rent }}.</span></span>
+			<span>RENT <span class='green-text'>${{ selected.rent
+					}}.</span></span>
 			<table>
-				<tr><td>With 1 House</td><td class='green-text'>$ {{ selected.with1House }}</td></tr>
-				<tr><td>With 2 Houses</td><td class='green-text'>{{ selected.with2Houses }}</td></tr>
-				<tr><td>With 3 Houses</td><td class='green-text'>{{ selected.with3Houses }}</td></tr>
-				<tr><td>With 4 Houses</td><td class='green-text'>{{ selected.with4Houses }}</td></tr>
+				<tr>
+					<td>With 1 House</td>
+					<td class='green-text'>$ {{ selected.with1House }}</td>
+				</tr>
+				<tr>
+					<td>With 2 Houses</td>
+					<td class='green-text'>{{ selected.with2Houses }}</td>
+				</tr>
+				<tr>
+					<td>With 3 Houses</td>
+					<td class='green-text'>{{ selected.with3Houses }}</td>
+				</tr>
+				<tr>
+					<td>With 4 Houses</td>
+					<td class='green-text'>{{ selected.with4Houses }}</td>
+				</tr>
 			</table>
-			<span>With HOTEL <span class='green-text'>${{ selected.withHotel }}</span></span>
-			<span>Mortgage Value <span class='green-text'>${{ selected.mortgageValue }}</span></span>
-			<span>Houses cost <span class='green-text'>${{ selected.houseCost }}</span>. each</span>
-			<span>Hotels, <span class='green-text'>${{ selected.hotelCost }}</span>. plus 4 houses</span>
-			<p>If a player owns ALL the Lots of any Color-Group, the rent is Doubled on Unimproved Lots in that group.</p>
+			<span>With HOTEL <span class='green-text'>${{
+					selected.withHotel }}</span></span> <span>Mortgage Value <span
+				class='green-text'>${{ selected.mortgageValue }}</span></span> <span>Houses
+				cost <span class='green-text'>${{ selected.houseCost }}</span>. each
+			</span> <span>Hotels, <span class='green-text'>${{
+					selected.hotelCost }}</span>. plus 4 houses
+			</span>
+			<p>If a player owns ALL the Lots of any Color-Group, the rent is
+				Doubled on Unimproved Lots in that group.</p>
 		</div>
-		
+
 		<div class='utility' ng-show='isUtility(selected)'>
-			<img class="utilityImage" style="width:30%;">
-			
+			<img class="utilityImage" style="width: 30%;">
+
 			<hr>
 			<div class='card-header-utility' ng-style='cardStyle(selected)'>
 				<span>{{ selected.name }}</span>
 			</div>
 			<hr>
-			
-			<span>If one Utility is owned</span>
-			<span>rent is 4 times amount</span>
-			<span>shown on dice.<br><br></span>
-			<span>If both Utilities are owned,</span>
-			<span>rent is 10 times amount</span>
-			<span>shown on dice.</span>
-			
+
+			<span>If one Utility is owned</span> <span>rent is 4 times
+				amount</span> <span>shown on dice.<br>
+			<br></span> <span>If both Utilities are owned,</span> <span>rent
+				is 10 times amount</span> <span>shown on dice.</span>
+
 		</div>
-		
+
 		<div class='taxes' ng-show='isTaxes(selected)'>
 			<!-- TODO -->
 		</div>
-		
+
 		<div class='railroad' ng-show='isRailroad(selected)'>
-			<p><img src="train.png" style="width:40%;"></p>
-			
+			<p>
+				<img src="train.png" style="width: 40%;">
+			</p>
+
 			<hr>
 			<div class='card-header-railroad' ng-style='cardStyle(selected)'>
 				<span>{{ selected.name }}</span>
 			</div>
 			<hr>
 			<table>
-				<tr><td>Rent</td><td class='green-text'>$ {{ selected.rent }}</td></tr>
-				<tr><td>If 2 R.R.'s are owned</td><td class='green-text'>{{ selected.with2Railroads }}</td></tr>
-				<tr><td>If 3 R.R.'s are owned</td><td class='green-text'>{{ selected.with3Railroads }}</td></tr>
-				<tr><td>If 4 R.R.'s are owned</td><td class='green-text'>{{ selected.with4Railroads }}</td></tr>
-				<tr><td>Mortgage Value</td><td class='green-text'>{{ selected.mortgageValue }}</td></tr>
+				<tr>
+					<td>Rent</td>
+					<td class='green-text'>$ {{ selected.rent }}</td>
+				</tr>
+				<tr>
+					<td>If 2 R.R.'s are owned</td>
+					<td class='green-text'>{{ selected.with2Railroads }}</td>
+				</tr>
+				<tr>
+					<td>If 3 R.R.'s are owned</td>
+					<td class='green-text'>{{ selected.with3Railroads }}</td>
+				</tr>
+				<tr>
+					<td>If 4 R.R.'s are owned</td>
+					<td class='green-text'>{{ selected.with4Railroads }}</td>
+				</tr>
+				<tr>
+					<td>Mortgage Value</td>
+					<td class='green-text'>{{ selected.mortgageValue }}</td>
+				</tr>
 			</table>
 		</div>
-		
+
 		<div class='chance' ng-show='isChance(selected)'>
 			<!-- TODO -->
 		</div>
-		
+
 		<div class='communityChest' ng-show='isCommunityChest(selected)'>
 			<!-- TODO -->
 		</div>
 	</div>
-  
+
 	<!-- Token -->
-	<div id='token' ng-repeat='player in state.players' ng-style='tokenStyle(player)'>
-	</div>
-  
+	<div id='token' ng-repeat='player in state.players'
+		ng-style='tokenStyle(player)'></div>
+
 	<!-- Board -->
-  	<table id='grid'>
-  		<tr />
-	  	<tr height='800'>
-	  		<td />
-	  		<td width='800'>
-	  			<div id='board'>
+	<table id='grid'>
+		<tr />
+		<tr height='800'>
+			<td />
+			<td width='800'>
+				<div id='board'>
 					<table id='board-grid' ng-mouseleave='card($event)'>
 						<tr height='106'>
-							<td id=20 ng-mouseover='card($event)' width='105' /><td id=21 ng-mouseover='card($event)' />
-							<td id=22 ng-mouseover='card($event)' /><td id=23 ng-mouseover='card($event)' />
-							<td id=24 ng-mouseover='card($event)' /><td id=25 ng-mouseover='card($event)' />
-							<td id=26 ng-mouseover='card($event)' /><td id=27 ng-mouseover='card($event)' />
-							<td id=28 ng-mouseover='card($event)' /><td id=29 ng-mouseover='card($event)' /><td id=30 ng-mouseover='card($event)' width='102' />
+							<td id=20 ng-mouseover='card($event)' width='105' />
+							<td id=21 ng-mouseover='card($event)' />
+							<td id=22 ng-mouseover='card($event)' />
+							<td id=23 ng-mouseover='card($event)' />
+							<td id=24 ng-mouseover='card($event)' />
+							<td id=25 ng-mouseover='card($event)' />
+							<td id=26 ng-mouseover='card($event)' />
+							<td id=27 ng-mouseover='card($event)' />
+							<td id=28 ng-mouseover='card($event)' />
+							<td id=29 ng-mouseover='card($event)' />
+							<td id=30 ng-mouseover='card($event)' width='102' />
 						</tr>
 						<tr>
 							<td id=19 ng-mouseover='card($event,19)' width='105' />
@@ -152,71 +189,117 @@
 											<button ng-click='start()'>Start</button>
 										</div>
 										<div id='roll' ng-show='state.phase=="ROLL"'>
-											<div id='roll-text'>Rolling: <span>{{ currentPlayer.name }}</span></div>
-											<div id='roll-dice'>{{ state.board.dice }}</div>
+											<div id='roll-text'>
+												Rolling: <span>{{ currentPlayer.name }}</span>
+											</div>
+											<div id='die-main'>
+												<div id='dice-one'></div>
+												<div id='dice-two'></div>
+											</div>
 											<button ng-click='rolldice()'>Roll</button>
 										</div>
 										<div id='buy-property' ng-show='state.phase=="BUY_PROPERTY"'>
-										<!-- Card -->
+											<!-- Card -->
 											<div id='buy-card' class='card'>
 												<div class='property' ng-show='isProperty(currentTile)'>
 													<div class='card-header' ng-style='cardStyle(currentTile)'>
 														<span>{{ currentTile.name }}</span>
 													</div>
-													<span>RENT <span class='green-text'>${{ currentTile.rent }}.</span></span>
+													<span>RENT <span class='green-text'>${{
+															currentTile.rent }}.</span></span>
 													<table>
-														<tr><td>With 1 House</td><td class='green-text'>$ {{ currentTile.with1House }}</td></tr>
-														<tr><td>With 2 Houses</td><td class='green-text'>{{ currentTile.with2Houses }}</td></tr>
-														<tr><td>With 3 Houses</td><td class='green-text'>{{ currentTile.with3Houses }}</td></tr>
-														<tr><td>With 4 Houses</td><td class='green-text'>{{ currentTile.with4Houses }}</td></tr>
+														<tr>
+															<td>With 1 House</td>
+															<td class='green-text'>$ {{ currentTile.with1House
+																}}</td>
+														</tr>
+														<tr>
+															<td>With 2 Houses</td>
+															<td class='green-text'>{{ currentTile.with2Houses }}</td>
+														</tr>
+														<tr>
+															<td>With 3 Houses</td>
+															<td class='green-text'>{{ currentTile.with3Houses }}</td>
+														</tr>
+														<tr>
+															<td>With 4 Houses</td>
+															<td class='green-text'>{{ currentTile.with4Houses }}</td>
+														</tr>
 													</table>
-													<span>With HOTEL <span class='green-text'>${{ currentTile.withHotel }}</span></span>
-													<span>Mortgage Value <span class='green-text'>${{ currentTile.mortgageValue }}</span></span>
-													<span>Houses cost <span class='green-text'>${{ currentTile.houseCost }}</span>. each</span>
-													<span>Hotels, <span class='green-text'>${{ currentTile.hotelCost }}</span>. plus 4 houses</span>
-													<p>If a player owns ALL the Lots of any Color-Group, the rent is Doubled on Unimproved Lots in that group.</p>
+													<span>With HOTEL <span class='green-text'>${{
+															currentTile.withHotel }}</span></span> <span>Mortgage Value <span
+														class='green-text'>${{ currentTile.mortgageValue }}</span></span>
+													<span>Houses cost <span class='green-text'>${{
+															currentTile.houseCost }}</span>. each
+													</span> <span>Hotels, <span class='green-text'>${{
+															currentTile.hotelCost }}</span>. plus 4 houses
+													</span>
+													<p>If a player owns ALL the Lots of any Color-Group,
+														the rent is Doubled on Unimproved Lots in that group.</p>
 												</div>
-												
+
 												<div class='utility' ng-show='isUtility(currentTile)'>
-													<img class="utilityImage" style="width:30%;">
-													
+													<img class="utilityImage" style="width: 30%;">
+
 													<hr>
-													<div class='card-header-utility' ng-style='cardStyle(currentTile)' >
+													<div class='card-header-utility'
+														ng-style='cardStyle(currentTile)'>
 														<span>{{ currentTile.name }}</span>
 													</div>
 													<hr>
-													
-													<span>If one Utility is owned</span>
-													<span>rent is 4 times amount</span>
-													<span>shown on dice.<br><br></span>
-													<span>If both Utilities are owned,</span>
-													<span>rent is 10 times amount</span>
-													<span>shown on dice.</span>
-													
+
+													<span>If one Utility is owned</span> <span>rent is 4
+														times amount</span> <span>shown on dice.<br>
+													<br></span> <span>If both Utilities are owned,</span> <span>rent
+														is 10 times amount</span> <span>shown on dice.</span>
+
 												</div>
-												
+
 												<div class='railroad' ng-show='isRailroad(currentTile)'>
-													<p><img src="train.png" style="width:40%;"></p>
-													
+													<p>
+														<img src="train.png" style="width: 40%;">
+													</p>
+
 													<hr>
-													<div class='card-header-railroad' ng-style='cardStyle(currentTile)' >
+													<div class='card-header-railroad'
+														ng-style='cardStyle(currentTile)'>
 														<span>{{ currentTile.name }}</span>
 													</div>
 													<hr>
 													<table>
-														<tr><td>Rent</td><td class='green-text'>$ {{ currentTile.rent }}</td></tr>
-														<tr><td>If 2 R.R.'s are owned</td><td class='green-text'>{{ currentTile.with2Railroads }}</td></tr>
-														<tr><td>If 3 R.R.'s are owned</td><td class='green-text'>{{ currentTile.with3Railroads }}</td></tr>
-														<tr><td>If 4 R.R.'s are owned</td><td class='green-text'>{{ currentTile.with4Railroads }}</td></tr>
-														<tr><td>Mortgage Value</td><td class='green-text'>{{ currentTile.mortgageValue }}</td></tr>
+														<tr>
+															<td>Rent</td>
+															<td class='green-text'>$ {{ currentTile.rent }}</td>
+														</tr>
+														<tr>
+															<td>If 2 R.R.'s are owned</td>
+															<td class='green-text'>{{ currentTile.with2Railroads
+																}}</td>
+														</tr>
+														<tr>
+															<td>If 3 R.R.'s are owned</td>
+															<td class='green-text'>{{ currentTile.with3Railroads
+																}}</td>
+														</tr>
+														<tr>
+															<td>If 4 R.R.'s are owned</td>
+															<td class='green-text'>{{ currentTile.with4Railroads
+																}}</td>
+														</tr>
+														<tr>
+															<td>Mortgage Value</td>
+															<td class='green-text'>{{ currentTile.mortgageValue
+																}}</td>
+														</tr>
 													</table>
 												</div>
-												
+
 												<div class='chance' ng-show='isChance(currentTile)'>
 													<!-- TODO -->
 												</div>
-												
-												<div class='communityChest' ng-show='isCommunityChest(currentTile)'>
+
+												<div class='communityChest'
+													ng-show='isCommunityChest(currentTile)'>
 													<!-- TODO -->
 												</div>
 											</div>
@@ -231,34 +314,66 @@
 										<div class='player-tile' ng-repeat='player in state.players'>
 											<img ng-src='{{player.token.type.toLowerCase()}}.png' />
 											<div id='player-name'>{{ player.name }}</div>
-											<div id='player-money'>$ <span class='green-text'>{{ player.money }}</span></div>
+											<div id='player-money'>
+												$ <span class='green-text'>{{ player.money }}</span>
+											</div>
 										</div>
 									</div>
 								</div>
 							</td>
 							<td id=31 ng-mouseover='card($event)' width='102' />
 						</tr>
-						<tr><td id=18 ng-mouseover='card($event)' width='105' /><td id=32 ng-mouseover='card($event)' width='102' /></tr>
-						<tr><td id=17 ng-mouseover='card($event)' width='105' /><td id=33 ng-mouseover='card($event)' width='102' /></tr>
-						<tr><td id=16 ng-mouseover='card($event)' width='105' /><td id=34 ng-mouseover='card($event)' width='102' /></tr>
-						<tr><td id=15 ng-mouseover='card($event)' width='105' /><td id=35 ng-mouseover='card($event)' width='102' /></tr>
-						<tr><td id=14 ng-mouseover='card($event)' width='105' /><td id=36 ng-mouseover='card($event)' width='102' /></tr>
-						<tr><td id=13 ng-mouseover='card($event)' width='105' /><td id=37 ng-mouseover='card($event)' width='102' /></tr>
-						<tr><td id=12 ng-mouseover='card($event)' width='105' /><td id=38 ng-mouseover='card($event)' width='102' /></tr>
-						<tr><td id=11 ng-mouseover='card($event)' width='105' /><td id=39 ng-mouseover='card($event)' width='102' /></tr>
+						<tr>
+							<td id=18 ng-mouseover='card($event)' width='105' />
+							<td id=32 ng-mouseover='card($event)' width='102' />
+						</tr>
+						<tr>
+							<td id=17 ng-mouseover='card($event)' width='105' />
+							<td id=33 ng-mouseover='card($event)' width='102' />
+						</tr>
+						<tr>
+							<td id=16 ng-mouseover='card($event)' width='105' />
+							<td id=34 ng-mouseover='card($event)' width='102' />
+						</tr>
+						<tr>
+							<td id=15 ng-mouseover='card($event)' width='105' />
+							<td id=35 ng-mouseover='card($event)' width='102' />
+						</tr>
+						<tr>
+							<td id=14 ng-mouseover='card($event)' width='105' />
+							<td id=36 ng-mouseover='card($event)' width='102' />
+						</tr>
+						<tr>
+							<td id=13 ng-mouseover='card($event)' width='105' />
+							<td id=37 ng-mouseover='card($event)' width='102' />
+						</tr>
+						<tr>
+							<td id=12 ng-mouseover='card($event)' width='105' />
+							<td id=38 ng-mouseover='card($event)' width='102' />
+						</tr>
+						<tr>
+							<td id=11 ng-mouseover='card($event)' width='105' />
+							<td id=39 ng-mouseover='card($event)' width='102' />
+						</tr>
 						<tr height='103'>
-							<td id=10 ng-mouseover='card($event)' width='105' /><td id=9 ng-mouseover='card($event)' />
-							<td id=8 ng-mouseover='card($event)' /><td id=7 ng-mouseover='card($event)' />
-							<td id=6 ng-mouseover='card($event)' /><td id=5 ng-mouseover='card($event)' />
-							<td id=4 ng-mouseover='card($event)' /><td id=3 ng-mouseover='card($event)' />
-							<td id=2 ng-mouseover='card($event)' /><td id=1 ng-mouseover='card($event)' /><td id=0 ng-mouseover='card($event)' width='102' />
+							<td id=10 ng-mouseover='card($event)' width='105' />
+							<td id=9 ng-mouseover='card($event)' />
+							<td id=8 ng-mouseover='card($event)' />
+							<td id=7 ng-mouseover='card($event)' />
+							<td id=6 ng-mouseover='card($event)' />
+							<td id=5 ng-mouseover='card($event)' />
+							<td id=4 ng-mouseover='card($event)' />
+							<td id=3 ng-mouseover='card($event)' />
+							<td id=2 ng-mouseover='card($event)' />
+							<td id=1 ng-mouseover='card($event)' />
+							<td id=0 ng-mouseover='card($event)' width='102' />
 						</tr>
 					</table>
-	  			</div>
-	  		</td>
-	  		<td />
-	  	</tr>
-	  	<tr />
-  	</table>
-  </body>
+				</div>
+			</td>
+			<td />
+		</tr>
+		<tr />
+	</table>
+</body>
 </html>
