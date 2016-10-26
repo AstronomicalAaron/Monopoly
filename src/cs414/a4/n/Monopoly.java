@@ -239,6 +239,7 @@ public class Monopoly {
 		String curTileColor = currentTile.color;
 
 		if(!currentTile.isProperty()){
+			endTurn();
 			return;
 		}
 
@@ -260,6 +261,7 @@ public class Monopoly {
 		for(Tile temp : properties){
 
 			if(!currentPlayer.getDeeds().contains(temp)){
+				endTurn();
 				return; 
 			}
 
@@ -271,6 +273,7 @@ public class Monopoly {
 		for(Tile temp : properties){
 
 			if(currentTile.numHouses > temp.numHouses){
+				endTurn();
 				return;				
 			}
 
@@ -396,6 +399,8 @@ public class Monopoly {
 
 		if(!currentTile.isProperty() && !currentTile.isRailRoad()){
 			//create error message that the current tile is not a property tile
+			endTurn();
+			return;
 		}
 
 		if(currentPlayer.hasDeed(currentTileIndex)){
