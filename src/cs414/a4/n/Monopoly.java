@@ -102,7 +102,7 @@ public class Monopoly {
 
 		dieOneValue = board.getDice()[0].roll();
 		dieTwoValue = board.getDice()[1].roll();
-		rolledDoubles = dieOneValue == dieTwoValue;	
+		setRolledDoubles(dieOneValue == dieTwoValue);	
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 		int previousTileIndex = currentPlayer.getToken().getTileIndex();
@@ -135,6 +135,12 @@ public class Monopoly {
 
 	public void buyMortgage(){
 
+		if(phase != GamePhase.BUY_PROPERTY){
+
+			throw new IllegalStateException("Not currently in BUY_PROPERTY phase.");
+
+		}
+
 		Player currentPlayer = players.get(currentPlayerIndex);
 
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
@@ -145,42 +151,44 @@ public class Monopoly {
 			//create error message that the current tile is not a property tile
 		}
 
-		if(currentTile.hasOwner()){
+		if(currentPlayer.hasDeed(currentTileIndex)){
 
-			if(currentPlayer.hasDeed(currentTileIndex)){
+			if(currentTile.isMortgaged()){
 
-				if(currentTile.isMortgaged()){
-
-					//create an error message telling player they already have a
-					//mortgage on this property
-
-				}else{
-
-					//Update mortgage status
-					currentTile.setMortgaged(true);
-
-					double mortgageAmount = currentTile.mortgageValue;
-
-					//Player pays bank the mortgage value
-					currentPlayer.transfer(bank, mortgageAmount);
-
-				}
-
+				//create an error message telling player they already have a
+				//mortgage on this property
 
 			}else{
 
-				//create an error message that the property is owned by a
-				//different player
+				//Update mortgage status
+				currentTile.setMortgaged(true);
+
+				double mortgageAmount = currentTile.mortgageValue;
+
+				//Player pays bank the mortgage value
+				currentPlayer.transfer(bank, mortgageAmount);
 
 			}
 
+
+		}else{
+
+			//create an error message that the property is owned by a
+			//different player
+
 		}
+
+
 
 	}
 
 	public void buyProperty(){
 
 		Player currentPlayer = players.get(currentPlayerIndex);
+
+		Player recipient;
+
+		double agreedAmount = 0.0;
 
 		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
 
@@ -190,15 +198,22 @@ public class Monopoly {
 
 		}
 
+		if(!currentTile.isProperty() && !currentTile.isRailRoad()){
+			return;
+		}
+
+		//Cannot buy a mortgage property
+		if(currentTile.isMortgaged()) return;
+
 		if(currentTile.hasOwner()){
 
-			//If the property already has an owner, the player can
-			//ask the owner to buy the property or cancel
+			recipient = players.get(currentTile.getOwnerIndex());
+			currentPlayer.transfer(recipient, agreedAmount);
 
 		}else{
-
-
-
+			
+			currentPlayer.transfer(bank, currentTile.propertyCost);
+			
 		}
 
 
@@ -215,6 +230,12 @@ public class Monopoly {
 		Player currentPlayer = players.get(currentPlayerIndex);
 
 		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
+
+		//Cannot sell a property with houses/hotels on it.
+		if(currentTile.hasHotel() || currentTile.numHouses > 0) return;
+
+		//Cannot sell a property with a mortgage on it
+		if(currentTile.isMortgaged()) return;
 
 		if(currentPlayer.getDeeds().contains(currentTile)){
 
@@ -237,6 +258,10 @@ public class Monopoly {
 		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
 
 		String curTileColor = currentTile.color;
+
+		if(!currentTile.isProperty()){
+			return;
+		}
 
 		//Extract properties with same color group
 		ArrayList<Tile> properties = new ArrayList<Tile>();
@@ -300,6 +325,8 @@ public class Monopoly {
 
 		String curTileColor = currentTile.color;
 
+		if(!currentTile.isProperty()) return;
+
 		//Extract properties with same color group
 		ArrayList<Tile> properties = new ArrayList<Tile>();
 
@@ -357,6 +384,10 @@ public class Monopoly {
 
 		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
 
+		//Can't lift a mortgage on a upgraded property
+		if(currentTile.hasHotel() || currentTile.numHouses > 0){
+			return;
+		}
 
 		//Want to check if the player actually owns the tile and has a mortgage on it
 		if(currentTile.isMortgaged() &&
@@ -372,5 +403,13 @@ public class Monopoly {
 		// Automatically start the next player's roll
 		currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
 		rollDice();
+	}
+
+	public boolean isRolledDoubles() {
+		return rolledDoubles;
+	}
+
+	public void setRolledDoubles(boolean rolledDoubles) {
+		this.rolledDoubles = rolledDoubles;
 	}
 }
