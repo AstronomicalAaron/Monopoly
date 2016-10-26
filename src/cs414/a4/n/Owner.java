@@ -34,11 +34,13 @@ public abstract class Owner {
 		
 	}
 
-	public void transfer(Owner recipient, Double amount) {
+	public boolean transfer(Owner recipient, Double amount) {
 		if (money >= amount) {
 			this.money -= amount;
 			recipient.money += amount;
+			return true;
 		}
+		return false;
 	}
 
 }

@@ -35,7 +35,9 @@
 		propertyCost:  60
 	},{
 		name:'INCOME TAX',
-		color:'white'
+		color:'white',
+		type: 'TAXES',
+		propertyCost: 200
 	},{
 		name:'READING RAILROAD',
 		type:'RAILROAD',
@@ -365,7 +367,9 @@
 		propertyCost: 350
 	},{
 		name:'LUXURY TAX',
-		color:'white'
+		color:'white',
+		type: 'TAXES',
+		propertyCost: 200
 	},{
 		name:'BOARDWALK',
 		type:'PROPERTY',
