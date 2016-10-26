@@ -4,6 +4,7 @@ public enum GamePhase {
 	WAITING,
 	ROLLING,
 	BUY_PROPERTY,
+	SELL_PROPERTY,
 	TURN,
 	AUCTION
 }
