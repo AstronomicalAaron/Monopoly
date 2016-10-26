@@ -208,6 +208,12 @@ app.controller('monopolyController', function($scope) {
 	}
 	//
 	
+	//Auction - not made yet
+	$scope.auction = function(){
+		
+	}
+	//
+	
 	//Buy Mortage
 	$scope.buyMortgage = function(){
 		$scope.getOp('buymortgage');
@@ -229,6 +235,12 @@ app.controller('monopolyController', function($scope) {
 	//Degrade property
 	$scope.degradeProp = function(){
 		$scope.getOp('degradeprop');
+	}
+	//
+	
+	//Go to jail
+	$scope.goToJail = function(){
+		
 	}
 	//
 	
