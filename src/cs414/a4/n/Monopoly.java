@@ -285,6 +285,64 @@ public class Monopoly {
 
 	}
 
+	public void degradeProperty(){
+
+		//This method will remove houses and hotels depending on some cases
+		if(phase != GamePhase.TURN){
+
+			throw new IllegalStateException("Can only degrade property in TURN phase.");
+
+		}
+
+		Player currentPlayer = players.get(currentPlayerIndex);
+
+		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
+
+		String curTileColor = currentTile.color;
+
+		//Extract properties with same color group
+		ArrayList<Tile> properties = new ArrayList<Tile>();
+
+		//Loop through the whole board and add tiles with same color to arraylist
+		for(int i = 0; i < board.getTiles().size(); i++){
+
+			if(curTileColor.equals(board.getTiles().get(i).color)){
+
+				properties.add(board.getTiles().get(i));
+
+			}
+
+		}
+
+		//If there's no houses, you can't degrade property, duh!
+		if(currentTile.numHouses == 0){
+			return; 
+		}
+
+
+		properties.remove(currentTile);
+
+		//Can't remove houses unless the number of houses on all properties are same
+		for(Tile temp : properties){
+
+			if(currentTile.numHouses < temp.numHouses){
+				return;				
+			}
+
+		}
+
+		if(currentTile.hasHotel()){
+
+			bank.transfer(currentPlayer, currentTile.hotelCost/2);
+			currentTile.setHotel(false);
+
+		}else{	
+			bank.transfer(currentPlayer, currentTile.houseCost/2);
+			currentTile.numHouses--;
+		}
+
+	}
+
 	public void liftMortgage(){
 		//Player lifts a mortgage buy paying the full mortgage value + another 10%
 		//interest
