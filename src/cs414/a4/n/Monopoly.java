@@ -132,6 +132,8 @@ public class Monopoly {
 								//phase = GamePhase.TURN;
 								//False in this case means player is bankrupt
 								//removePlayer(currentPlayer);
+								
+							}else{
 								endTurn();
 							}
 						} else if(currentTile.propertyCost !=0 && !currentTile.hasOwner())
@@ -178,10 +180,11 @@ public class Monopoly {
 
 			recipient = players.get(currentTile.getOwnerIndex());
 			currentPlayer.transfer(recipient, agreedAmount);
+			currentPlayer.getDeeds().add(currentPlayer.getToken().getTileIndex());
 
 		}else{
-
 			currentPlayer.transfer(bank, currentTile.propertyCost);
+			currentPlayer.getDeeds().add(currentPlayer.getToken().getTileIndex());
 		}
 
 		if(currentTile.isRailRoad())
@@ -398,8 +401,8 @@ public class Monopoly {
 
 			if(currentTile.isMortgaged()){
 
-				//create an error message telling player they already have a
-				//mortgage on this property
+				endTurn();
+				return;
 
 			}else{
 				double mortgageAmount = currentTile.mortgageValue;
@@ -419,7 +422,7 @@ public class Monopoly {
 
 		}
 
-
+		endTurn();
 
 	}
 
