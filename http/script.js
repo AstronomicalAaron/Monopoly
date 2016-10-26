@@ -203,8 +203,11 @@ app.controller('monopolyController', function($scope) {
 	//
 	
 	//Sell property
-	$scope.sellProperty = function(){
-		$scope.getOp('sellproperty');
+	$scope.sellProperty = function(property, recipient, amount){
+		$scope.getOp('sellproperty?property='
+				+ property + '&recipient=' 
+				+ recipient + '&amount='
+				+ amount );
 	}
 	//
 	

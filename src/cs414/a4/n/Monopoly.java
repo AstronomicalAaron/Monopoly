@@ -195,7 +195,7 @@ public class Monopoly {
 		
 	}
 
-	public void sellProperty(){
+	public void sellProperty(Tile property, Owner recipient, double amount){
 
 		if(phase != GamePhase.TURN){
 
@@ -204,23 +204,32 @@ public class Monopoly {
 		}
 
 		Player currentPlayer = players.get(currentPlayerIndex);
-
-		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
+		int propIndex = currentPlayer.getDeeds().indexOf(property);
 
 		//Cannot sell a property with houses/hotels on it.
-		if(currentTile.hasHotel() || currentTile.numHouses > 0){
-			endTurn();
+		if(property.hasHotel() || property.numHouses > 0){
 			return;
 		}
 
 		//Cannot sell a property with a mortgage on it
-		if(currentTile.isMortgaged()) return;
-
-		if(currentPlayer.getDeeds().contains(currentTile)){
-
-			phase = GamePhase.SELL_PROPERTY;
-
+		if(property.isMortgaged()){
+			return;
 		}
+
+		if(recipient.equals(bank)){
+			
+			recipient.transfer(currentPlayer, property.propertyCost/2);
+			property.setOwnerIndex(-1);
+			
+		}else{
+			
+			recipient.transfer(currentPlayer, amount);
+			recipient.getDeeds().add(propIndex);
+			
+			
+		}
+		
+		currentPlayer.getDeeds().remove(propIndex);
 
 	}
 
