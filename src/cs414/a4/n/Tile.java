@@ -53,6 +53,11 @@ public class Tile {
 	}
 	
 	@JsonIgnore
+	public void setOwnerIndex(int index){
+		ownerIndex = index;
+	}
+	
+	@JsonIgnore
 	public boolean isProperty(){
 		return type.equals(TileType.PROPERTY);
 	}
