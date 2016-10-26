@@ -95,6 +95,13 @@ public class MonopolyController {
     	game.degradeProperty();
     	return game;
     }
+    
+    @RequestMapping(value = "/payrent", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly payRent() {
+    	game.payRent();
+    	return game;
+    }
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(MonopolyController.class, args);

@@ -244,6 +244,10 @@ app.controller('monopolyController', function($scope) {
 	}
 	//
 	
+	$scope.payRent = function(){
+		$scope.getOp('payrent');
+	}
+	
 	var rollAnimationStarted = false;
 	
 	$scope.phaseRolling = function() {

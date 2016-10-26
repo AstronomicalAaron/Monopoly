@@ -82,6 +82,9 @@ public class Monopoly {
 			//Must have 4 or less players
 			return;
 		}
+		
+		//For testing purposes
+		//currentPlayerIndex = 0;
 
 		currentPlayerIndex = (new Random()).nextInt(players.size());
 
@@ -100,6 +103,10 @@ public class Monopoly {
 		int dieOneValue = 0;
 		int dieTwoValue = 0;
 
+		//for testing purposes, lands on a property to test buy
+		//dieOneValue = 1;
+		//dieTwoValue = 2;
+		
 		dieOneValue = board.getDice()[0].roll();
 		dieTwoValue = board.getDice()[1].roll();
 		setRolledDoubles(dieOneValue == dieTwoValue);	
@@ -125,6 +132,7 @@ public class Monopoly {
 								//phase = GamePhase.TURN;
 								//False in this case means player is bankrupt
 								//removePlayer(currentPlayer);
+								endTurn();
 							}
 						} else if(currentTile.propertyCost !=0 && !currentTile.hasOwner())
 						{
@@ -160,12 +168,11 @@ public class Monopoly {
 
 		}
 
-		if(!currentTile.isProperty() && !currentTile.isRailRoad()){
+		//Cannot buy a mortgage property
+		if(currentTile.isMortgaged()){
+			endTurn();
 			return;
 		}
-
-		//Cannot buy a mortgage property
-		if(currentTile.isMortgaged()) return;
 
 		if(currentTile.hasOwner()){
 
@@ -177,7 +184,11 @@ public class Monopoly {
 			currentPlayer.transfer(bank, currentTile.propertyCost);
 		}
 
-
+		if(currentTile.isRailRoad())
+			currentPlayer.setNumRailRoadsOwned(currentPlayer.getNumRailRoadsOwned() + 1);
+		
+		endTurn();
+		
 	}
 
 	public void sellProperty(){
@@ -193,7 +204,10 @@ public class Monopoly {
 		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
 
 		//Cannot sell a property with houses/hotels on it.
-		if(currentTile.hasHotel() || currentTile.numHouses > 0) return;
+		if(currentTile.hasHotel() || currentTile.numHouses > 0){
+			endTurn();
+			return;
+		}
 
 		//Cannot sell a property with a mortgage on it
 		if(currentTile.isMortgaged()) return;
