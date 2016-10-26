@@ -53,6 +53,48 @@ public class MonopolyController {
     	game.endTurn();
     	return game;
     }
+    
+    @RequestMapping(value = "/buyproperty", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly buyProperty() {
+    	game.buyProperty();
+    	return game;
+    }
+    
+    @RequestMapping(value = "/sellproperty", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly sellProperty() {
+    	game.sellProperty();
+    	return game;
+    }
+    
+    @RequestMapping(value = "/buymortgage", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly buyMortgage() {
+    	game.buyMortgage();
+    	return game;
+    }
+    
+    @RequestMapping(value = "/liftmortgage", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly liftMortgage() {
+    	game.liftMortgage();
+    	return game;
+    }
+    
+    @RequestMapping(value = "/upgradeprop", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly upgradeProperty() {
+    	game.upgradeProperty();
+    	return game;
+    }
+    
+    @RequestMapping(value = "/degradeprop", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly degradeProperty() {
+    	game.degradeProperty();
+    	return game;
+    }
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(MonopolyController.class, args);

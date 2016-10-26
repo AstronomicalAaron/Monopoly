@@ -196,6 +196,42 @@ app.controller('monopolyController', function($scope) {
 		$scope.getOp('start');
 	}
 	
+	//Buy property
+	$scope.buyProperty = function(){
+		$scope.getOp('buyproperty');
+	}
+	//
+	
+	//Sell property
+	$scope.sellProperty = function(){
+		$scope.getOp('sellproperty');
+	}
+	//
+	
+	//Buy Mortage
+	$scope.buyMortgage = function(){
+		$scope.getOp('buymortgage');
+	}
+	//
+	
+	//Lift Mortgage
+	$scope.liftMortgage = function(){
+		$scope.getOp('liftmortgage');
+	}
+	//
+	
+	//Upgrade/improve property
+	$scope.upgradeProp = function(){
+		$scope.getOp('upgradeprop');
+	}
+	//
+	
+	//Degrade property
+	$scope.degradeProp = function(){
+		$scope.getOp('degradeprop');
+	}
+	//
+	
 	var rollAnimationStarted = false;
 	
 	$scope.phaseRolling = function() {
