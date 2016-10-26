@@ -185,6 +185,7 @@ public class Monopoly {
 		}else{
 			currentPlayer.transfer(bank, currentTile.propertyCost);
 			currentPlayer.getDeeds().add(currentPlayer.getToken().getTileIndex());
+			currentTile.setOwnerIndex(currentPlayerIndex);
 		}
 
 		if(currentTile.isRailRoad())
