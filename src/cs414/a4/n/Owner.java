@@ -8,12 +8,14 @@ public abstract class Owner {
 	
 	private double money;
 	
-	private ArrayList<Integer> deeds;
+	private ArrayList<Integer> deedIndices;
+	
+	private int numRailRoadsOwned;
 	
 	public Owner(String id, double initialMoney) {
 		this.name = id;
 		money = initialMoney;
-		deeds = new ArrayList<Integer>();
+		deedIndices = new ArrayList<Integer>();
 	}
 	
 	public String getName() {
@@ -25,12 +27,12 @@ public abstract class Owner {
 	}
 	
 	public ArrayList<Integer> getDeeds() {
-		return deeds;
+		return deedIndices;
 	}
 	
 	public boolean hasDeed(int tileIndex){
 		
-		return deeds.contains(tileIndex);
+		return deedIndices.contains(tileIndex);
 		
 	}
 
@@ -41,6 +43,14 @@ public abstract class Owner {
 			return true;
 		}
 		return false;
+	}
+
+	public int getNumRailRoadsOwned() {
+		return numRailRoadsOwned;
+	}
+
+	public void setNumRailRoadsOwned(int numRailRoadsOwned) {
+		this.numRailRoadsOwned = numRailRoadsOwned;
 	}
 
 }

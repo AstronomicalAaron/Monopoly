@@ -24,9 +24,9 @@ public class Tile {
 	public double hotelCost;
 	public double propertyCost;
 
-	public static double with2Railroads = 50;
-	public static double with3Railroads = 100;
-	public static double with4Railroads = 200;
+	public final double with2Railroads = 50;
+	public final double with3Railroads = 100;
+	public final double with4Railroads = 200;
 	
 	public Tile(){
 		
