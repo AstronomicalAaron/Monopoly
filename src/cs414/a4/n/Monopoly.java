@@ -136,9 +136,9 @@ public class Monopoly {
 	public void buyMortgage(){
 
 		Player currentPlayer = players.get(currentPlayerIndex);
-		
+
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
-		
+
 		Tile currentTile = board.getTiles().get(currentTileIndex);
 
 		if(!currentTile.isProperty() && !currentTile.isRailRoad()){
@@ -181,7 +181,7 @@ public class Monopoly {
 	public void buyProperty(){
 
 		Player currentPlayer = players.get(currentPlayerIndex);
-		
+
 		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
 
 		if(phase != GamePhase.BUY_PROPERTY){
@@ -203,50 +203,111 @@ public class Monopoly {
 
 
 	}
-	
+
 	public void sellProperty(){
-		
+
 		if(phase != GamePhase.TURN){
-			
+
 			throw new IllegalStateException("Not currently in TURN phase.");
-			
+
 		}
-		
+
 		Player currentPlayer = players.get(currentPlayerIndex);
-		
+
 		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
-		
+
 		if(currentPlayer.getDeeds().contains(currentTile)){
-			
+
 			phase = GamePhase.SELL_PROPERTY;
-			
+
 		}
-		
+
 	}
-	
+
+	public void upgradeProperty(){
+		//This method will add houses and hotels depending on some cases
+		if(phase != GamePhase.TURN){
+
+			throw new IllegalStateException("Can only upgrade property in TURN phase.");
+
+		}
+
+		Player currentPlayer = players.get(currentPlayerIndex);
+
+		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
+
+		String curTileColor = currentTile.color;
+
+		//Extract properties with same color group
+		ArrayList<Tile> properties = new ArrayList<Tile>();
+
+		//Loop through the whole board and add tiles with same color to arraylist
+		for(int i = 0; i < board.getTiles().size(); i++){
+
+			if(curTileColor.equals(board.getTiles().get(i).color)){
+
+				properties.add(board.getTiles().get(i));
+
+			}
+
+		}
+
+		//Check to see if player owns all the properties in same color group
+		for(Tile temp : properties){
+
+			if(!currentPlayer.getDeeds().contains(temp)){
+				return; 
+			}
+
+		}
+
+		properties.remove(currentTile);
+
+		//Can't add additional houses until houses are on other properties
+		for(Tile temp : properties){
+
+			if(currentTile.numHouses > temp.numHouses){
+				return;				
+			}
+
+		}
+
+		if(currentTile.numHouses == 4){
+
+			currentPlayer.transfer(bank, currentTile.hotelCost);
+			currentTile.setHotel(true);
+
+		}else{	
+			currentPlayer.transfer(bank, currentTile.houseCost);
+			currentTile.numHouses++;
+		}
+
+
+	}
+
 	public void liftMortgage(){
 		//Player lifts a mortgage buy paying the full mortgage value + another 10%
 		//interest
-		
+
 		if(phase != GamePhase.TURN){
-			
+
 			throw new IllegalStateException("Can only lift mortgage in TURN phase.");
-			
+
 		}
-		
+
 		Player currentPlayer = players.get(currentPlayerIndex);
-		
+
 		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
-		
-		
+
+
 		//Want to check if the player actually owns the tile and has a mortgage on it
 		if(currentTile.isMortgaged() &&
 				currentPlayer.getDeeds().contains(currentTile)){
-			
+
 			currentPlayer.transfer(getBank(), currentTile.mortgageValue + (currentTile.mortgageValue * 0.1));
-			
+
 		}
-		
+
 	}
 
 	public void endTurn() {

@@ -10,6 +10,7 @@ public class Tile {
 	
 	public int numHouses = 0;
 	private boolean mortgaged = false;
+	private boolean hasHotel = false;
 	
 	public String color;
 	public double rent;
@@ -69,5 +70,15 @@ public class Tile {
 	@JsonIgnore
 	public boolean hasOwner(){
 		return ownerIndex != -1;
+	}
+	
+	@JsonIgnore
+	public boolean hasHotel(){
+		return hasHotel;		
+	}
+	
+	@JsonIgnore
+	public void setHotel(boolean h){
+		hasHotel = h;		
 	}
 }
