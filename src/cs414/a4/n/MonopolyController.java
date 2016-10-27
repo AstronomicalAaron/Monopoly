@@ -116,6 +116,14 @@ public class MonopolyController {
     	return game;
     }
     
+    @RequestMapping(value = "/jailchoice", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly degradeProperty(
+    		@RequestParam boolean choice) {
+    	game.jailChoice(choice);
+    	return game;
+    }
+    
     @RequestMapping(value = "/endgame", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Monopoly endGame() {

@@ -2,8 +2,14 @@ package cs414.a4.n;
 
 public enum TileType {
 	NONE,
+	GO,
 	PROPERTY,
 	UTILITY,
 	TAXES,
-	RAILROAD
+	RAILROAD,
+	GOTOJAIL,
+	JAIL,
+	CHANCE,
+	COMMUNITYCHEST,
+	FREEPARKING
 }

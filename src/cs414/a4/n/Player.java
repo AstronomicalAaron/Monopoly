@@ -6,16 +6,22 @@ public class Player extends Owner {
 	
 	private double bid = -1;
 	
-	private boolean isBankrupt = false;
+	private boolean bankrupt = false;
+	
+	int remainingTurnsJailed = 0;
 	
 	public boolean isBankrupt() {
-		return isBankrupt;
+		return bankrupt;
 	}
 
 	public void setBankrupt(boolean isBankrupt) {
-		this.isBankrupt = isBankrupt;
+		this.bankrupt = isBankrupt;
 	}
-
+	
+	public boolean isJailed() {
+		return remainingTurnsJailed > 0;
+	}
+	
 	public Player(String name, TokenType tokenType) {
 		super(name, 1500);
 		

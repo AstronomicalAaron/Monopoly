@@ -6,5 +6,6 @@ public enum GamePhase {
 	BUY_PROPERTY,
 	SELL_PROPERTY,
 	TURN,
-	AUCTION
+	AUCTION,
+	JAILED
 }

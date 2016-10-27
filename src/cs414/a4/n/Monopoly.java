@@ -26,6 +26,7 @@ public class Monopoly {
 	
 	private int auctionTimeLeft = 10;
 
+	private int rolledValue = 0;
 	private boolean rolledDoubles = false;
 
 	public Monopoly() {
@@ -114,19 +115,6 @@ public class Monopoly {
 			throw new IllegalStateException("Cannot start the game unless in the waiting phase.");
 		}
 
-		// TEMP
-		int index = 0;
-		while (players.size() < 2) {
-			Player p = new Player("Test", TokenType.SHOE);
-			players.add(p);
-			Random rand = new Random();
-			for (int i = 0; i < 3; ++i) {
-				board.getTiles().get(rand.nextInt(40)).setOwnerIndex(index);
-			}
-			++index;
-		}
-		//
-
 		if(players.size() < 2){
 
 			//Must have more than 2 players to start a game
@@ -148,31 +136,54 @@ public class Monopoly {
 		}
 
 		// Automatically roll the dice for the first player
-		rollDice();
+		startTurn();
+	}
+	
+	private void startTurn() {
+		Player currentPlayer = players.get(currentPlayerIndex);
+		
+		if (currentPlayer.isJailed()) {
+			phase = GamePhase.JAILED;
+			return;
+		}
+		else {
+			rollDice();
+		}
 	}
 
 	private void rollDice(){
 		phase = GamePhase.ROLLING;
-
-		int dieOneValue = 0;
-		int dieTwoValue = 0;
-
-		//for testing purposes, lands on a property to test buy
-		//dieOneValue = 5;
-		//dieTwoValue = 5;
-		
-		dieOneValue = board.getDice()[0].roll();
-		dieTwoValue = board.getDice()[1].roll();
-		rolledDoubles = dieOneValue == dieTwoValue;
-		int amountOnDice = dieOneValue + dieTwoValue;
-
 		Player currentPlayer = players.get(currentPlayerIndex);
+		
+		int dieOneValue = board.getDice()[0].roll();
+		int dieTwoValue = board.getDice()[1].roll();
+		rolledDoubles = dieOneValue == dieTwoValue;
+		rolledValue = dieOneValue + dieTwoValue;
+		
+		if (currentPlayer.isJailed())
+		{
+			if (rolledDoubles) {
+				currentPlayer.remainingTurnsJailed = 0;
+				rolledDoubles = false;
+			}
+			else {
+				currentPlayer.remainingTurnsJailed--;
+				if (currentPlayer.remainingTurnsJailed == 0) {
+					currentPlayer.transfer(bank, 50.0);
+					currentPlayer.getToken().moveBy(rolledValue);
+					startManagement();
+					return;
+				}
+			}
+		}
+		
 		int previousTileIndex = currentPlayer.getToken().getTileIndex();
 		currentPlayer.getToken().moveBy(dieOneValue + dieTwoValue);
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
 	    Tile currentTile = board.getTiles().get(currentTileIndex);
 		String tileName = currentTile.getName();
 		
+		// Move the token by 1 if we land on any unimplemented tiles
 		while (tileName.equals("JAIL") || 
 				tileName.equals("GO") || 
 				tileName.equals("CHANCE") || 
@@ -186,52 +197,51 @@ public class Monopoly {
 			tileName = currentTile.getName();
 		};
 		
-		// To make java happy
-		Tile landedTile = currentTile;
+		// Pass go
+		if(previousTileIndex > currentTileIndex) {
+			bank.transfer(currentPlayer, 200.0);
+		}
+		
+		// Need this variable to make java happy
+		final Tile landedTile = currentTile;
 		new java.util.Timer().schedule( 
 			new java.util.TimerTask() {
 				@Override
 				public void run() {
-					endRoll(currentPlayer, landedTile, amountOnDice);
+					doTile(currentPlayer, landedTile, rolledValue);
 				}
 			}, 
 			3000 
-		);
-
-		if(previousTileIndex > currentTileIndex) {
-			bank.transfer(currentPlayer, 200.0);
-		}
+		);	
 	}
 
-	private void endRoll(Player currentPlayer, Tile currentTile, int amountOnDice) {
+	private void doTile(Player currentPlayer, Tile currentTile, int amountOnDice) {
 
-		if(currentTile.getType() == TileType.TAXES) {
-			//Player needs to pay taxes.
-			//Player can possibly go bankrupt here.
-			if(!currentPlayer.transfer(bank, currentTile.propertyCost)) {
-
-				//Player needs to be able to sell whatever they can to be able to pay taxes
-				//A new button on ui that says pay tax? and if you cant pay tax and have nothing to left to sell than you lose.
-				//phase = GamePhase.TURN;
-				//False in this case means player is bankrupt
-				//removePlayer(currentPlayer);
-				bankrupt(currentPlayer);
-				endTurn();
-			} else {
-				endTurn();
+		switch (currentTile.getType()){
+		case PROPERTY:
+		case UTILITY:
+		case RAILROAD:
+			if (currentTile.hasOwner()) {
+				payRent(amountOnDice);
 			}
+			else {
+				phase = GamePhase.BUY_PROPERTY;
+			}
+			break;
+		case TAXES:
+			bank.payTax(currentPlayer, currentTile);
+			break;
+		case GOTOJAIL:
+			endTurn();
+			return;
+		default:
+			break;
 		}
-		else if(currentTile.hasOwner()) {
-			startTurn();
-			payRent(amountOnDice);
-		} else if(currentTile.propertyCost !=0) {
-			phase = GamePhase.BUY_PROPERTY;
-		} else {
-			startTurn();
-		}
+		
+		startManagement();
 	}
 	
-	private void startTurn()
+	private void startManagement()
 	{
 		if (players.get(currentPlayerIndex).getDeeds().isEmpty())
 		{
@@ -280,7 +290,7 @@ public class Monopoly {
 		if(currentTile.isRailRoad())
 			currentPlayer.setNumRailRoadsOwned(currentPlayer.getNumRailRoadsOwned() + 1);
 		
-		startTurn();
+		startManagement();
 	}
 	
 	public void passProperty(int tileIndex){
@@ -316,7 +326,7 @@ public class Monopoly {
 									winner.setUtilitiesOwned(numOwned + 1);
 								}
 							}
-							startTurn();
+							startManagement();
 							this.cancel();
 						}
 					}
@@ -554,7 +564,8 @@ public class Monopoly {
 			}else{
 				double mortgageAmount = currentTile.mortgageValue;
 
-				if(currentPlayer.transfer(bank, mortgageAmount)) {
+				if(currentPlayer.getMoney() >= mortgageAmount) {
+					currentPlayer.transfer(bank, mortgageAmount);
 					//Update mortgage status
 					currentTile.setMortgaged(true);
 				}
@@ -647,10 +658,29 @@ public class Monopoly {
 		}
 		
 		endTurn();
-
+	}
+	
+	public void jailChoice(boolean choice) {
+		Player player = players.get(currentPlayerIndex);
+		if (choice == true && player.getMoney() >= 50) {
+			player.remainingTurnsJailed = 0;
+			player.transfer(bank, 50.0);
+			player.getToken().moveBy(1);
+			endTurn();
+		}
+		else {
+			rollDice();
+		}
 	}
 	
 	public void endTurn() {
+		//Player needs to be able to sell whatever they can to be able to pay taxes
+		//A new button on ui that says pay tax? and if you cant pay tax and have nothing to left to sell than you lose.
+		//phase = GamePhase.TURN;
+		//False in this case means player is bankrupt
+		//removePlayer(currentPlayer);
+		bankrupt(players.get(currentPlayerIndex));
+		
 		// Automatically start the next turn
 		if (!rolledDoubles)
 		{

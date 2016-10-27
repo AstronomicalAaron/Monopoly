@@ -22,7 +22,7 @@ public class Tile {
 	public double mortgageValue;
 	public double houseCost;
 	public double hotelCost;
-	public double propertyCost;
+	public double propertyCost = 0;
 
 	public final double with2Railroads = 50;
 	public final double with3Railroads = 100;

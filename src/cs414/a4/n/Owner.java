@@ -38,13 +38,13 @@ public abstract class Owner {
 		
 	}
 
-	public boolean transfer(Owner recipient, Double amount) {
-		if (money >= amount) {
-			this.money -= amount;
-			recipient.money += amount;
-			return true;
-		}
-		return false;
+	public double transfer(Owner recipient, Double amount) {
+		double newBalance = money - amount;
+		if (newBalance < 0) newBalance = 0;
+		double transfer = money - newBalance;
+		recipient.money += transfer;
+		money -= transfer;
+		return transfer;
 	}
 
 	public int getNumRailRoadsOwned() {
