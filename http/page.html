@@ -327,7 +327,7 @@
 										</div>
 									</div>
 									<div id='players'>
-										<div class='player-tile' ng-repeat='player in state.players'>
+										<div class='player-tile' ng-repeat='player in state.players' ng-class='playerClass(player)'>
 											<img ng-src='{{player.token.type.toLowerCase()}}.png' />
 											<div id='player-name'>{{ player.name }}</div>
 											<div id='player-money'>

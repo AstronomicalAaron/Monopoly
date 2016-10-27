@@ -329,6 +329,15 @@ app.controller('monopolyController', function($scope) {
 		}
 	}
 	
+	$scope.playerClass = function (player) {
+		if ($scope.currentPlayer.name == player.name) {
+			return "golden"
+		}
+		else {
+			return "";
+		}
+	}
+	
 	$scope.cardStyle = function (tile) {
 		if (tile == null) {
 			return;
