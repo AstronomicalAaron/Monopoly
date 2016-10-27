@@ -15,9 +15,9 @@ public class Monopoly {
 
 	private int currentPlayerIndex;
 	
-	private double highestBid = -1;
+	private double highestBid = 0;
 	
-	private int highestBidderIndex;
+	private int highestBidderIndex = -1;
 	
 	private int auctionTimeLeft = 10;
 
@@ -238,11 +238,16 @@ public class Monopoly {
 						}
 						else
 						{
-							Player winner = players.get(highestBidderIndex);
-							winner.transfer(bank, highestBid);
-							winner.getDeeds().add(tileIndex);
-							board.getTiles().get(tileIndex).setOwnerIndex(highestBidderIndex);
-							
+							if (highestBid != 0)
+							{
+								Player winner = players.get(highestBidderIndex);
+								winner.transfer(bank, highestBid);
+								winner.getDeeds().add(tileIndex);
+								board.getTiles().get(tileIndex).setOwnerIndex(highestBidderIndex);
+								highestBid = 0;
+								highestBidderIndex = -1;
+								auctionTimeLeft = 10;
+							}
 							phase = GamePhase.TURN;
 							this.cancel();
 						}
