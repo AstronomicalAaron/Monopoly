@@ -212,8 +212,8 @@ app.controller('monopolyController', function($scope) {
 	//
 	
 	//Auction - not made yet
-	$scope.auction = function(){
-		
+	$scope.passProperty = function(){
+		$scope.getOp('passproperty?tileIndex='+$scope.currentPlayer.token.tileIndex);
 	}
 	//
 	

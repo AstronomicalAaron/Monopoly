@@ -71,6 +71,14 @@ public class MonopolyController {
     	return game;
     }
     
+    @RequestMapping(value = "/passproperty", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly passProperty(
+    		@RequestParam int tileIndex) {
+    	game.passProperty(tileIndex);
+    	return game;
+    }
+    
     @RequestMapping(value = "/buymortgage", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Monopoly buyMortgage() {
