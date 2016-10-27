@@ -197,7 +197,7 @@
 												<div id='dice-two'></div>
 											</div>
 										</div>
-										<div id='buy-property' ng-show='state.phase=="BUY_PROPERTY"'>
+										<div id='buy-property' ng-show='state.phase=="BUY_PROPERTY" || state.phase=="TURN"'>
 											<!-- Card -->
 											<div id='buy-card' class='card'>
 												<div class='property' ng-show='isProperty(currentTile)'>
@@ -302,15 +302,17 @@
 													<!-- TODO -->
 												</div>
 											</div>
-											<div id='buy-property-controls'>
-												<button class='green' ng-click='buyProperty()'>Buy</button>
-												<button ng-click='buyMortgage()'>Mortgage</button>
-												<button class='red' ng-click='auction()'>Pass</button>
+											<div id='buy-property-controls' ng-show='state.phase=="BUY_PROPERTY"'>
+												<button class='green'   ng-click='buyProperty()'>Buy</button>
+												<button                 ng-click='buyMortgage()'>Mortgage</button>
+												<button class='red'     ng-click='passProperty()'>Pass</button>
 											</div>
-										</div>
-										<div id='turn' ng-show='state.phase=="TURN"'>
-											<table>
-											</table>
+											<div id='sell-property-controls' ng-show='state.phase=="TURN"'>
+												<button class='green'   ng-click='upgradeProperty()'>Add House</button>
+												<button class='yellow'  ng-click='degradeProperty()'>Remove House</button>
+												<button class='blue'    ng-click='sellProperty()'>Sell Property</button>
+												<img id='end-turn' ng-click='endTurn()' src='endturn.png' />
+											</div>
 										</div>
 									</div>
 									<div id='players'>

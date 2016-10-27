@@ -59,19 +59,20 @@ function update($scope, json) {
 	}
 	
 	$scope.currentPlayer = $scope.state.players[$scope.state.currentPlayerIndex];
-	$scope.currentTile = $scope.state.board.tiles[$scope.currentPlayer.token.tileIndex];
+
+	if ($scope.state.phase != "TURN") {
+		$scope.currentTile = $scope.state.board.tiles[$scope.currentPlayer.token.tileIndex];
+	}
 	
-	if ($scope.state.phase == "TURN") {
-		$scope.state.board.tiles.forEach(function(tile, i, arr) {
+	$scope.state.board.tiles.forEach(function(tile, i, arr) {
 			var $cell = $('#' + i);
-			if (tile.ownerIndex == $scope.state.currentPlayerIndex) {
-				$cell.addClass('owned');
+			if ($scope.state.phase == "TURN" && tile.ownerIndex != $scope.state.currentPlayerIndex) {
+				$cell.addClass('covered');
 			}
 			else {
-				$cell.removeClass('owned');
+				$cell.removeClass('covered');
 			}
 		});
-	}
 }
 
 var app = angular.module('monopolyApp', []);
@@ -141,10 +142,12 @@ app.controller('monopolyController', function($scope) {
 			
 			$scope.cardSelected = true;
 			$scope.selectedIndex = $scope.hoveredIndex;
+			$scope.currentTile = $scope.state.board.tiles[$scope.selectedIndex];
 		}
 		else {
 			$scope.cardSelected = false;
 			$scope.selectedIndex = -1;
+			$scope.currentTile = null;
 		}
 	}
 	
@@ -241,14 +244,17 @@ app.controller('monopolyController', function($scope) {
 	//
 	
 	//Sell property
-	$scope.sellProperty = function(){
-		$scope.getOp('sellproperty');
+	$scope.sellProperty = function(propertyIndex, recIndex, amount){
+		$scope.getOp('sellproperty?propertyIndex='
+				+ property + '&recIndex=' 
+				+ recipient + '&amount='
+				+ amount );
 	}
 	//
 	
 	//Auction - not made yet
-	$scope.auction = function(){
-		
+	$scope.passProperty = function(){
+		$scope.getOp('passproperty?tileIndex='+$scope.currentPlayer.token.tileIndex);
 	}
 	//
 	
@@ -281,6 +287,10 @@ app.controller('monopolyController', function($scope) {
 		
 	}
 	//
+	
+	$scope.endTurn = function(){
+		$scope.getOp('endturn');
+	}
 	
 	//End game
 	$scope.endGame = function(){
@@ -403,6 +413,16 @@ $.fn.animateRotate = function(start, end, duration, easing, complete) {
     $({deg: start}).animate({deg: end}, args);
   });
 };
+
+function showSellControls($scope){	
+	$('#buy-property-controls').hide();
+	$('#sell-property-controls').show();	
+}
+
+function showBuyControls($scope){	
+	$('#sell-property-controls').hide();
+	$('#buy-property-controls').show();	
+}
 
 var counter = 0;
 

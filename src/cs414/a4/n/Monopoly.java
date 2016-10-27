@@ -14,7 +14,13 @@ public class Monopoly {
 	private ArrayList<Player> players;
 
 	private int currentPlayerIndex;
+
+	private double highestBid = 0;
 	
+	private int highestBidderIndex = -1;
+	
+	private int auctionTimeLeft = 10;
+
 	private boolean rolledDoubles = false;
 
 	public Monopoly() {
@@ -30,6 +36,18 @@ public class Monopoly {
 	public Board getBoard() {
 		return board;
 	}
+	
+	public double getHighestBid() {
+		return highestBid;
+	}
+	
+	public double getAuctionTimeLeft() {
+		return auctionTimeLeft;
+	}
+	
+	public int getHighestBidderIndex() {
+		return highestBidderIndex;
+	}
 
 	public Bank getBank() {
 		return bank;
@@ -41,6 +59,17 @@ public class Monopoly {
 
 	public int getCurrentPlayerIndex() {
 		return currentPlayerIndex;
+	}
+	
+	public void setBid(int playerIndex, double bid)
+	{
+		players.get(playerIndex).setBid(bid);
+		if(bid > highestBid)
+		{
+			auctionTimeLeft = 10;
+			highestBid = bid;
+			highestBidderIndex = playerIndex;
+		}
 	}
 
 	public void join(String name, TokenType token) {
@@ -121,19 +150,34 @@ public class Monopoly {
 		Player currentPlayer = players.get(currentPlayerIndex);
 		int previousTileIndex = currentPlayer.getToken().getTileIndex();
 		currentPlayer.getToken().moveBy(dieOneValue + dieTwoValue);
-
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
-		Tile currentTile = board.getTiles().get(currentTileIndex);
-
+	    Tile currentTile = board.getTiles().get(currentTileIndex);
+		String tileName = currentTile.getName();
+		
+		while (tileName.equals("JAIL") || 
+				tileName.equals("GO") || 
+				tileName.equals("CHANCE") || 
+				tileName.equals("COMMUNITY CHEST") ||
+				tileName.equals("FREE PARKING") || 
+				tileName.equals("GO TO JAIL")) {
+			
+			currentPlayer.getToken().moveBy(1);
+			currentTileIndex = currentPlayer.getToken().getTileIndex();
+		    currentTile = board.getTiles().get(currentTileIndex);
+			tileName = currentTile.getName();
+		};
+		
+		// To make java happy
+		Tile landedTile = currentTile;
 		new java.util.Timer().schedule( 
-				new java.util.TimerTask() {
-					@Override
-					public void run() {
-						endRoll(currentPlayer, currentTile);
-					}
-				}, 
-				3000 
-				);
+			new java.util.TimerTask() {
+				@Override
+				public void run() {
+					endRoll(currentPlayer, landedTile);
+				}
+			}, 
+			3000 
+		);
 
 		if(previousTileIndex > currentTileIndex) {
 			bank.transfer(currentPlayer, 200.0);
@@ -141,29 +185,27 @@ public class Monopoly {
 	}
 
 	private void endRoll(Player currentPlayer, Tile currentTile) {
-		//TEMP
-		phase = GamePhase.TURN;
 		
-//		if(currentTile.getType() == TileType.TAXES) {
-//			//Player needs to pay taxes.
-//			//Player can possibly go bankrupt here.
-//			if(!currentPlayer.transfer(bank, currentTile.propertyCost)) {
-//
-//				//Player needs to be able to sell whatever they can to be able to pay taxes
-//				//A new button on ui that says pay tax? and if you cant pay tax and have nothing to left to sell than you lose.
-//				//phase = GamePhase.TURN;
-//				//False in this case means player is bankrupt
-//				//removePlayer(currentPlayer);
-//				
-//			}else{
-//				endTurn();
-//			}
-//		} else if(currentTile.propertyCost !=0 && !currentTile.hasOwner())
-//		{
-//			phase = GamePhase.BUY_PROPERTY;
-//		} else {
-//			phase = GamePhase.TURN;
-//		}
+		String tileName = currentTile.getName();
+		if(currentTile.getType() == TileType.TAXES) {
+			//Player needs to pay taxes.
+			//Player can possibly go bankrupt here.
+			if(!currentPlayer.transfer(bank, currentTile.propertyCost)) {
+
+				//Player needs to be able to sell whatever they can to be able to pay taxes
+				//A new button on ui that says pay tax? and if you cant pay tax and have nothing to left to sell than you lose.
+				//phase = GamePhase.TURN;
+				//False in this case means player is bankrupt
+				//removePlayer(currentPlayer);
+				endTurn();
+			} else {
+				endTurn();
+			}
+		} else if(currentTile.propertyCost !=0 && !currentTile.hasOwner()) {
+			phase = GamePhase.BUY_PROPERTY;
+		} else {
+			phase = GamePhase.TURN;
+		}
 	}
 
 	public void buyProperty(){
@@ -203,11 +245,47 @@ public class Monopoly {
 		if(currentTile.isRailRoad())
 			currentPlayer.setNumRailRoadsOwned(currentPlayer.getNumRailRoadsOwned() + 1);
 		
-		endTurn();
+		if (currentPlayer.getDeeds().isEmpty()){
+			endTurn();
+		}
+		else{
+			phase = GamePhase.TURN;
+		}
+	}
+	
+	public void passProperty(int tileIndex){
+		phase = GamePhase.AUCTION;
 		
+		new java.util.Timer().scheduleAtFixedRate(
+				new java.util.TimerTask() 
+				{
+					@Override
+					public void run() {
+						if(auctionTimeLeft > 0)
+						{
+							auctionTimeLeft--;
+						}
+						else
+						{
+							if (highestBid != 0)
+							{
+								Player winner = players.get(highestBidderIndex);
+								winner.transfer(bank, highestBid);
+								winner.getDeeds().add(tileIndex);
+								board.getTiles().get(tileIndex).setOwnerIndex(highestBidderIndex);
+								highestBid = 0;
+								highestBidderIndex = -1;
+								auctionTimeLeft = 10;
+							}
+							phase = GamePhase.TURN;
+							this.cancel();
+						}
+					}
+				}, 
+				0, 1000 );
 	}
 
-	public void sellProperty(){
+	public void sellProperty(int propertyIndex, int recIndex, double amount){
 
 		if(phase != GamePhase.TURN){
 
@@ -215,24 +293,35 @@ public class Monopoly {
 
 		}
 
+		Tile property = board.getTiles().get(propertyIndex);
+		Player recipient = players.get(recIndex);
 		Player currentPlayer = players.get(currentPlayerIndex);
-
-		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
+		int propIndex = currentPlayer.getDeeds().indexOf(property);
 
 		//Cannot sell a property with houses/hotels on it.
-		if(currentTile.hasHotel() || currentTile.numHouses > 0){
-			endTurn();
+		if(property.hasHotel() || property.numHouses > 0){
 			return;
 		}
 
 		//Cannot sell a property with a mortgage on it
-		if(currentTile.isMortgaged()) return;
-
-		if(currentPlayer.getDeeds().contains(currentTile)){
-
-			phase = GamePhase.SELL_PROPERTY;
-
+		if(property.isMortgaged()){
+			return;
 		}
+
+		if(recipient.equals(bank)){
+			
+			recipient.transfer(currentPlayer, property.propertyCost/2);
+			property.setOwnerIndex(-1);
+			
+		}else{
+			
+			recipient.transfer(currentPlayer, amount);
+			recipient.getDeeds().add(propIndex);
+			
+			
+		}
+		
+		currentPlayer.getDeeds().remove(propIndex);
 
 	}
 
@@ -251,7 +340,6 @@ public class Monopoly {
 		String curTileColor = currentTile.color;
 
 		if(!currentTile.isProperty()){
-			endTurn();
 			return;
 		}
 
@@ -273,7 +361,6 @@ public class Monopoly {
 		for(Tile temp : properties){
 
 			if(!currentPlayer.getDeeds().contains(temp)){
-				endTurn();
 				return; 
 			}
 
@@ -285,7 +372,6 @@ public class Monopoly {
 		for(Tile temp : properties){
 
 			if(currentTile.numHouses > temp.numHouses){
-				endTurn();
 				return;				
 			}
 
@@ -337,7 +423,6 @@ public class Monopoly {
 
 		//If there's no houses, you can't degrade property, duh!
 		if(currentTile.numHouses == 0){
-			endTurn(); 
 			return;
 		}
 
@@ -348,7 +433,6 @@ public class Monopoly {
 		for(Tile temp : properties){
 
 			if(currentTile.numHouses < temp.numHouses){
-				endTurn();
 				return;
 			}
 
@@ -382,7 +466,7 @@ public class Monopoly {
 
 		//Can't lift a mortgage on a upgraded property
 		if(currentTile.hasHotel() || currentTile.numHouses > 0){
-			endTurn();
+			return;
 		}
 
 		//Want to check if the player actually owns the tile and has a mortgage on it
