@@ -142,8 +142,8 @@ public class Monopoly {
 		int dieTwoValue = 0;
 
 		//for testing purposes, lands on a property to test buy
-		//dieOneValue = 1;
-		//dieTwoValue = 2;
+		//dieOneValue = 5;
+		//dieTwoValue = 5;
 		
 		dieOneValue = board.getDice()[0].roll();
 		dieTwoValue = board.getDice()[1].roll();
