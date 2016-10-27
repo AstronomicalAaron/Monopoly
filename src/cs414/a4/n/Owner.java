@@ -12,6 +12,8 @@ public abstract class Owner {
 	
 	private int numRailRoadsOwned;
 	
+	private int numUtilitiesOwned;
+	
 	public Owner(String id, double initialMoney) {
 		this.name = id;
 		money = initialMoney;
@@ -48,9 +50,16 @@ public abstract class Owner {
 	public int getNumRailRoadsOwned() {
 		return numRailRoadsOwned;
 	}
+	
+	public int getNumUtilitiesOwned() {
+		return numUtilitiesOwned;
+	}
+	
+	public void setUtilitiesOwned(int numUtilitiesOwned) {
+		this.numUtilitiesOwned = numUtilitiesOwned;
+	}
 
 	public void setNumRailRoadsOwned(int numRailRoadsOwned) {
 		this.numRailRoadsOwned = numRailRoadsOwned;
 	}
-
 }

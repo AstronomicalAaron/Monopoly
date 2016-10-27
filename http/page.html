@@ -324,7 +324,7 @@
 											<div id='roll-text'>
 												Time left: <span>{{ state.auctionTimeLeft }}</span>
 											</div>
-											<div id='roll-text'>
+											<div id='green-text'>
 												Highest Bid: <span>{{ state.highestBid }}</span>
 											</div>
 											<input type="number" min="0" ng-max="player.money" ng-model="bid">
@@ -332,7 +332,7 @@
 										</div>
 									</div>
 									<div id='players'>
-										<div class='player-tile' ng-repeat='player in state.players'>
+										<div class='player-tile' ng-repeat='player in state.players' ng-class='playerClass(player)'>
 											<img ng-src='{{player.token.type.toLowerCase()}}.png' />
 											<div id='player-name'>{{ player.name }}</div>
 											<div id='player-money'>
