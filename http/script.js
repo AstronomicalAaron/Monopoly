@@ -142,20 +142,16 @@ app.controller('monopolyController', function($scope) {
 			return;
 		}
 		
-		// Unselect last selected item
-		$('.selected').removeClass('selected');
 		if ($scope.hoveredCell != null) {
+			// Unselect last selected item
+			$('.selected').removeClass('selected');
+			
 			// Select hovered cell
 			$scope.hoveredCell.addClass('selected');
 			
 			$scope.cardSelected = true;
 			$scope.selectedIndex = $scope.hoveredIndex;
 			$scope.currentTile = $scope.state.board.tiles[$scope.selectedIndex];
-		}
-		else {
-			$scope.cardSelected = false;
-			$scope.selectedIndex = -1;
-			$scope.currentTile = null;
 		}
 	}
 	
@@ -253,8 +249,8 @@ app.controller('monopolyController', function($scope) {
 	
 	// Sell property
 	$scope.sellToPlayer = function() {
-		$scope.getOp('selltoplayer?propertyIndex='
-				+ $scope.selectedIndex);
+		$scope.getOp('selltoplayers?propertyIndex='
+				+ $scope.selectedIndex + '&startingBid=' + $scope.startingBid);
 	}
 	
 	$scope.sellToBank = function() {
@@ -333,7 +329,8 @@ app.controller('monopolyController', function($scope) {
 	}
 	
 	$scope.playerClass = function (player) {
-		if ($scope.currentPlayer.name == player.name) {
+		
+		if ($scope.currentPlayer != null && $scope.currentPlayer.name == player.name) {
 			return "golden"
 		}
 		else {

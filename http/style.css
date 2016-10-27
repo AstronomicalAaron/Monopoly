@@ -342,6 +342,14 @@ More pastel-y versions of the monopoly colors -->.brown {
 	font-weight: bold;
 }
 
+.property-controls input {
+	display: block;
+	width: 160px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+}
+
 #end-turn {
 	position: absolute;
 	top: -10px;

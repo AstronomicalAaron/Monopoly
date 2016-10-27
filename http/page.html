@@ -314,7 +314,8 @@
 												<img id='end-turn' ng-click='endTurn()' src='endturn.png' />
 											</div>
 											<div class='property-controls' ng-show='state.phase=="TURN" && selling'>
-												<button class='green'	ng-click='sellToPlayer()'>Sell to Player</button>
+												<button class='green'	ng-click='sellToPlayer()'>Sell to Players</button>
+												<input ng-model='startingBid' type='number' placeholder='$ Starting Bid' />
 												<button class='yellow'	ng-click='sellToBank()'>Sell to Bank</button>
 												<button class='red'     ng-click='selling=false'>Cancel</button>
 											</div>

@@ -1,6 +1,5 @@
 package cs414.a4.n;
 
-import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -226,6 +225,7 @@ public class Monopoly {
 			}
 			else {
 				phase = GamePhase.BUY_PROPERTY;
+				return;
 			}
 			break;
 		case TAXES:
@@ -293,9 +293,21 @@ public class Monopoly {
 		startManagement();
 	}
 	
-	public void passProperty(int tileIndex){
+	public void auctionProperty(int tileIndex, double startingBid){
 		inAuction = true;
 		phase = GamePhase.AUCTION;
+		
+		highestBid = startingBid;
+		highestBidderIndex = -1;
+		auctionTimeLeft = 10;
+		
+		Owner recipient;
+		if (startingBid == 0) {
+			recipient = bank;
+		}
+		else {
+			recipient = players.get(currentPlayerIndex);
+		}
 		
 		new java.util.Timer().scheduleAtFixedRate(
 				new java.util.TimerTask() 
@@ -308,15 +320,16 @@ public class Monopoly {
 						}
 						else
 						{
-							if (highestBid != 0)
+							if (highestBid > startingBid)
 							{
 								Player winner = players.get(highestBidderIndex);
-								winner.transfer(bank, highestBid);
+								winner.transfer(recipient, highestBid);
+								if (!(recipient instanceof Bank)) {
+									int i = recipient.getDeeds().indexOf(tileIndex);
+									recipient.getDeeds().remove(i);
+								}
 								winner.getDeeds().add(tileIndex);
 								board.getTiles().get(tileIndex).setOwnerIndex(highestBidderIndex);
-								highestBid = 0;
-								highestBidderIndex = -1;
-								auctionTimeLeft = 10;
 								inAuction = false;
 								if(board.getTiles().get(tileIndex).getType() == TileType.RAILROAD) {
 									int numOwned = winner.getNumRailRoadsOwned();
@@ -583,6 +596,44 @@ public class Monopoly {
 		endTurn();
 
 	}
+	
+	public void sellToPlayers(int propertyIndex, double startingBid) {
+		Tile tile = board.getTiles().get(propertyIndex);
+		
+		if (startingBid < tile.propertyCost / 2) {
+			return;
+		}
+		
+		auctionProperty(propertyIndex, startingBid);
+	}
+	
+	public void sellToBank(int propertyIndex) {
+		
+		if (phase != GamePhase.TURN) {
+			throw new IllegalStateException("Not currently in TURN phase.");
+		}
+		
+		Tile property = board.getTiles().get(propertyIndex);
+		Player currentPlayer = players.get(currentPlayerIndex);
+		int propIndex = currentPlayer.getDeeds().indexOf(property);
+		
+		if (property.hasHotel() || property.numHouses > 0) {
+			return;
+		}
+		
+		if (property.isMortgaged()) {
+			return;
+		}
+		
+		if (!currentPlayer.getDeeds().contains(property)) {
+			return;
+		}
+		
+		bank.transfer(currentPlayer, property.propertyCost / 2);
+		
+		currentPlayer.getDeeds().remove(propIndex);
+		property.setOwnerIndex(-1);
+	}
 
 	public void payRent(int amountOnDice){
 		if(phase != GamePhase.TURN){
@@ -657,7 +708,7 @@ public class Monopoly {
 
 		}
 		
-		endTurn();
+		startManagement();
 	}
 	
 	public void jailChoice(boolean choice) {
@@ -674,12 +725,15 @@ public class Monopoly {
 	}
 	
 	public void endTurn() {
-		//Player needs to be able to sell whatever they can to be able to pay taxes
-		//A new button on ui that says pay tax? and if you cant pay tax and have nothing to left to sell than you lose.
-		//phase = GamePhase.TURN;
-		//False in this case means player is bankrupt
-		//removePlayer(currentPlayer);
-		bankrupt(players.get(currentPlayerIndex));
+		Player currentPlayer = players.get(currentPlayerIndex);
+			if (currentPlayer.getMoney() == 0) {
+			//Player needs to be able to sell whatever they can to be able to pay taxes
+			//A new button on ui that says pay tax? and if you cant pay tax and have nothing to left to sell than you lose.
+			//phase = GamePhase.TURN;
+			//False in this case means player is bankrupt
+			//removePlayer(currentPlayer);
+			bankrupt(currentPlayer);
+		}
 		
 		// Automatically start the next turn
 		if (!rolledDoubles)
@@ -693,7 +747,7 @@ public class Monopoly {
 			}
 		}		
 		
-		rollDice();
+		startTurn();
 	}
 
 	public boolean isRolledDoubles() {
@@ -723,7 +777,7 @@ public class Monopoly {
 				}
 			}
 			
-			passProperty(tileIndex);
+			auctionProperty(tileIndex, 0);
 		}
 	}
 	
