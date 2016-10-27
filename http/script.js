@@ -251,12 +251,15 @@ app.controller('monopolyController', function($scope) {
 	}
 	//
 	
-	//Sell property
-	$scope.sellProperty = function(propertyIndex, recIndex, amount){
-		$scope.getOp('sellproperty?propertyIndex='
-				+ property + '&recIndex=' 
-				+ recipient + '&amount='
-				+ amount );
+	// Sell property
+	$scope.sellToPlayer = function() {
+		$scope.getOp('selltoplayer?propertyIndex='
+				+ $scope.selectedIndex);
+	}
+	
+	$scope.sellToBank = function() {
+		$scope.getOp('selltobank?propertyIndex='
+				+ $scope.selectedIndex);
 	}
 	//
 	
@@ -424,16 +427,6 @@ $.fn.animateRotate = function(start, end, duration, easing, complete) {
     $({deg: start}).animate({deg: end}, args);
   });
 };
-
-function showSellControls($scope){	
-	$('#buy-property-controls').hide();
-	$('#sell-property-controls').show();	
-}
-
-function showBuyControls($scope){	
-	$('#sell-property-controls').hide();
-	$('#buy-property-controls').show();	
-}
 
 var counter = 0;
 

@@ -303,8 +303,12 @@ public class Monopoly {
 				}, 
 				0, 1000 );
 	}
+	
+	public void sellToPlayer(int propertyIndex){
+		passProperty(propertyIndex);		
+	}
 
-	public void sellProperty(int propertyIndex, int recIndex, double amount){
+	public void sellToBank(int propertyIndex){
 
 		if(phase != GamePhase.TURN){
 
@@ -313,7 +317,6 @@ public class Monopoly {
 		}
 
 		Tile property = board.getTiles().get(propertyIndex);
-		Player recipient = players.get(recIndex);
 		Player currentPlayer = players.get(currentPlayerIndex);
 		int propIndex = currentPlayer.getDeeds().indexOf(property);
 
@@ -326,21 +329,15 @@ public class Monopoly {
 		if(property.isMortgaged()){
 			return;
 		}
-
-		if(recipient.equals(bank)){
-			
-			recipient.transfer(currentPlayer, property.propertyCost/2);
-			property.setOwnerIndex(-1);
-			
-		}else{
-			
-			recipient.transfer(currentPlayer, amount);
-			recipient.getDeeds().add(propIndex);
-			
-			
-		}
+		
+		if(!currentPlayer.getDeeds().contains(property))
+			return;
+		
+		bank.transfer(currentPlayer, property.propertyCost/2);
 		
 		currentPlayer.getDeeds().remove(propIndex);
+		
+		phase = GamePhase.BUY_PROPERTY;
 	}
 
 	public void upgradeProperty(){
