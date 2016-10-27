@@ -79,6 +79,15 @@ public class MonopolyController {
     	return game;
     }
     
+    @RequestMapping(value = "/setbid", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly setBid(
+    		@RequestParam String username,
+    		@RequestParam double bid) {
+    	game.setBid(username, bid);
+    	return game;
+    }
+    
     @RequestMapping(value = "/buymortgage", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Monopoly buyMortgage() {

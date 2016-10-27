@@ -215,7 +215,10 @@ app.controller('monopolyController', function($scope) {
 	$scope.passProperty = function(){
 		$scope.getOp('passproperty?tileIndex='+$scope.currentPlayer.token.tileIndex);
 	}
-	//
+	
+	$scope.setbid = function() {
+		$scope.getOp('setbid?username='+$scope.username+'&bid='+$scope.bid);
+	}
 	
 	//Buy Mortage
 	$scope.buyMortgage = function(){
