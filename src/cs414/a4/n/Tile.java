@@ -52,7 +52,6 @@ public class Tile {
 		return ownerIndex;
 	}
 	
-	@JsonIgnore
 	public void setOwnerIndex(int index){
 		ownerIndex = index;
 	}

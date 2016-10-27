@@ -48,6 +48,8 @@ function poll($scope) {
 	});
 }
 
+var needToDimTiles = false;
+
 function update($scope, json) {
 	$scope.state = json;
 	$scope.$apply();
@@ -57,7 +59,28 @@ function update($scope, json) {
 	}
 	
 	$scope.currentPlayer = $scope.state.players[$scope.state.currentPlayerIndex];
-	$scope.currentTile = $scope.state.board.tiles[$scope.currentPlayer.token.tileIndex];
+
+	if ($scope.state.phase != "TURN") {
+		$scope.currentTile = $scope.state.board.tiles[$scope.currentPlayer.token.tileIndex];
+	}
+	
+	$scope.state.board.tiles.forEach(function(tile, i, arr) {
+			var $cell = $('#' + i);
+			if ($scope.state.phase == "TURN" && tile.ownerIndex != $scope.state.currentPlayerIndex) {
+				$cell.addClass('covered');
+			}
+			else {
+				$cell.removeClass('covered');
+			}
+		});
+	
+	if (($scope.state.phase == "TURN" || $scope.state.phase == "BUY_PROPERTY") && $scope.currentPlayer.name != $scope.username) {
+		$('#phase-ui').css('pointer-events','none');
+		$('#phase-ui').css('opacity','0.5');
+	} else {
+		$('#phase-ui').css('pointer-events','all');
+		$('#phase-ui').css('opacity','1.0');
+	}
 }
 
 var app = angular.module('monopolyApp', []);
@@ -114,18 +137,44 @@ app.controller('monopolyController', function($scope) {
 		}
 	}
 	
-	// Used a short name so the html isn't as bad
-	$scope.card = function($event) {
-		if ($scope.cardHover == true) {
+	$scope.selectCard = function() {
+		if ($scope.state.phase != "TURN") {
 			return;
 		}
 		
-		var isTile = $.isNumeric($event.target.id) ^ ($event.type == 'mouseleave');
+		// Unselect last selected item
+		$('.selected').removeClass('selected');
+		if ($scope.hoveredCell != null) {
+			// Select hovered cell
+			$scope.hoveredCell.addClass('selected');
+			
+			$scope.cardSelected = true;
+			$scope.selectedIndex = $scope.hoveredIndex;
+			$scope.currentTile = $scope.state.board.tiles[$scope.selectedIndex];
+		}
+		else {
+			$scope.cardSelected = false;
+			$scope.selectedIndex = -1;
+			$scope.currentTile = null;
+		}
+	}
+	
+	// Used a short name so the html isn't as bad
+	$scope.card = function($event) {
+		if ($scope.cardHover) {
+			return;
+		}
+		
+		var isTile = $.isNumeric($event.target.id) && $event.type != 'mouseleave';
 		if (isTile) {
 			var c = $event.target.id;
+			$scope.hoveredCell = $($event.target);
+			$scope.hoveredIndex = c;
 			$scope.selected = $scope.state.board.tiles[c];
 		}
 		else {
+			$scope.hoveredCell = null;
+			$scope.hoveredIndex = -1;
 			$scope.selected = null;
 			return;
 		}
@@ -250,6 +299,15 @@ app.controller('monopolyController', function($scope) {
 	}
 	//
 	
+	$scope.endTurn = function(){
+		$scope.getOp('endturn');
+	}
+	
+	//End game
+	$scope.endGame = function(){
+		$scope.getOp('endgame');
+	}
+	
 	$scope.payRent = function(){
 		$scope.getOp('payrent');
 	}
@@ -298,9 +356,10 @@ app.controller('monopolyController', function($scope) {
 		return style;
 	}
 	
-	$scope.isSelected = function() {
+	$scope.isHovered = function() {
 		return $scope.selected != null;
 	}
+	
 	$scope.isProperty = function(tile) {
 		return tile != null && tile.type == 'PROPERTY';
 	}
