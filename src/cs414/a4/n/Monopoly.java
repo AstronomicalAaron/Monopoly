@@ -290,6 +290,9 @@ public class Monopoly {
 		if(currentTile.isRailRoad())
 			currentPlayer.setNumRailRoadsOwned(currentPlayer.getNumRailRoadsOwned() + 1);
 		
+		if(currentTile.isUtility())
+			currentPlayer.setUtilitiesOwned(currentPlayer.getNumUtilitiesOwned() + 1);
+		
 		startManagement();
 	}
 	
