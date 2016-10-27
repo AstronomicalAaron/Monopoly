@@ -331,10 +331,11 @@ More pastel-y versions of the monopoly colors -->.brown {
 
 #buy-property-controls button {
 	display: block;
-	width: 120px;
+	width: 160px;
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
+	font-weight: bold;
 }
 
 #players {
