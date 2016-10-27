@@ -82,13 +82,13 @@ public class TileTest {
 
 	@Test
 	public void testHasHotel() {
-		assertFalse(meditTile.hasHotel());
+		assertFalse(meditTile.getHasHotel());
 	}
 
 	@Test
 	public void testSetHotel() {
 		meditTile.setHotel(true);
-		assert(meditTile.hasHotel());
+		assert(meditTile.getHasHotel());
 	}
 
 }

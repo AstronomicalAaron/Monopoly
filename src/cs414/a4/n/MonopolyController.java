@@ -111,15 +111,17 @@ public class MonopolyController {
     
     @RequestMapping(value = "/upgradeprop", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Monopoly upgradeProperty() {
-    	game.upgradeProperty();
+    public Monopoly upgradeProperty(
+    		@RequestParam int index) {
+    	game.upgradeProperty(index);
     	return game;
     }
     
     @RequestMapping(value = "/degradeprop", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Monopoly degradeProperty() {
-    	game.degradeProperty();
+    public Monopoly degradeProperty(
+    		@RequestParam int index) {
+    	game.degradeProperty(index);
     	return game;
     }
     

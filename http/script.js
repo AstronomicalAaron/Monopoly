@@ -282,13 +282,13 @@ app.controller('monopolyController', function($scope) {
 	
 	//Upgrade/improve property
 	$scope.upgradeProp = function(){
-		$scope.getOp('upgradeprop');
+		$scope.getOp('upgradeprop?index=' + $scope.selectedIndex);
 	}
 	//
 	
 	//Degrade property
 	$scope.degradeProp = function(){
-		$scope.getOp('degradeprop');
+		$scope.getOp('degradeprop?index=' + $scope.selectedIndex);
 	}
 	//
 	

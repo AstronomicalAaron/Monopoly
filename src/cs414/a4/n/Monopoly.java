@@ -221,7 +221,9 @@ public class Monopoly {
 		case UTILITY:
 		case RAILROAD:
 			if (currentTile.hasOwner()) {
-				payRent(amountOnDice);
+				if (currentTile.getOwnerIndex() != currentPlayerIndex) {
+					payRent(amountOnDice);
+				}
 			}
 			else {
 				phase = GamePhase.BUY_PROPERTY;
@@ -269,23 +271,9 @@ public class Monopoly {
 
 		}
 
-		//Cannot buy a mortgage property
-		if(currentTile.isMortgaged()){
-			endTurn();
-			return;
-		}
-
-		if(currentTile.hasOwner()){
-
-			recipient = players.get(currentTile.getOwnerIndex());
-			currentPlayer.transfer(recipient, agreedAmount);
-			currentPlayer.getDeeds().add(currentPlayer.getToken().getTileIndex());
-
-		}else{
-			currentPlayer.transfer(bank, currentTile.propertyCost);
-			currentPlayer.getDeeds().add(currentPlayer.getToken().getTileIndex());
-			currentTile.setOwnerIndex(currentPlayerIndex);
-		}
+		currentPlayer.transfer(bank, currentTile.propertyCost);
+		currentPlayer.getDeeds().add(currentPlayer.getToken().getTileIndex());
+		currentTile.setOwnerIndex(currentPlayerIndex);
 
 		if(currentTile.isRailRoad())
 			currentPlayer.setNumRailRoadsOwned(currentPlayer.getNumRailRoadsOwned() + 1);
@@ -362,7 +350,7 @@ public class Monopoly {
 		int propIndex = currentPlayer.getDeeds().indexOf(property);
 
 		//Cannot sell a property with houses/hotels on it.
-		if(property.hasHotel() || property.numHouses > 0){
+		if(property.getHasHotel() || property.numHouses > 0){
 			return;
 		}
 
@@ -396,7 +384,7 @@ public class Monopoly {
 		currentPlayer.getDeeds().remove(propIndex);
 	}
 
-	public void upgradeProperty(){
+	public void upgradeProperty(int index){
 		//This method will add houses and hotels depending on some cases
 		if(phase != GamePhase.TURN){
 
@@ -406,11 +394,11 @@ public class Monopoly {
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 
-		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
+		Tile tile = board.getTiles().get(index);
 
-		String curTileColor = currentTile.color;
+		String curTileColor = tile.color;
 
-		if(!currentTile.isProperty()){
+		if(!tile.isProperty()){
 			return;
 		}
 
@@ -428,40 +416,38 @@ public class Monopoly {
 
 		}
 
+		properties.remove(tile);
+		
 		//Check to see if player owns all the properties in same color group
 		for(Tile temp : properties){
 
-			if(!currentPlayer.getDeeds().contains(temp)){
+			if(!currentPlayer.getDeeds().contains(board.getTiles().indexOf(temp))){
 				return; 
 			}
 
 		}
 
-		properties.remove(currentTile);
-
 		//Can't add additional houses until houses are on other properties
 		for(Tile temp : properties){
 
-			if(currentTile.numHouses > temp.numHouses){
+			if(tile.numHouses > temp.numHouses){
 				return;				
 			}
 
 		}
 
-		if(currentTile.numHouses == 4){
+		if(tile.numHouses == 4){
 
-			currentPlayer.transfer(bank, currentTile.hotelCost);
-			currentTile.setHotel(true);
+			currentPlayer.transfer(bank, tile.hotelCost);
+			tile.setHotel(true);
 
 		}else{	
-			currentPlayer.transfer(bank, currentTile.houseCost);
-			currentTile.numHouses++;
+			currentPlayer.transfer(bank, tile.houseCost);
+			tile.numHouses++;
 		}
-
-
 	}
 
-	public void degradeProperty(){
+	public void degradeProperty(int index){
 
 		//This method will remove houses and hotels depending on some cases
 		if(phase != GamePhase.TURN){
@@ -472,7 +458,7 @@ public class Monopoly {
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 
-		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
+		Tile currentTile = board.getTiles().get(index);
 
 		String curTileColor = currentTile.color;
 
@@ -509,7 +495,7 @@ public class Monopoly {
 
 		}
 
-		if(currentTile.hasHotel()){
+		if(currentTile.getHasHotel()){
 
 			bank.transfer(currentPlayer, currentTile.hotelCost/2);
 			currentTile.setHotel(false);
@@ -536,7 +522,7 @@ public class Monopoly {
 		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
 
 		//Can't lift a mortgage on a upgraded property
-		if(currentTile.hasHotel() || currentTile.numHouses > 0){
+		if(currentTile.getHasHotel() || currentTile.numHouses > 0){
 			return;
 		}
 
@@ -620,7 +606,7 @@ public class Monopoly {
 		Player currentPlayer = players.get(currentPlayerIndex);
 		int propIndex = currentPlayer.getDeeds().indexOf(property);
 		
-		if (property.hasHotel() || property.numHouses > 0) {
+		if (property.getHasHotel() || property.numHouses > 0) {
 			return;
 		}
 		
@@ -639,12 +625,7 @@ public class Monopoly {
 	}
 
 	public void payRent(int amountOnDice){
-		if(phase != GamePhase.TURN){
-
-			throw new IllegalStateException("Cannot pay rent, not currently in TURN phase.");
-
-		}
-
+		
 		Player currentPlayer = players.get(currentPlayerIndex);
 		int tileIndex = currentPlayer.getToken().getTileIndex();
 		Tile currentTile = board.getTiles().get(tileIndex);
@@ -666,7 +647,7 @@ public class Monopoly {
 				currentPlayer.transfer(propOwner, currentTile.with3Houses);
 			else if(currentTile.numHouses == 4)
 				currentPlayer.transfer(propOwner, currentTile.with4Houses);
-			else if(currentTile.hasHotel())
+			else if(currentTile.getHasHotel())
 				currentPlayer.transfer(propOwner, currentTile.withHotel);
 			else{
 				try {

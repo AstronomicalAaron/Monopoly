@@ -333,6 +333,15 @@ More pastel-y versions of the monopoly colors -->.brown {
 	padding-top: 60px;
 }
 
+.property-controls span {
+	display: block;
+	width: 160px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+
 .property-controls button {
 	display: block;
 	width: 160px;

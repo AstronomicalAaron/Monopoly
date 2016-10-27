@@ -56,6 +56,10 @@ public class Tile {
 		ownerIndex = index;
 	}
 	
+	public int getNumHouses() {
+		return numHouses;
+	}
+	
 	@JsonIgnore
 	public boolean isProperty(){
 		return type.equals(TileType.PROPERTY);
@@ -76,8 +80,7 @@ public class Tile {
 		return ownerIndex != -1;
 	}
 	
-	@JsonIgnore
-	public boolean hasHotel(){
+	public boolean getHasHotel(){
 		return hasHotel;		
 	}
 	
