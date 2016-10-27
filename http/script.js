@@ -73,6 +73,14 @@ function update($scope, json) {
 				$cell.removeClass('covered');
 			}
 		});
+	
+	if (($scope.state.phase == "TURN" || $scope.state.phase == "BUY_PROPERTY") && $scope.currentPlayer.name != $scope.username) {
+		$('#phase-ui').css('pointer-events','none');
+		$('#phase-ui').css('opacity','0.5');
+	} else {
+		$('#phase-ui').css('pointer-events','all');
+		$('#phase-ui').css('opacity','1.0');
+	}
 }
 
 var app = angular.module('monopolyApp', []);
@@ -256,7 +264,10 @@ app.controller('monopolyController', function($scope) {
 	$scope.passProperty = function(){
 		$scope.getOp('passproperty?tileIndex='+$scope.currentPlayer.token.tileIndex);
 	}
-	//
+	
+	$scope.setbid = function() {
+		$scope.getOp('setbid?username='+$scope.username+'&bid='+$scope.bid);
+	}
 	
 	//Buy Mortage
 	$scope.buyMortgage = function(){
