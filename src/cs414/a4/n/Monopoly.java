@@ -14,6 +14,12 @@ public class Monopoly {
 	private ArrayList<Player> players;
 
 	private int currentPlayerIndex;
+	
+	private double highestBid = 0;
+	
+	private int highestBidderIndex = -1;
+	
+	private int auctionTimeLeft = 10;
 
 	private boolean rolledDoubles = false;
 
@@ -30,6 +36,18 @@ public class Monopoly {
 	public Board getBoard() {
 		return board;
 	}
+	
+	public double getHighestBid() {
+		return highestBid;
+	}
+	
+	public double getAuctionTimeLeft() {
+		return auctionTimeLeft;
+	}
+	
+	public int getHighestBidderIndex() {
+		return highestBidderIndex;
+	}
 
 	public Bank getBank() {
 		return bank;
@@ -41,6 +59,17 @@ public class Monopoly {
 
 	public int getCurrentPlayerIndex() {
 		return currentPlayerIndex;
+	}
+	
+	public void setBid(int playerIndex, double bid)
+	{
+		players.get(playerIndex).setBid(bid);
+		if(bid > highestBid)
+		{
+			auctionTimeLeft = 10;
+			highestBid = bid;
+			highestBidderIndex = playerIndex;
+		}
 	}
 
 	public void join(String name, TokenType token) {
@@ -193,6 +222,38 @@ public class Monopoly {
 		
 		endTurn();
 		
+	}
+	
+	public void passProperty(int tileIndex){
+		phase = GamePhase.AUCTION;
+		
+		new java.util.Timer().scheduleAtFixedRate(
+				new java.util.TimerTask() 
+				{
+					@Override
+					public void run() {
+						if(auctionTimeLeft > 0)
+						{
+							auctionTimeLeft--;
+						}
+						else
+						{
+							if (highestBid != 0)
+							{
+								Player winner = players.get(highestBidderIndex);
+								winner.transfer(bank, highestBid);
+								winner.getDeeds().add(tileIndex);
+								board.getTiles().get(tileIndex).setOwnerIndex(highestBidderIndex);
+								highestBid = 0;
+								highestBidderIndex = -1;
+								auctionTimeLeft = 10;
+							}
+							phase = GamePhase.TURN;
+							this.cancel();
+						}
+					}
+				}, 
+				0, 1000 );
 	}
 
 	public void sellProperty(int propertyIndex, int recIndex, double amount){

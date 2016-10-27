@@ -4,6 +4,8 @@ public class Player extends Owner {
 	
 	private Token token;
 	
+	private double bid = -1;
+	
 	public Player(String name, TokenType tokenType) {
 		super(name, 1500);
 		
@@ -16,5 +18,13 @@ public class Player extends Owner {
 	
 	public void setToken(Token token){
 		this.token = token;		
+	}
+	
+	public double getBid() {
+		return bid;
+	}
+	
+	public void setBid(double bid){
+		this.bid = bid;		
 	}
 }
