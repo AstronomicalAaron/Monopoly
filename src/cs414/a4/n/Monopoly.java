@@ -1,5 +1,6 @@
 package cs414.a4.n;
 
+import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -163,6 +164,7 @@ public class Monopoly {
 		dieOneValue = board.getDice()[0].roll();
 		dieTwoValue = board.getDice()[1].roll();
 		rolledDoubles = dieOneValue == dieTwoValue;
+		int amountOnDice = dieOneValue + dieTwoValue;
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 		int previousTileIndex = currentPlayer.getToken().getTileIndex();
@@ -190,7 +192,7 @@ public class Monopoly {
 			new java.util.TimerTask() {
 				@Override
 				public void run() {
-					endRoll(currentPlayer, landedTile);
+					endRoll(currentPlayer, landedTile, amountOnDice);
 				}
 			}, 
 			3000 
@@ -201,7 +203,7 @@ public class Monopoly {
 		}
 	}
 
-	private void endRoll(Player currentPlayer, Tile currentTile) {
+	private void endRoll(Player currentPlayer, Tile currentTile, int amountOnDice) {
 
 		if(currentTile.getType() == TileType.TAXES) {
 			//Player needs to pay taxes.
@@ -221,7 +223,7 @@ public class Monopoly {
 		}
 		else if(currentTile.hasOwner()) {
 			startTurn();
-			payRent();
+			payRent(amountOnDice);
 		} else if(currentTile.propertyCost !=0) {
 			phase = GamePhase.BUY_PROPERTY;
 		} else {
@@ -306,6 +308,13 @@ public class Monopoly {
 								highestBidderIndex = -1;
 								auctionTimeLeft = 10;
 								inAuction = false;
+								if(board.getTiles().get(tileIndex).getType() == TileType.RAILROAD) {
+									int numOwned = winner.getNumRailRoadsOwned();
+									winner.setNumRailRoadsOwned(numOwned + 1);
+								} else if (board.getTiles().get(tileIndex).getType() == TileType.UTILITY) {
+									int numOwned = winner.getNumUtilitiesOwned();
+									winner.setUtilitiesOwned(numOwned + 1);
+								}
 							}
 							startTurn();
 							this.cancel();
@@ -318,9 +327,7 @@ public class Monopoly {
 	public void sellProperty(int propertyIndex, int recIndex, double amount){
 
 		if(phase != GamePhase.TURN){
-
 			throw new IllegalStateException("Not currently in TURN phase.");
-
 		}
 
 		Tile property = board.getTiles().get(propertyIndex);
@@ -339,16 +346,25 @@ public class Monopoly {
 		}
 
 		if(recipient.equals(bank)){
-			
 			recipient.transfer(currentPlayer, property.propertyCost/2);
 			property.setOwnerIndex(-1);
-			
 		}else{
-			
 			recipient.transfer(currentPlayer, amount);
 			recipient.getDeeds().add(propIndex);
+		}
+		
+		if(board.getTiles().get(propIndex).getType() == TileType.RAILROAD) {
+			int numOwned = currentPlayer.getNumRailRoadsOwned();
+			currentPlayer.setNumRailRoadsOwned(numOwned - 1);
 			
+			int numOwnedRecipient = recipient.getNumRailRoadsOwned();
+			recipient.setNumRailRoadsOwned(numOwnedRecipient + 1);
+		} else if (board.getTiles().get(propIndex).getType() == TileType.UTILITY) {
+			int numOwned = currentPlayer.getNumUtilitiesOwned();
+			currentPlayer.setUtilitiesOwned(numOwned - 1);
 			
+			int numOwnedRecipient = recipient.getNumUtilitiesOwned();
+			recipient.setUtilitiesOwned(numOwnedRecipient + 1);
 		}
 		
 		currentPlayer.getDeeds().remove(propIndex);
@@ -557,7 +573,7 @@ public class Monopoly {
 
 	}
 
-	public void payRent(){
+	public void payRent(int amountOnDice){
 		if(phase != GamePhase.TURN){
 
 			throw new IllegalStateException("Cannot pay rent, not currently in TURN phase.");
@@ -612,7 +628,20 @@ public class Monopoly {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}
+			if(currentTile.equals(TileType.UTILITY)){
 
+				if(propOwner.getNumUtilitiesOwned() == 1) {			
+					currentPlayer.transfer(propOwner, (double)4*amountOnDice);
+				} else if (propOwner.getNumUtilitiesOwned() == 2) {			
+					currentPlayer.transfer(propOwner, (double)10*amountOnDice);
+				} else {
+					try {
+						throw new Exception("Cannot pay rent, no such rent option available.");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 			}
 
 		}

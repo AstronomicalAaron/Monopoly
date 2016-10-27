@@ -116,13 +116,6 @@ public class MonopolyController {
     	return game;
     }
     
-    @RequestMapping(value = "/payrent", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public Monopoly payRent() {
-    	game.payRent();
-    	return game;
-    }
-    
     @RequestMapping(value = "/endgame", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Monopoly endGame() {
