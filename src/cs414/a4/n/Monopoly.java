@@ -12,6 +12,8 @@ public class Monopoly {
 	private Bank bank;
 
 	private ArrayList<Player> players;
+	
+	private int numberBankrupt = 0;
 
 	private int currentPlayerIndex;
 	
@@ -20,6 +22,8 @@ public class Monopoly {
 	private int highestBidderIndex = -1;
 	
 	private int auctionTimeLeft = 10;
+	
+	private boolean inAuction = false;
 
 	private boolean rolledDoubles = false;
 
@@ -70,6 +74,10 @@ public class Monopoly {
 				playerIndex = players.indexOf(player);
 				break;
 			}
+		}
+		
+		if (playerIndex == -1 || players.get(playerIndex).getMoney() < bid){
+			return;
 		}
 		
 		players.get(playerIndex).setBid(bid);
@@ -171,6 +179,7 @@ public class Monopoly {
 								//phase = GamePhase.TURN;
 								//False in this case means player is bankrupt
 								//removePlayer(currentPlayer);
+								bankrupt(currentPlayer);
 								endTurn();
 							} else {
 								endTurn();
@@ -236,6 +245,7 @@ public class Monopoly {
 	}
 	
 	public void passProperty(int tileIndex){
+		inAuction = true;
 		phase = GamePhase.AUCTION;
 		
 		new java.util.Timer().scheduleAtFixedRate(
@@ -259,6 +269,7 @@ public class Monopoly {
 								highestBidderIndex = -1;
 								auctionTimeLeft = 10;
 							}
+							inAuction = false;
 							phase = GamePhase.TURN;
 							this.cancel();
 						}
@@ -543,7 +554,6 @@ public class Monopoly {
 				try {
 					throw new Exception("Cannot pay rent, no such rent option available.");
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -563,7 +573,6 @@ public class Monopoly {
 				try {
 					throw new Exception("Cannot pay rent, no such rent option available.");
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -576,6 +585,13 @@ public class Monopoly {
 	public void endTurn() {
 		// Automatically start the next player's roll
 		currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+		
+		//If player is bankrupt, increment to the next player
+		while(players.get(currentPlayerIndex).isBankrupt())
+		{
+			currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+		}
+		
 		rollDice();
 	}
 
@@ -587,13 +603,29 @@ public class Monopoly {
 		this.rolledDoubles = rolledDoubles;
 	}
 
-	public void removePlayer(Player currentPlayer) {
-		players.remove(currentPlayer);
-
-		if(players.size() == 1) {
+	public void bankrupt(Player patheticLoser) {
+		patheticLoser.setBankrupt(true);
+		numberBankrupt++;
+		
+		if(numberBankrupt == players.size() - 1){
 			endGame();
 		}
+		
+		for (int tileIndex : patheticLoser.getDeeds())
+		{
+			while(inAuction)
+			{
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			passProperty(tileIndex);
+		}
 	}
+	
 
 	public void endGame() {
 		phase = GamePhase.WAITING;
