@@ -363,6 +363,16 @@ $.fn.animateRotate = function(start, end, duration, easing, complete) {
   });
 };
 
+function showSellControls($scope){	
+	$('#buy-property-controls').hide();
+	$('#sell-property-controls').show();	
+}
+
+function showBuyControls($scope){	
+	$('#sell-property-controls').hide();
+	$('#buy-property-controls').show();	
+}
+
 var counter = 0;
 
 function rolldice($scope) {

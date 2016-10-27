@@ -302,10 +302,16 @@
 												</div>
 											</div>
 											<div id='buy-property-controls'>
-												<button class='green' ng-click='buyProperty()'>Buy</button>
-												<button ng-click='buyMortgage()'>Mortgage</button>
-												<button class='red' ng-click='auction()'>Pass</button>
-												<button class='blue' ng-click='sellProperty()'>Sell/Upgrade Property</button>
+												<button class='green'   ng-click='buyProperty()'>Buy</button>
+												<button                 ng-click='buyMortgage()'>Mortgage</button>
+												<button class='red'     ng-click='passProperty()'>Pass</button>
+												<button class='blue'    onclick='showSellControls()'>Sell/Upgrade</button>
+											</div>
+											<div id='sell-property-controls' hidden>
+												<button class='green'   ng-click='buyProperty()'>Add House</button>
+												<button class ='yellow' ng-click='buyMortgage()'>Remove House</button>
+												<button class='blue'    ng-click='sellProperty()'>Sell Property</button>
+												<button class='red'     onclick='showBuyControls()'>Cancel</button>
 											</div>
 										</div>
 									</div>
