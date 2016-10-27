@@ -1,6 +1,7 @@
 [
 	{
 		name:'GO',
+		type:'GO',
 		color:'white'
 	},{
 		name:'MEDITERRANEAN AVENUE',
@@ -18,6 +19,7 @@
 		propertyCost:  60
 	},{
 		name:'COMMUNITY CHEST',
+		type:'COMMUNITYCHEST',
 		color:'white'
 	},{
 		name:'BALTIC AVENUE',
@@ -61,6 +63,7 @@
 		propertyCost: 100
 	},{
 		name:'CHANCE',
+		type:'CHANCE',
 		color:'white'
 	},{
 		name:'VERMONT AVENUE',
@@ -92,6 +95,7 @@
 		propertyCost: 120
 	},{
 		name:'JAIL',
+		type:'JAIL',
 		color:'white'
 	},{
 		name:'ST CHARLES PLACE',
@@ -162,6 +166,7 @@
 		propertyCost: 180
 	},{
 		name:'COMMUNITY CHEST',
+		type:'COMMUNITYCHEST',
 		color:'white'
 	},{
 		name:'TENNESSEE AVENUE',
@@ -193,6 +198,7 @@
 		propertyCost: 200
 	},{
 		name:'FREE PARKING',
+		type:'FREEPARKING',
 		color:'white'
 	},{
 		name:'KENTUCKY AVENUE',
@@ -210,6 +216,7 @@
 		propertyCost: 220
 	},{
 		name:'CHANCE',
+		type:'CHANCE',
 		color:'white'
 	},{
 		name:'INDIANA AVENUE',
@@ -295,6 +302,7 @@
 		propertyCost: 280
 	},{
 		name:'GO TO JAIL',
+		type:'GOTOJAIL',
 		color:'white'
 	},{
 		name:'PACIFIC AVENUE',
@@ -326,6 +334,7 @@
 		propertyCost: 300
 	},{
 		name:'COMMUNITY CHEST',
+		type:'COMMUNITYCHEST',
 		color:'white'
 	},{
 		name:'PENNSYLVANIA AVENUE',
@@ -350,6 +359,7 @@
 		propertyCost:  200
 	},{
 		name:'CHANCE',
+		type:'CHANCE',
 		color:'white'
 	},{
 		name:'PARK PLACE',
