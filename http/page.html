@@ -302,16 +302,21 @@
 													<!-- TODO -->
 												</div>
 											</div>
-											<div id='buy-property-controls' ng-show='state.phase=="BUY_PROPERTY"'>
+											<div class='property-controls' ng-show='state.phase=="BUY_PROPERTY"'>
 												<button class='green'   ng-click='buyProperty()'>Buy</button>
 												<button                 ng-click='buyMortgage()'>Mortgage</button>
 												<button class='red'     ng-click='passProperty()'>Pass</button>
 											</div>
-											<div id='sell-property-controls' ng-show='state.phase=="TURN"'>
+											<div class='property-controls' ng-show='state.phase=="TURN" && !selling'>
 												<button class='green'   ng-click='upgradeProperty()'>Add House</button>
 												<button class='yellow'  ng-click='degradeProperty()'>Remove House</button>
-												<button class='blue'    ng-click='sellProperty()'>Sell Property</button>
+												<button class='blue'    ng-click='selling=true'>Sell Property</button>
 												<img id='end-turn' ng-click='endTurn()' src='endturn.png' />
+											</div>
+											<div class='property-controls' ng-show='state.phase=="TURN" && selling'>
+												<button class='green'	ng-click='sellToPlayer()'>Sell to Player</button>
+												<button class='yellow'	ng-click='sellToBank()'>Sell to Bank</button>
+												<button class='red'     ng-click='selling=false'>Cancel</button>
 											</div>
 										</div>
 										<div id='auction' ng-show='state.phase=="AUCTION"'>
