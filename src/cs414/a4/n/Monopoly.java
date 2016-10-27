@@ -151,6 +151,7 @@ public class Monopoly {
 				new java.util.TimerTask() {
 					@Override
 					public void run() {
+						String tileName = currentTile.getName();
 						if(currentTile.getType() == TileType.TAXES) {
 							//Player needs to pay taxes.
 							//Player can possibly go bankrupt here.
@@ -161,13 +162,14 @@ public class Monopoly {
 								//phase = GamePhase.TURN;
 								//False in this case means player is bankrupt
 								//removePlayer(currentPlayer);
-								
-							}else{
+								endTurn();
+							} else {
 								endTurn();
 							}
-						} else if(currentTile.propertyCost !=0 && !currentTile.hasOwner())
-						{
+						} else if(currentTile.propertyCost !=0 && !currentTile.hasOwner()) {
 							phase = GamePhase.BUY_PROPERTY;
+						} else if(tileName.equals("JAIL") || tileName.equals("GO") || tileName.equals("CHANCE") || tileName.equals("COMMUNITY CHEST") ||tileName.equals("FREE PARKING") || tileName.equals("GO TO JAIL")) {
+							endTurn();
 						} else {
 							phase = GamePhase.TURN;
 						}
