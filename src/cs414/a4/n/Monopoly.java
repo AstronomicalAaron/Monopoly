@@ -631,7 +631,7 @@ public class Monopoly {
 			return;
 		}
 
-		if(currentTile.equals(TileType.PROPERTY)){
+		if(currentTile.getType() == TileType.PROPERTY){
 			if(currentTile.numHouses == 0)
 				currentPlayer.transfer(propOwner, currentTile.rent);
 			else if(currentTile.numHouses == 1)
@@ -653,7 +653,7 @@ public class Monopoly {
 			}
 		}
 
-		if(currentTile.equals(TileType.RAILROAD)){
+		if(currentTile.getType() == TileType.RAILROAD){
 
 			if(propOwner.getNumRailRoadsOwned() == 1)				
 				currentPlayer.transfer(propOwner, currentTile.rent);
@@ -670,7 +670,7 @@ public class Monopoly {
 					e.printStackTrace();
 				}
 			}
-			if(currentTile.equals(TileType.UTILITY)){
+			if(currentTile.getType() == TileType.UTILITY){
 
 				if(propOwner.getNumUtilitiesOwned() == 1) {			
 					currentPlayer.transfer(propOwner, (double)4*amountOnDice);
