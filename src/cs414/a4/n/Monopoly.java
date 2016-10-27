@@ -195,7 +195,7 @@ public class Monopoly {
 		
 	}
 
-	public void sellProperty(Tile property, Owner recipient, double amount){
+	public void sellProperty(int propertyIndex, int recIndex, double amount){
 
 		if(phase != GamePhase.TURN){
 
@@ -203,6 +203,8 @@ public class Monopoly {
 
 		}
 
+		Tile property = board.getTiles().get(propertyIndex);
+		Player recipient = players.get(recIndex);
 		Player currentPlayer = players.get(currentPlayerIndex);
 		int propIndex = currentPlayer.getDeeds().indexOf(property);
 
@@ -248,7 +250,6 @@ public class Monopoly {
 		String curTileColor = currentTile.color;
 
 		if(!currentTile.isProperty()){
-			endTurn();
 			return;
 		}
 
@@ -270,7 +271,6 @@ public class Monopoly {
 		for(Tile temp : properties){
 
 			if(!currentPlayer.getDeeds().contains(temp)){
-				endTurn();
 				return; 
 			}
 
@@ -282,7 +282,6 @@ public class Monopoly {
 		for(Tile temp : properties){
 
 			if(currentTile.numHouses > temp.numHouses){
-				endTurn();
 				return;				
 			}
 
@@ -334,7 +333,6 @@ public class Monopoly {
 
 		//If there's no houses, you can't degrade property, duh!
 		if(currentTile.numHouses == 0){
-			endTurn(); 
 			return;
 		}
 
@@ -345,7 +343,6 @@ public class Monopoly {
 		for(Tile temp : properties){
 
 			if(currentTile.numHouses < temp.numHouses){
-				endTurn();
 				return;
 			}
 
@@ -379,7 +376,7 @@ public class Monopoly {
 
 		//Can't lift a mortgage on a upgraded property
 		if(currentTile.hasHotel() || currentTile.numHouses > 0){
-			endTurn();
+			return;
 		}
 
 		//Want to check if the player actually owns the tile and has a mortgage on it
