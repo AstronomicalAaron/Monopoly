@@ -171,7 +171,7 @@ More pastel-y versions of the monopoly colors -->.brown {
 	top: 15px;
 	margin: 0;
 	padding: 0;
-	z-index: 10;
+	z-index: 100;
 	background: none;
 	border: none;
 }
@@ -190,6 +190,8 @@ More pastel-y versions of the monopoly colors -->.brown {
 	text-shadow: #ddd;
 	background: rgba(0, 0, 0, 0.8);
 	box-shadow: 2px 2px 8px #000;
+	
+	z-index: 50;
 }
 
 #menu-header {
@@ -519,16 +521,20 @@ More pastel-y versions of the monopoly colors -->.brown {
 	border-collapse: collapse;
 }
 
-#board-grid>tbody>tr>td:not(#ui) {
-	opacity: 0.5;
+.selected {
+	background: url('selected.png') !important;
+	background-size: 100% 100% !important;
 }
 
+/* Selecting grid cells */
+#board-grid>tbody>tr>td:not(#ui):not(.owned) {
+	opacity: 0.75;
+	background: black;
+	pointer-events: none;
+}
 #board-grid>tbody>tr>td:not(#ui):hover {
+	opacity: 0.5;
 	background: #466;
-}
-
-#board-grid>tbody>tr>td.selected {
-	
 }
 
 @font-face {
@@ -566,4 +572,9 @@ More pastel-y versions of the monopoly colors -->.brown {
 	-moz-box-shadow: inset 0 0 10px #000000;
 	-webkit-box-shadow: inset 0 0 10px #000000;
 	box-shadow: inset 0 0 10px #000000;
+}
+
+#waiting {
+	text-align: center;
+	padding-top: 75px;
 }

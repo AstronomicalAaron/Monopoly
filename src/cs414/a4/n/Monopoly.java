@@ -14,7 +14,7 @@ public class Monopoly {
 	private ArrayList<Player> players;
 
 	private int currentPlayerIndex;
-
+	
 	private boolean rolledDoubles = false;
 
 	public Monopoly() {
@@ -68,8 +68,15 @@ public class Monopoly {
 		}
 
 		// TEMP
+		int index = 0;
 		while (players.size() < 2) {
-			players.add(new Player("Test", TokenType.SHOE));
+			Player p = new Player("Test", TokenType.SHOE);
+			players.add(p);
+			Random rand = new Random();
+			for (int i = 0; i < 3; ++i) {
+				board.getTiles().get(rand.nextInt(40)).setOwnerIndex(index);
+			}
+			++index;
 		}
 		//
 
@@ -109,7 +116,7 @@ public class Monopoly {
 		
 		dieOneValue = board.getDice()[0].roll();
 		dieTwoValue = board.getDice()[1].roll();
-		setRolledDoubles(dieOneValue == dieTwoValue);	
+		rolledDoubles = dieOneValue == dieTwoValue;
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 		int previousTileIndex = currentPlayer.getToken().getTileIndex();
@@ -122,26 +129,7 @@ public class Monopoly {
 				new java.util.TimerTask() {
 					@Override
 					public void run() {
-						if(currentTile.getType() == TileType.TAXES) {
-							//Player needs to pay taxes.
-							//Player can possibly go bankrupt here.
-							if(!currentPlayer.transfer(bank, currentTile.propertyCost)) {
-
-								//Player needs to be able to sell whatever they can to be able to pay taxes
-								//A new button on ui that says pay tax? and if you cant pay tax and have nothing to left to sell than you lose.
-								//phase = GamePhase.TURN;
-								//False in this case means player is bankrupt
-								//removePlayer(currentPlayer);
-								
-							}else{
-								endTurn();
-							}
-						} else if(currentTile.propertyCost !=0 && !currentTile.hasOwner())
-						{
-							phase = GamePhase.BUY_PROPERTY;
-						} else {
-							phase = GamePhase.TURN;
-						}
+						endRoll(currentPlayer, currentTile);
 					}
 				}, 
 				3000 
@@ -152,7 +140,31 @@ public class Monopoly {
 		}
 	}
 
-
+	private void endRoll(Player currentPlayer, Tile currentTile) {
+		//TEMP
+		phase = GamePhase.TURN;
+		
+//		if(currentTile.getType() == TileType.TAXES) {
+//			//Player needs to pay taxes.
+//			//Player can possibly go bankrupt here.
+//			if(!currentPlayer.transfer(bank, currentTile.propertyCost)) {
+//
+//				//Player needs to be able to sell whatever they can to be able to pay taxes
+//				//A new button on ui that says pay tax? and if you cant pay tax and have nothing to left to sell than you lose.
+//				//phase = GamePhase.TURN;
+//				//False in this case means player is bankrupt
+//				//removePlayer(currentPlayer);
+//				
+//			}else{
+//				endTurn();
+//			}
+//		} else if(currentTile.propertyCost !=0 && !currentTile.hasOwner())
+//		{
+//			phase = GamePhase.BUY_PROPERTY;
+//		} else {
+//			phase = GamePhase.TURN;
+//		}
+	}
 
 	public void buyProperty(){
 
@@ -466,7 +478,6 @@ public class Monopoly {
 				try {
 					throw new Exception("Cannot pay rent, no such rent option available.");
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -486,7 +497,6 @@ public class Monopoly {
 				try {
 					throw new Exception("Cannot pay rent, no such rent option available.");
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -497,8 +507,11 @@ public class Monopoly {
 	}
 
 	public void endTurn() {
-		// Automatically start the next player's roll
-		currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+		// Automatically start the next turn
+		if (!rolledDoubles)
+		{
+			currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+		}
 		rollDice();
 	}
 
@@ -519,8 +532,6 @@ public class Monopoly {
 	}
 
 	public void endGame() {
-		phase = GamePhase.WAITING;
-
 		//Display Player Won
 		//reset game
 	}

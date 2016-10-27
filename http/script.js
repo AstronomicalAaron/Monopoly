@@ -48,6 +48,8 @@ function poll($scope) {
 	});
 }
 
+var needToDimTiles = false;
+
 function update($scope, json) {
 	$scope.state = json;
 	$scope.$apply();
@@ -58,6 +60,18 @@ function update($scope, json) {
 	
 	$scope.currentPlayer = $scope.state.players[$scope.state.currentPlayerIndex];
 	$scope.currentTile = $scope.state.board.tiles[$scope.currentPlayer.token.tileIndex];
+	
+	if ($scope.state.phase == "TURN") {
+		$scope.state.board.tiles.forEach(function(tile, i, arr) {
+			var $cell = $('#' + i);
+			if (tile.ownerIndex == $scope.state.currentPlayerIndex) {
+				$cell.addClass('owned');
+			}
+			else {
+				$cell.removeClass('owned');
+			}
+		});
+	}
 }
 
 var app = angular.module('monopolyApp', []);
@@ -114,18 +128,42 @@ app.controller('monopolyController', function($scope) {
 		}
 	}
 	
-	// Used a short name so the html isn't as bad
-	$scope.card = function($event) {
-		if ($scope.cardHover == true) {
+	$scope.selectCard = function() {
+		if ($scope.state.phase != "TURN") {
 			return;
 		}
 		
-		var isTile = $.isNumeric($event.target.id) ^ ($event.type == 'mouseleave');
+		// Unselect last selected item
+		$('.selected').removeClass('selected');
+		if ($scope.hoveredCell != null) {
+			// Select hovered cell
+			$scope.hoveredCell.addClass('selected');
+			
+			$scope.cardSelected = true;
+			$scope.selectedIndex = $scope.hoveredIndex;
+		}
+		else {
+			$scope.cardSelected = false;
+			$scope.selectedIndex = -1;
+		}
+	}
+	
+	// Used a short name so the html isn't as bad
+	$scope.card = function($event) {
+		if ($scope.cardHover) {
+			return;
+		}
+		
+		var isTile = $.isNumeric($event.target.id) && $event.type != 'mouseleave';
 		if (isTile) {
 			var c = $event.target.id;
+			$scope.hoveredCell = $($event.target);
+			$scope.hoveredIndex = c;
 			$scope.selected = $scope.state.board.tiles[c];
 		}
 		else {
+			$scope.hoveredCell = null;
+			$scope.hoveredIndex = -1;
 			$scope.selected = null;
 			return;
 		}
@@ -244,6 +282,11 @@ app.controller('monopolyController', function($scope) {
 	}
 	//
 	
+	//End game
+	$scope.endGame = function(){
+		$scope.getOp('endgame');
+	}
+	
 	$scope.payRent = function(){
 		$scope.getOp('payrent');
 	}
@@ -292,9 +335,10 @@ app.controller('monopolyController', function($scope) {
 		return style;
 	}
 	
-	$scope.isSelected = function() {
+	$scope.isHovered = function() {
 		return $scope.selected != null;
 	}
+	
 	$scope.isProperty = function(tile) {
 		return tile != null && tile.type == 'PROPERTY';
 	}
