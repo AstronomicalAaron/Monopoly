@@ -4,7 +4,7 @@ import java.util.*;
 
 public abstract class Owner {
 
-	private String name;
+	public String name;
 	
 	private double money;
 	

@@ -170,6 +170,9 @@ public class Monopoly {
 							phase = GamePhase.BUY_PROPERTY;
 						} else if(tileName.equals("JAIL") || tileName.equals("GO") || tileName.equals("CHANCE") || tileName.equals("COMMUNITY CHEST") ||tileName.equals("FREE PARKING") || tileName.equals("GO TO JAIL")) {
 							endTurn();
+						} else if(currentTile.hasOwner()) {
+							phase = GamePhase.TURN;
+							payRent();
 						} else {
 							phase = GamePhase.TURN;
 						}
@@ -562,6 +565,8 @@ public class Monopoly {
 			}
 
 		}
+		
+		endTurn();
 
 	}
 
