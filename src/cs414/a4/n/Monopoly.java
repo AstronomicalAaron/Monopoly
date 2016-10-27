@@ -61,8 +61,17 @@ public class Monopoly {
 		return currentPlayerIndex;
 	}
 	
-	public void setBid(int playerIndex, double bid)
+	public void setBid(String username, double bid)
 	{
+		int playerIndex = -1;
+		
+		for (Player player : players){
+			if (player.getName().equals(username)){
+				playerIndex = players.indexOf(player);
+				break;
+			}
+		}
+		
 		players.get(playerIndex).setBid(bid);
 		if(bid > highestBid)
 		{
@@ -133,8 +142,8 @@ public class Monopoly {
 		int dieTwoValue = 0;
 
 		//for testing purposes, lands on a property to test buy
-		//dieOneValue = 1;
-		//dieTwoValue = 2;
+		//dieOneValue = 5;
+		//dieTwoValue = 5;
 		
 		dieOneValue = board.getDice()[0].roll();
 		dieTwoValue = board.getDice()[1].roll();
@@ -298,7 +307,6 @@ public class Monopoly {
 		}
 		
 		currentPlayer.getDeeds().remove(propIndex);
-
 	}
 
 	public void upgradeProperty(){
@@ -569,7 +577,7 @@ public class Monopoly {
 		endTurn();
 
 	}
-
+	
 	public void endTurn() {
 		// Automatically start the next player's roll
 		currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
