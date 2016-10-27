@@ -23,5 +23,10 @@ public class Bank extends Owner {
 		else{
 			freeParkingPool += player.transfer(this, 0.1 * player.getMoney());
 		}
-	}	
+	}
+	
+	public void awardFreeParking(Player player){
+		this.transfer(player, freeParkingPool);
+		freeParkingPool = 100;
+	}
 }

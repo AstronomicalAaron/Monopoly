@@ -310,8 +310,8 @@
 											<div class='property-controls' ng-show='state.phase=="TURN" && !selling'>
 												<span ng-show='currentTile.hasHotel==false'>Houses: {{ currentTile.numHouses }}</span>
 												<span ng-show='currentTile.hasHotel==true'>Has Hotel</span>
-												<button class='green'   ng-click='upgradeProperty()'>Add House</button>
-												<button class='yellow'  ng-click='degradeProperty()'>Remove House</button>
+												<button class='green'   ng-click='upgradeProp()'>Add House</button>
+												<button class='yellow'  ng-click='degradeProp()'>Remove House</button>
 												<button class='blue'    ng-click='selling=true'>Sell Property</button>
 												<img id='end-turn' ng-click='endTurn()' src='endturn.png' />
 											</div>

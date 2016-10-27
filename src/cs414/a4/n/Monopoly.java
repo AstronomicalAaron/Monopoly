@@ -183,12 +183,8 @@ public class Monopoly {
 		String tileName = currentTile.getName();
 		
 		// Move the token by 1 if we land on any unimplemented tiles
-		while (tileName.equals("JAIL") || 
-				tileName.equals("GO") || 
-				tileName.equals("CHANCE") || 
-				tileName.equals("COMMUNITY CHEST") ||
-				tileName.equals("FREE PARKING") || 
-				tileName.equals("GO TO JAIL")) {
+		while (	tileName.equals("CHANCE") || 
+				tileName.equals("COMMUNITY CHEST")) {
 			
 			currentPlayer.getToken().moveBy(1);
 			currentTileIndex = currentPlayer.getToken().getTileIndex();
@@ -234,8 +230,13 @@ public class Monopoly {
 			bank.payTax(currentPlayer, currentTile);
 			break;
 		case GOTOJAIL:
+			currentPlayer.getToken().moveTo(10);
+			currentPlayer.jail();
 			endTurn();
 			return;
+		case FREEPARKING:
+			bank.awardFreeParking(currentPlayer);		
+			break;
 		default:
 			break;
 		}
@@ -259,16 +260,10 @@ public class Monopoly {
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 
-		Player recipient;
-
-		double agreedAmount = 0.0;
-
 		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
 
 		if(phase != GamePhase.BUY_PROPERTY){
-
 			throw new IllegalStateException("Not currently in BUY_PROPERTY phase.");
-
 		}
 
 		currentPlayer.transfer(bank, currentTile.propertyCost);

@@ -22,6 +22,10 @@ public class Player extends Owner {
 		return remainingTurnsJailed > 0;
 	}
 	
+	public void jail(){
+		this.remainingTurnsJailed = 3;
+	}
+	
 	public Player(String name, TokenType tokenType) {
 		super(name, 1500);
 		
