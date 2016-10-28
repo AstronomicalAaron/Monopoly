@@ -5,80 +5,96 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import cs414.a4.n.GamePhase;
+import cs414.a4.n.Monopoly;
+import cs414.a4.n.Player;
+import cs414.a4.n.TokenType;
+
 public class MonopolyTest {
 
+	Monopoly monopoly;
+	Player player;
+	Player player2;
+	
 	@Before
 	public void setUp() throws Exception {
+		monopoly = new Monopoly();
+		
+		monopoly.join("Johnson", TokenType.IRON);
+		player = monopoly.getPlayers().get(0);
+		
+		monopoly.join("Bob", TokenType.CAR);
+		player2 = monopoly.getPlayers().get(1);
 	}
 
 	@Test
 	public void testMonopoly() {
-		fail("Not yet implemented");
+		assert(monopoly.getBoard() != null);
+		assert(monopoly.getBank() != null);
+		assert(monopoly.getPlayers() != null);
 	}
 
 	@Test
 	public void testGetPhase() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetBoard() {
-		fail("Not yet implemented");
+		assert(monopoly.getPhase() == GamePhase.WAITING);
 	}
 
 	@Test
 	public void testGetHighestBid() {
-		fail("Not yet implemented");
+		assert(monopoly.getHighestBid() == 0);
 	}
 
 	@Test
 	public void testGetAuctionTimeLeft() {
-		fail("Not yet implemented");
+		assert(monopoly.getAuctionTimeLeft() == 10);
 	}
 
 	@Test
 	public void testGetHighestBidderIndex() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetBank() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetPlayers() {
-		fail("Not yet implemented");
+		assert(monopoly.getHighestBidderIndex() == -1);
 	}
 
 	@Test
 	public void testGetCurrentPlayerIndex() {
-		fail("Not yet implemented");
+		assert(monopoly.getCurrentPlayerIndex() == 0);
 	}
 
 	@Test
 	public void testSetBid() {
-		fail("Not yet implemented");
+		monopoly.setBid("Johnson", 420);
+		Player player = monopoly.getPlayers().get(0);
+		assertEquals(player.getBid(), 420, 0);
 	}
 
 	@Test
 	public void testJoin() {
-		fail("Not yet implemented");
+		assert(monopoly.getPlayers().size() == 2);
 	}
 
 	@Test
 	public void testStart() {
-		fail("Not yet implemented");
+		monopoly.start();
+		assert(monopoly.getPhase() != GamePhase.WAITING);
 	}
 
 	@Test
 	public void testBuyProperty() {
-		fail("Not yet implemented");
+boolean thrown = false;
+		
+		try	{
+			monopoly.buyProperty();
+		}
+		catch (IllegalStateException e){
+			thrown = true;
+		}
+		
+		assert(thrown);
 	}
 
 	@Test
 	public void testAuctionProperty() {
-		fail("Not yet implemented");
+		monopoly.auctionProperty(1, 0);
+		assert(monopoly.getBoard().getTiles().get(1).getOwnerIndex() == -1);
 	}
 
 	@Test
@@ -103,7 +119,17 @@ public class MonopolyTest {
 
 	@Test
 	public void testBuyMortgage() {
-		fail("Not yet implemented");
+		boolean thrown = false;
+		
+		try	{
+			monopoly.buyMortgage();
+		}
+		catch (IllegalStateException e){
+			thrown = true;
+		}
+		
+		assert(thrown);
+		
 	}
 
 	@Test
@@ -128,27 +154,31 @@ public class MonopolyTest {
 
 	@Test
 	public void testEndTurn() {
-		fail("Not yet implemented");
+		monopoly.endTurn();
+		assert(monopoly.getCurrentPlayerIndex() == 1);
 	}
 
 	@Test
 	public void testIsRolledDoubles() {
-		fail("Not yet implemented");
+		assert(!monopoly.isRolledDoubles());
 	}
 
 	@Test
 	public void testSetRolledDoubles() {
-		fail("Not yet implemented");
+		monopoly.setRolledDoubles(true);
+		assert(monopoly.isRolledDoubles());
 	}
 
 	@Test
 	public void testBankrupt() {
-		fail("Not yet implemented");
+		monopoly.bankrupt(player);
+		assert(player.isBankrupt());
 	}
 
 	@Test
 	public void testEndGame() {
-		fail("Not yet implemented");
+		monopoly.endGame();
+		assert(monopoly.getPlayers().size() == 0);
 	}
 
 

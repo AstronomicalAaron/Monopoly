@@ -29,7 +29,7 @@ public class Monopoly {
 	
 	private boolean rolledDoubles = false;
 	
-	private int numberOfHouses;
+	private int numberOfHouses = 0;
 
 	public Monopoly() {
 		board = new Board();
@@ -342,6 +342,10 @@ public class Monopoly {
 							}
 							startManagement();
 							this.cancel();
+							
+							for (Player p : players){
+								p.setBid(0);
+							}
 						}
 					}
 				}, 
@@ -788,7 +792,13 @@ public class Monopoly {
 	}
 	
 	public void endGame() {
-		//Display Player Won
-		//reset game
+		board = new Board();
+		bank = new Bank();
+		players = new ArrayList<Player>();
+		
+		this.phase = GamePhase.WAITING;
+		this.inAuction = false;
+		this.numberBankrupt = 0;
+		this.numberOfHouses = 0;	
 	}
 }

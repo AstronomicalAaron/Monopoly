@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import cs414.a4.n.Board;
-import cs414.a4.n.Die;
 import cs414.a4.n.TileList;
 import cs414.a4.n.TileType;
 
