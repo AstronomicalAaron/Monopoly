@@ -90,7 +90,7 @@ public class TileTest {
 		assertFalse(meditTile.isUtility());
 		
 		Tile electricTile = m.getBoard().getTiles().get(12);
-		assert(electricTile.isRailRoad());
+		assert(electricTile.isUtility());
 	}
 
 	@Test

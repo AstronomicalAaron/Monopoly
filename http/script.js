@@ -351,6 +351,10 @@ app.controller('monopolyController', function($scope) {
 		}
 	}
 	
+	$scope.jailChoice = function(choice) {
+		$scope.getOp('jailchoice?choice=' + choice);
+	}
+	
 	$scope.cardStyle = function (tile) {
 		if (tile == null) {
 			return;
@@ -372,7 +376,7 @@ app.controller('monopolyController', function($scope) {
 			} else {
 				imageLocation = "electricompany.png";
 			}
-			$('#utilityImage').src=imageLocation;
+			document.getElementById('utilityImage').src=imageLocation;
 		}
 		
 		return style;

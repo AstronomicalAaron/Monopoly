@@ -45,23 +45,21 @@ public class TokenTest {
 
 	@Test
 	public void testGetTileIndex() {
-		//When created, a token is not set to any tile
-		assertNull(t.getTileIndex());
+		assertEquals(t.getTileIndex(), 0);
 	}
 
 	@Test
 	public void testMoveTo() {
-		assertNull(t.getTileIndex());
+		assertEquals(t.getTileIndex(), 0);
 		t.moveTo(2);
 		assertEquals(t.getTileIndex(), 2);
 	}
 
 	@Test
 	public void testMoveBy() {
-		//Tile is on 2, based off of past test
-		assertEquals(t.getTileIndex(), 2);
+		assertEquals(t.getTileIndex(), 0);
 		t.moveBy(1);
-		assertEquals(t.getTileIndex(), 3);
+		assertEquals(t.getTileIndex(), 1);
 	}
 
 }

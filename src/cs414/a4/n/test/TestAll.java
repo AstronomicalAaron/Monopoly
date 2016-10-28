@@ -25,7 +25,7 @@ import junit.framework.JUnit4TestAdapter;
 
 // declare all test classes in the program
 @RunWith (Suite.class)
-@Suite.SuiteClasses({BankTest.class, BoardTest.class, DieTest.class, MonopolyTest.class, OwnerTest.class , PlayerTest.class, TileTest.class, 
+@Suite.SuiteClasses({BankTest.class, BoardTest.class, DieTest.class, MonopolyTest.class, PlayerTest.class, TileTest.class, 
 	TokenTest.class})
  
 public class TestAll 
