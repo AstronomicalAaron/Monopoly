@@ -7,7 +7,7 @@ public class Bank extends Owner {
 	private final int numberOfHouses = 32;
 	
 	public Bank() {
-		super("Bank", Double.MAX_VALUE);
+		super("Bank", 2000000);
 	}
 	
 	public int getNumberOfHouses(){
