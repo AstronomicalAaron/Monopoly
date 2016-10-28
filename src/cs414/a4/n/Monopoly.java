@@ -10,7 +10,7 @@ package cs414.a4.n;
  * 	    							   Joey Bzdek	                                 *
  * 								    Dylan Crescibene 								 *
  * 									 Chris Geohring 								 *
- * 									Aaron Barczewski 									 *
+ * 									Aaron Barczewski 								 *
  * 																					 *
  *************************************************************************************/
 
