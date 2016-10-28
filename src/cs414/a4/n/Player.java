@@ -23,6 +23,7 @@ public class Player extends Owner {
 	}
 	
 	public void jail(){
+		token.moveTo(10);
 		this.remainingTurnsJailed = 3;
 	}
 	

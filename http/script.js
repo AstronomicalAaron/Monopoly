@@ -351,6 +351,10 @@ app.controller('monopolyController', function($scope) {
 		}
 	}
 	
+	$scope.jailChoice = function(choice) {
+		$scope.getOp('jailchoice?choice=' + choice);
+	}
+	
 	$scope.cardStyle = function (tile) {
 		if (tile == null) {
 			return;
