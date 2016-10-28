@@ -26,7 +26,10 @@ public class Monopoly {
 	private int auctionTimeLeft = 10;
 
 	private int rolledValue = 0;
+	
 	private boolean rolledDoubles = false;
+	
+	private int numberOfHouses;
 
 	public Monopoly() {
 		board = new Board();
@@ -402,6 +405,10 @@ public class Monopoly {
 			throw new IllegalStateException("Can only upgrade property in TURN phase.");
 
 		}
+		
+		//Bank is out of houses
+		if(numberOfHouses >= bank.getNumberOfHouses())
+			return;
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 
@@ -456,6 +463,9 @@ public class Monopoly {
 			currentPlayer.transfer(bank, tile.houseCost);
 			tile.numHouses++;
 		}
+		
+		numberOfHouses++;
+		
 	}
 
 	public void degradeProperty(int index){
@@ -515,6 +525,9 @@ public class Monopoly {
 			bank.transfer(currentPlayer, currentTile.houseCost/2);
 			currentTile.numHouses--;
 		}
+		
+		if(numberOfHouses > 0)
+			numberOfHouses--;
 
 	}
 

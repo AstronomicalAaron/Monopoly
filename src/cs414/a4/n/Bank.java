@@ -4,8 +4,14 @@ public class Bank extends Owner {
 	
 	private double freeParkingPool = 100;
 	
+	private final int numberOfHouses = 32;
+	
 	public Bank() {
 		super("Bank", Double.MAX_VALUE);
+	}
+	
+	public int getNumberOfHouses(){
+		return numberOfHouses;
 	}
 	
 	public double getFreeParkingPool() {
