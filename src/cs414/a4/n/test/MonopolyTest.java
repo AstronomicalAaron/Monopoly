@@ -117,22 +117,58 @@ boolean thrown = false;
 
 	@Test
 	public void testSellProperty() {
-		fail("Not yet implemented");
+		boolean thrown = false;
+		
+		try	{
+			monopoly.sellProperty(0,1,200);
+		}
+		catch (IllegalStateException e){
+			thrown = true;
+		}
+		
+		assert(thrown);
 	}
 
 	@Test
 	public void testUpgradeProperty() {
-		fail("Not yet implemented");
+		boolean thrown = false;
+			
+		try	{
+			monopoly.upgradeProperty(1);
+		}
+		catch (IllegalStateException e){
+			thrown = true;
+		}
+		
+		assert(thrown);
 	}
 
 	@Test
 	public void testDegradeProperty() {
-		fail("Not yet implemented");
+		boolean thrown = false;
+		
+		try	{
+			monopoly.degradeProperty(1);
+		}
+		catch (IllegalStateException e){
+			thrown = true;
+		}
+		
+		assert(thrown);
 	}
 
 	@Test
 	public void testLiftMortgage() {
-		fail("Not yet implemented");
+		boolean thrown = false;
+		
+		try	{
+			monopoly.liftMortgage();
+		}
+		catch (IllegalStateException e){
+			thrown = true;
+		}
+		
+		assert(thrown);
 	}
 
 	@Test
@@ -152,22 +188,39 @@ boolean thrown = false;
 
 	@Test
 	public void testSellToPlayers() {
-		fail("Not yet implemented");
+		monopoly.sellToPlayers(1, 5);
+		assert(monopoly.getPhase() == GamePhase.WAITING);
 	}
 
 	@Test
 	public void testSellToBank() {
-		fail("Not yet implemented");
+		boolean thrown = false;
+		
+		try	{
+			monopoly.sellToBank(1);
+		}
+		catch (IllegalStateException e){
+			thrown = true;
+		}
+		
+		assert(thrown);
 	}
 
 	@Test
 	public void testPayRent() {
-		fail("Not yet implemented");
+		player2.getDeeds().add(1);
+		player.getToken().moveTo(1);
+		monopoly.getBoard().getTiles().get(1).setOwnerIndex(1);
+		
+		monopoly.payRent(2);
+		
+		assertEquals(player.getMoney(), 1498, 0);
 	}
 
 	@Test
 	public void testJailChoice() {
-		fail("Not yet implemented");
+		monopoly.jailChoice(true);
+		assertEquals(player.getMoney(), 1450, 0);
 	}
 
 	@Test
