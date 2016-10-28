@@ -136,9 +136,6 @@ public class Monopoly {
 		for (Player player : players) {
 			player.getToken().moveTo(0);
 		}
-		
-		// TEST
-		players.get(0).jail();
 
 		// Automatically roll the dice for the first player
 		startTurn();
