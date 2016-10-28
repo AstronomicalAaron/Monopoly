@@ -372,7 +372,7 @@ app.controller('monopolyController', function($scope) {
 			} else {
 				imageLocation = "electricompany.png";
 			}
-			$('#utilityImage').src=imageLocation;
+			document.getElementById('utilityImage').src=imageLocation;
 		}
 		
 		return style;
