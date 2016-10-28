@@ -333,6 +333,10 @@
 											<input type="number" min="0" ng-max="player.money" ng-model="bid">
 											<button ng-click='setbid()'>BID</button>
 										</div>
+										<div id='jail-choice' ng-show='state.phase=="JAIL"'>
+											<button ng-click='jailChoice(true)' class='green'>Bail Out ($50)</button>
+											<button ng-click='jailChoice(false)'>Try For Doubles...</button>
+										</div>
 									</div>
 									<div id='players'>
 										<div class='player-tile' ng-repeat='player in state.players' ng-class='playerClass(player)'>

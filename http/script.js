@@ -48,39 +48,52 @@ function poll($scope) {
 	});
 }
 
-var needToDimTiles = false;
-
-function update($scope, json) {
-	$scope.state = json;
-	$scope.$apply();
-	
-	if ($scope.state.phase == "WAITING") {
-		return;
-	}
-	
-	$scope.currentPlayer = $scope.state.players[$scope.state.currentPlayerIndex];
-
-	if ($scope.state.phase != "TURN") {
-		$scope.currentTile = $scope.state.board.tiles[$scope.currentPlayer.token.tileIndex];
-	}
-	
-	$scope.state.board.tiles.forEach(function(tile, i, arr) {
+// Initialize UI when phase changes
+function phaseChange($scope) {
+	// Cover tiles during management phase
+	if ($scope.state.phase == 'TURN') {
+		$scope.state.board.tiles.forEach(function(tile, i, arr) {
 			var $cell = $('#' + i);
-			if ($scope.state.phase == "TURN" && tile.ownerIndex != $scope.state.currentPlayerIndex) {
+			if (tile.ownerIndex != $scope.state.currentPlayerIndex) {
 				$cell.addClass('covered');
 			}
-			else {
-				$cell.removeClass('covered');
-			}
 		});
-	
-	if (($scope.state.phase == "TURN" || $scope.state.phase == "BUY_PROPERTY") && $scope.currentPlayer.name != $scope.username) {
+		// Clear tile selection
+		$scope.currentTile = null;
+		$('.selected').removeClass('selected');
+	}
+	else {
+		$('.covered').removeClass('covered');
+	}
+	// Disable UI for inactive player
+	if (($scope.state.phase == 'TURN' || $scope.state.phase == 'BUY_PROPERTY') && 
+			$scope.currentPlayer.name !== $scope.username) {
 		$('#phase-ui').css('pointer-events','none');
 		$('#phase-ui').css('opacity','0.5');
-	} else {
+	}
+	else {
 		$('#phase-ui').css('pointer-events','all');
 		$('#phase-ui').css('opacity','1.0');
 	}
+}
+
+var lastPhase = null;
+function update($scope, json) {
+	$scope.state = json;
+	
+	// Get bindable objects for angular based on current indices
+	$scope.currentPlayer = $scope.state.players[$scope.state.currentPlayerIndex];
+	if ($scope.currentPlayer != null && $scope.state.phase != "TURN") {
+		$scope.currentTile = $scope.state.board.tiles[$scope.currentPlayer.token.tileIndex];
+	}
+	
+	// If phase changed, update accordingly
+	if (lastPhase !== $scope.state.phase) {
+		phaseChange($scope);
+		lastPhase = $scope.state.phase;
+	}
+	
+	$scope.$apply();
 }
 
 var app = angular.module('monopolyApp', []);
