@@ -1,12 +1,30 @@
 package cs414.a4.n.test;
 
-import static org.junit.Assert.*;
+/*************************************************************************************
+ *                                      MONOPOLY									 *
+ *************************************************************************************
+ *                               CREATED ON: (C)10/28/2016							 *
+ *                                   UPDATED ON: 10/28/2016						     *
+ *                                   VERSION: 0.0.1									 *
+ *                                     WRITTEN BY:									 *
+ * 	    								Joey Bzdek	                                 *
+ * 								    Dylan Crescibene 								 *
+ * 									 Chris Geohring 								 *
+ * 									Aaron Barczewski 								 *
+ * 																					 *
+ *************************************************************************************/
+
+/*************************************************************************************
+ * 										BOARD TEST									 *
+ *************************************************************************************/
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import cs414.a4.n.Board;
-import cs414.a4.n.Die;
 import cs414.a4.n.TileList;
 import cs414.a4.n.TileType;
 
