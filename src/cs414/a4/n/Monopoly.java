@@ -320,9 +320,21 @@ public class Monopoly {
 								if(board.getTiles().get(tileIndex).getType() == TileType.RAILROAD) {
 									int numOwned = winner.getNumRailRoadsOwned();
 									winner.setNumRailRoadsOwned(numOwned + 1);
+									
+									if(!recipient.equals(bank))
+									{
+										numOwned = recipient.getNumRailRoadsOwned();
+										recipient.setNumRailRoadsOwned(numOwned - 1);
+									}
 								} else if (board.getTiles().get(tileIndex).getType() == TileType.UTILITY) {
 									int numOwned = winner.getNumUtilitiesOwned();
 									winner.setUtilitiesOwned(numOwned + 1);
+									
+									if(!recipient.equals(bank))
+									{
+										numOwned = recipient.getNumUtilitiesOwned();
+										recipient.setUtilitiesOwned(numOwned - 1);
+									}
 								}
 							}
 							startManagement();
@@ -366,14 +378,18 @@ public class Monopoly {
 			int numOwned = currentPlayer.getNumRailRoadsOwned();
 			currentPlayer.setNumRailRoadsOwned(numOwned - 1);
 			
-			int numOwnedRecipient = recipient.getNumRailRoadsOwned();
-			recipient.setNumRailRoadsOwned(numOwnedRecipient + 1);
+			if(!recipient.equals(bank)){
+				int numOwnedRecipient = recipient.getNumRailRoadsOwned();
+				recipient.setNumRailRoadsOwned(numOwnedRecipient + 1);
+			}
 		} else if (board.getTiles().get(propIndex).getType() == TileType.UTILITY) {
 			int numOwned = currentPlayer.getNumUtilitiesOwned();
 			currentPlayer.setUtilitiesOwned(numOwned - 1);
 			
-			int numOwnedRecipient = recipient.getNumUtilitiesOwned();
-			recipient.setUtilitiesOwned(numOwnedRecipient + 1);
+			if(!recipient.equals(bank)){
+				int numOwnedRecipient = recipient.getNumUtilitiesOwned();
+				recipient.setUtilitiesOwned(numOwnedRecipient + 1);
+			}
 		}
 		
 		currentPlayer.getDeeds().remove(propIndex);
@@ -686,8 +702,6 @@ public class Monopoly {
 			}
 
 		}
-		
-		startManagement();
 	}
 	
 	public void jailChoice(boolean choice) {
