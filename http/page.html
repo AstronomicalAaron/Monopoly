@@ -197,7 +197,12 @@
 												<div id='dice-two'></div>
 											</div>
 										</div>
-										<div id='buy-property' ng-show='state.phase=="BUY_PROPERTY" || state.phase=="TURN"'>
+										<img id='end-turn' ng-click='endTurn()' src='endturn.png' ng-show='state.phase=="TURN"' 
+												title='End Turn'/>
+										<div id='select-property' ng-show='state.phase=="TURN" && !currentTile'>
+											<div>Select tile to manage...</div>
+										</div>
+										<div id='buy-property' ng-show='state.phase=="BUY_PROPERTY" || (state.phase=="TURN" && currentTile)'>
 											<!-- Card -->
 											<div id='buy-card' class='card'>
 												<div class='property' ng-show='isProperty(currentTile)'>
@@ -313,7 +318,6 @@
 												<button class='green'   ng-click='upgradeProp()'>Add House</button>
 												<button class='yellow'  ng-click='degradeProp()'>Remove House</button>
 												<button class='blue'    ng-click='selling=true'>Sell Property</button>
-												<img id='end-turn' ng-click='endTurn()' src='endturn.png' />
 											</div>
 											<div class='property-controls' ng-show='state.phase=="TURN" && selling'>
 												<button class='green'	ng-click='sellToPlayer()'>Sell to Players</button>
@@ -333,7 +337,8 @@
 											<input type="number" min="0" ng-max="player.money" ng-model="bid">
 											<button ng-click='setbid()'>BID</button>
 										</div>
-										<div id='jail-choice' ng-show='state.phase=="JAIL"'>
+										<div id='jail-choice' ng-show='state.phase=="JAILED"'>
+											<img src='jail.png' />
 											<button ng-click='jailChoice(true)' class='green'>Bail Out ($50)</button>
 											<button ng-click='jailChoice(false)'>Try For Doubles...</button>
 										</div>

@@ -1,5 +1,23 @@
 package cs414.a4.n;
 
+/*************************************************************************************
+ *                                      MONOPOLY									 *
+ *************************************************************************************
+ *                               CREATED ON: (C)10/28/2016							 *
+ *                                   UPDATED ON: 10/28/2016						     *
+ *                                   VERSION: 0.0.1									 *
+ *                                     WRITTEN BY:									 *
+ * 	    							   Joey Bzdek	                                 *
+ * 								    Dylan Crescibene 								 *
+ * 									 Chris Geohring 								 *
+ * 									Aaron Barczewski 								 *
+ * 																					 *
+ *************************************************************************************/
+
+/*************************************************************************************
+ * 										FACADE										 *
+ *************************************************************************************/
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -164,23 +182,45 @@ public class Monopoly {
 		
 		if (currentPlayer.isJailed())
 		{
-			if (rolledDoubles) {
-				currentPlayer.remainingTurnsJailed = 0;
-				rolledDoubles = false;
-			}
-			else {
-				currentPlayer.remainingTurnsJailed--;
-				if (currentPlayer.remainingTurnsJailed == 0) {
-					currentPlayer.transfer(bank, 50.0);
-					currentPlayer.getToken().moveBy(rolledValue);
-					startManagement();
-					return;
-				}
-			}
+			new java.util.Timer().schedule( 
+				new java.util.TimerTask() {
+					@Override
+					public void run() {
+						endJailRoll(currentPlayer, rolledDoubles);
+					}
+				}, 
+				3000 
+			);	
 		}
-		
+		else {
+			new java.util.Timer().schedule( 
+				new java.util.TimerTask() {
+					@Override
+					public void run() {
+						doTile(currentPlayer, rolledValue);
+					}
+				}, 
+				3000 
+			);	
+		}
+	}
+	
+	private void endJailRoll(Player currentPlayer, boolean rolledDoubles) {
+		if (rolledDoubles) {
+			currentPlayer.remainingTurnsJailed = 0;
+			rolledDoubles = false;
+		}
+		else {
+			currentPlayer.remainingTurnsJailed--;
+			startManagement();
+			return;
+		}
+	}
+
+	private void doTile(Player currentPlayer, int rolledValue) {
+
 		int previousTileIndex = currentPlayer.getToken().getTileIndex();
-		currentPlayer.getToken().moveBy(dieOneValue + dieTwoValue);
+		currentPlayer.getToken().moveBy(rolledValue);
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
 	    Tile currentTile = board.getTiles().get(currentTileIndex);
 		String tileName = currentTile.getName();
@@ -200,28 +240,13 @@ public class Monopoly {
 			bank.transfer(currentPlayer, 200.0);
 		}
 		
-		// Need this variable to make java happy
-		final Tile landedTile = currentTile;
-		new java.util.Timer().schedule( 
-			new java.util.TimerTask() {
-				@Override
-				public void run() {
-					doTile(currentPlayer, landedTile, rolledValue);
-				}
-			}, 
-			3000 
-		);	
-	}
-
-	private void doTile(Player currentPlayer, Tile currentTile, int amountOnDice) {
-
 		switch (currentTile.getType()){
 		case PROPERTY:
 		case UTILITY:
 		case RAILROAD:
 			if (currentTile.hasOwner()) {
 				if (currentTile.getOwnerIndex() != currentPlayerIndex) {
-					payRent(amountOnDice);
+					payRent(rolledValue);
 				}
 			}
 			else {
@@ -233,7 +258,6 @@ public class Monopoly {
 			bank.payTax(currentPlayer, currentTile);
 			break;
 		case GOTOJAIL:
-			currentPlayer.getToken().moveTo(10);
 			currentPlayer.jail();
 			endTurn();
 			return;

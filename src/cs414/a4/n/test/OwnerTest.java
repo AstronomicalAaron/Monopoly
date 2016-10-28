@@ -1,4 +1,4 @@
-package cs414.a4.n;
+package cs414.a4.n.test;
 
 /*************************************************************************************
  *                                      MONOPOLY									 *
@@ -7,7 +7,7 @@ package cs414.a4.n;
  *                                   UPDATED ON: 10/28/2016						     *
  *                                   VERSION: 0.0.1									 *
  *                                     WRITTEN BY:									 *
- * 	    								Joey Bzdek	                                 *
+ * 	    							   Joey Bzdek	                                 *
  * 								    Dylan Crescibene 								 *
  * 									 Chris Geohring 								 *
  * 									Aaron Barczewski								 *
@@ -15,15 +15,16 @@ package cs414.a4.n;
  *************************************************************************************/
 
 /*************************************************************************************
- * 										GAME PHASE									 *
+ * 										OWNER TEST									 *
  *************************************************************************************/
 
-public enum GamePhase {
-	WAITING,
-	ROLLING,
-	BUY_PROPERTY,
-	SELL_PROPERTY,
-	TURN,
-	AUCTION,
-	JAILED
+import org.junit.Test;
+
+public class OwnerTest {
+
+	@Test
+	public void testTransfer() {
+		
+	}
+
 }
