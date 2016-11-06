@@ -1,0 +1,15 @@
+"GO TO JAIL! DO NOT PASS GO, DO NOT COLLECT $200" 0, 0, 10
+"ADVANCE TO GO!" 0, 0, 0
+"GET OUT OF JAIL FREE" 0, 0, -1
+"Advance token to nearest utility. If not you may buy it from bank. If owned, throw dice and pay owner a total ten times the amount thrown." 0, 0, -1
+"Advance token to the nearest Railroad and pay owner twice the rental to which he/she is otherwise entitled. If railroad is unowned, you may buy it from the Bank." 0, 0, -1
+"Make General Repairs On All Your Property." 0, 25 100, -1
+"Your building and loan matures! Collect $150" 150, 0, -1
+"You have been elected chairman of the board, pay each player $50" 0, 50, -1
+"Advance to Illinois Ave" 0, 0, 24
+"Take a walk on the board walk ADVANCE TOKEN TO BOARD WALK" 0, 0, 39
+"Pay poor tax of $15" 0, 15, -1
+"Advance to ST. CHARLES PLACE, if you pass GO, collect $200" 0, 0, 11
+"Go back 3 spaces" 0, 0, 3
+"Bank pays you dividend of $50" 50, 0, -1
+"Take a ride on the reading. if you pass go collect $200" 0, 0, 5
