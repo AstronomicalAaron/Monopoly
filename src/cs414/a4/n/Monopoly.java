@@ -770,8 +770,16 @@ public class Monopoly {
 		}
 		
 		// Automatically start the next turn
+		if(rolledDoubles && currentPlayer.doublesRolled < 3) {
+			++currentPlayer.doublesRolled;
+		} else if (rolledDoubles && currentPlayer.doublesRolled == 3) {
+			//go to jail you speed
+			currentPlayer.jail();
+		}
+		
 		if (!rolledDoubles)
 		{
+			currentPlayer.doublesRolled = 0;
 			currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
 			
 			//If player is bankrupt, increment to the next player
@@ -780,7 +788,6 @@ public class Monopoly {
 				currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
 			}
 		}		
-		
 		startTurn();
 	}
 

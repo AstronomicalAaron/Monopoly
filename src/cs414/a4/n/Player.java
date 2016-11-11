@@ -28,6 +28,8 @@ public class Player extends Owner {
 	
 	int remainingTurnsJailed = 0;
 	
+	int doublesRolled = 0;
+	
 	public boolean isBankrupt() {
 		return bankrupt;
 	}
