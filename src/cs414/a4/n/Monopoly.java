@@ -43,6 +43,8 @@ public class Monopoly {
 	
 	private int auctionTimeLeft = 10;
 
+	private String nameOfAuctionTile = "";
+	
 	private int rolledValue = 0;
 	
 	private boolean rolledDoubles = false;
@@ -69,6 +71,10 @@ public class Monopoly {
 	
 	public double getAuctionTimeLeft() {
 		return auctionTimeLeft;
+	}
+	
+	public String getNameOfAuctionTile() {
+		return nameOfAuctionTile;
 	}
 	
 	public int getHighestBidderIndex() {
@@ -313,6 +319,7 @@ public class Monopoly {
 		highestBid = startingBid;
 		highestBidderIndex = -1;
 		auctionTimeLeft = 10;
+		nameOfAuctionTile = board.getTiles().get(tileIndex).getName();
 		
 		Owner recipient;
 		if (startingBid == 0) {
