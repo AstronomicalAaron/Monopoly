@@ -93,6 +93,167 @@ public class Monopoly {
 		return currentPlayerIndex;
 	}
 	
+	
+	
+	
+	public String landOnChance(){
+		
+		Player currentPlayer = players.get(currentPlayerIndex);
+		
+		int currentTileIndex = currentPlayer.getToken().getTileIndex();
+		
+		Card chanceCard = new Card(cardType.CHANCE);
+		
+		//Player draws chance card that gives them credit
+		if(chanceCard.getPayment() > 0){ 
+			
+			bank.transfer(currentPlayer, (double)chanceCard.getPayment());
+			
+		}
+		
+		//Player draws chance card in which they either have to pay bank or other players a penalty
+		if(chanceCard.getCardIndex() != 5 && chanceCard.getDefPent() > 0){
+			
+			//When player draws card at index 3 they have to pay each player $50
+			if(chanceCard.getCardIndex() == 3){
+				
+				for(Player p : players){
+					
+					if(!p.equals(currentPlayer)){
+						
+						currentPlayer.transfer(p, (double)chanceCard.getDefPent());
+						
+					}
+					
+				}
+				
+			}else{
+				
+				currentPlayer.transfer(bank, (double)chanceCard.getDefPent());
+				
+			}			
+			
+		}
+		
+		if(chanceCard.getCardIndex() == 5){
+			
+			//When player draws the chance card at index 5
+			int totalPenalty = 0;
+			
+			int sumHouses = 0;
+			
+			int sumHotel = 0;
+			
+			for(int i : currentPlayer.getDeeds()){
+				
+				sumHouses += board.getTiles().get(i).getNumHouses();
+				
+				if(board.getTiles().get(i).getHasHotel()){
+					
+					sumHotel++;
+					
+				}
+				
+			}
+			
+			totalPenalty = (sumHouses*chanceCard.getDefPent()) + (sumHotel*chanceCard.getSecdPent());
+			
+			//If player doesn't have hotels or houses, they receive no penalty
+			currentPlayer.transfer(bank, (double) totalPenalty);
+			
+			return chanceCard.getCardDesc();
+			
+		}
+		
+		//Move player's token on board depending on which card they draw.
+		if(chanceCard.moveToIndex() != -1){
+			
+			double currentMoney = currentPlayer.getMoney();
+			
+			if(chanceCard.getCardIndex() == 0){
+				
+				//Cannot collect $200 when player goes to jail
+				
+				currentPlayer.getToken().moveTo(chanceCard.moveToIndex());
+				
+				if(currentMoney == currentMoney + 200){
+					
+					currentPlayer.transfer(bank, 200.0);
+					
+				}
+				
+				//Player is now in jail and jail rules apply				
+				currentPlayer.jail();
+				
+			}
+			
+			if(chanceCard.getCardIndex() == 12)
+				currentPlayer.getToken().moveTo(-1 * chanceCard.moveToIndex());
+			else
+				currentPlayer.getToken().moveTo(chanceCard.moveToIndex());		
+			
+		}
+		
+		//Player draws get-out-of-jail-free card
+		if(chanceCard.getCardIndex() == 2){
+			
+			currentPlayer.setHasFreeJailCard(true);
+			
+			//Removes card out of deck
+			chanceCard.removeFreedomCard();
+			
+		}
+		
+		int amountOnDice = board.getDice()[0].getValue() + board.getDice()[1].getValue();
+		
+		//Utility indices are: 12, 28
+		if(chanceCard.getCardIndex() == 4){
+			
+			if(currentTileIndex < 12 || currentTileIndex >= 28){
+				
+				currentPlayer.getToken().moveTo(12);
+				payRent(amountOnDice*10);
+				
+			}else{
+				
+				currentPlayer.getToken().moveTo(28);
+				payRent(amountOnDice*10);
+				
+			}
+			
+		}
+		
+		//Railroad Indices are: 5, 15, 25, 35
+		if(chanceCard.getCardIndex() == 6){
+			
+			if(currentTileIndex < 5 || currentTileIndex >= 35)
+				currentPlayer.getToken().moveTo(5);
+			else if(currentTileIndex < 15 || currentTileIndex >= 5)
+				currentPlayer.getToken().moveTo(15);
+			else if(currentTileIndex < 25 || currentTileIndex >= 15)
+				currentPlayer.getToken().moveTo(25);
+			else
+				currentPlayer.getToken().moveTo(35);
+			
+			payRent(amountOnDice);
+			payRent(amountOnDice);
+			
+		}
+		
+		
+		return chanceCard.getCardDesc();
+		
+		
+	}
+	
+	public String landOnCommunity(){
+		
+		Card comChestCard = new Card(cardType.COMMUNITY);
+		
+		return comChestCard.getCardDesc();
+		
+	}
+	
 	public void setBid(String username, double bid)
 	{
 		int playerIndex = -1;

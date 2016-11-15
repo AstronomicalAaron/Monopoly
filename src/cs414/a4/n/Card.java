@@ -31,15 +31,36 @@ public class Card {
 	private ArrayList<String> cards;
 	private Random rand;
 	private int cardIndex;
+	private String freeJailDesc;
 
 	public Card(cardType type){
 		
 		cards = new ArrayList<String>();
 		rand = new Random();
 		cardIndex = rand.nextInt(15);
+		freeJailDesc = "";
 
 		readDescription(type);
 
+	}
+	
+	//Removes get-out-of-jail-free card from deck
+	public void removeFreedomCard(){
+		
+		freeJailDesc = cards.get(2);
+		cards.remove(2);
+		
+	}
+	
+	//Puts get-out-of-jail-free card back into the deck
+	public void addFreedomCard(){
+		
+		cards.add(2, freeJailDesc);
+		
+	}
+	
+	public int getCardIndex(){
+		return cardIndex;
 	}
 
 	private void readDescription(cardType type){

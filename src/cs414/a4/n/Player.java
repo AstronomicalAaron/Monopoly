@@ -26,9 +26,19 @@ public class Player extends Owner {
 	
 	private boolean bankrupt = false;
 	
+	private boolean hasFreeJailCard = false;
+	
 	int remainingTurnsJailed = 0;
 	
 	int doublesRolled = 0;
+	
+	public boolean getHasFreeJailCard(){
+		return hasFreeJailCard;
+	}
+	
+	public void setHasFreeJailCard(boolean outJail){
+		hasFreeJailCard = outJail;
+	}
 	
 	public boolean isBankrupt() {
 		return bankrupt;
