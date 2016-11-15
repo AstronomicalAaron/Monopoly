@@ -7,7 +7,7 @@ package cs414.a4.n;
  *                                   UPDATED ON: 10/28/2016						     *
  *                                   VERSION: 0.0.1									 *
  *                                     WRITTEN BY:									 *
- * 	    							Joey Summers	                                 *
+ * 	    								 Joey Summers	                                 *
  * 								    Dylan Crescibene 								 *
  * 									 Chris Geohring 								 *
  * 									Aaron Barczewski 								 *
@@ -15,7 +15,7 @@ package cs414.a4.n;
  *************************************************************************************/
 
 /*************************************************************************************
- * 										COMMUNITY CHEST								 *
+ * 										CHANCE CARD									 *
  *************************************************************************************/
 
 import java.io.BufferedReader;
@@ -24,27 +24,32 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class CommunityChest {
-	
-	
+enum cardType {CHANCE, COMMUNITY};
+
+public class Card {
+
 	private ArrayList<String> cards;
 	private Random rand;
 	private int cardIndex;
-	
-	public CommunityChest(){
+
+	public Card(cardType type){
 		
 		cards = new ArrayList<String>();
 		rand = new Random();
 		cardIndex = rand.nextInt(15);
 
-		readDescription();
-		
-	}
-	
-	
-	private void readDescription(){
+		readDescription(type);
 
-		try(BufferedReader br = new BufferedReader(new FileReader("cc_card_desc.txt")))
+	}
+
+	private void readDescription(cardType type){
+		
+		String fileName = "";
+		
+		if(type.equals(cardType.COMMUNITY)) fileName="cc_card_desc.txt";
+		else fileName = "chance_card_desc.txt";
+
+		try(BufferedReader br = new BufferedReader(new FileReader(fileName)))
 		{
 
 			String currentLine;
@@ -121,6 +126,6 @@ public class CommunityChest {
 			
 		}
 		
-	}	
+	}
 
 }
