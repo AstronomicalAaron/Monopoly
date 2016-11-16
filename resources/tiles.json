@@ -114,7 +114,8 @@
 	},{
 		name:'ELECTRIC COMPANY',
 		type:'UTILITY',
-		color:'white'
+		color:'white',
+		propertyCost: 150
 	},{
 		name:'STATES AVENUE',
 		type:'PROPERTY',
