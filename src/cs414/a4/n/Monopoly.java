@@ -1069,8 +1069,9 @@ public class Monopoly {
 
 		if(numberBankrupt == players.size() - 1){
 			endGame();
+			return;
 		}
-
+		
 		for (int tileIndex : patheticLoser.getDeeds())
 		{
 			while(inAuction)
