@@ -328,6 +328,10 @@ app.controller('monopolyController', function($scope) {
 		$scope.getOp('endgame');
 	}
 	
+	$scope.resetGame = function(){
+		$scope.getOp('resetgame');
+	}
+	
 	$scope.payRent = function(){
 		$scope.getOp('payrent');
 	}

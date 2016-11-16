@@ -151,10 +151,17 @@ public class MonopolyController {
     	return game;
     }
     
+    @RequestMapping(value = "/resetgame", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly resetGame() {
+    	game = new Monopoly();
+    	return game;
+    }
+    
     @RequestMapping(value = "/endgame", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Monopoly endGame() {
-    	game = new Monopoly();
+    	game.endGame();
     	return game;
     }
 
