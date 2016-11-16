@@ -22,6 +22,8 @@ import java.time.LocalTime;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Monopoly {
 
@@ -54,13 +56,18 @@ public class Monopoly {
 	private boolean rolledDoubles = false;
 
 	private int numberOfHouses = 0;
-	
+
 	private LocalTime endTime;
+	
+	private Timer gameTimer;
+	
+	private int timeLeft;
 
 	public Monopoly() {
 		board = new Board();
 		bank = new Bank();
 		players = new ArrayList<Player>();
+		gameTimer = new Timer();
 	}
 
 	public GamePhase getPhase() {
@@ -85,6 +92,10 @@ public class Monopoly {
 
 	public int getHighestBidderIndex() {
 		return highestBidderIndex;
+	}
+	
+	public int getTimeLeft() {
+		return timeLeft;
 	}
 
 	public Bank getBank() {
@@ -407,7 +418,15 @@ public class Monopoly {
 		}
 		
 		endTime = LocalTime.now().plusMinutes(timeLimit);
-
+		timeLeft = timeLimit;
+		gameTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+            	if(timeLeft > 0)
+            		timeLeft--;
+            }
+        }, 0, 60000);
+		
 		if(players.size() < 2){
 
 			//Must have more than 2 players to start a game
