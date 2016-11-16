@@ -1069,8 +1069,9 @@ public class Monopoly {
 
 		if(numberBankrupt == players.size() - 1){
 			endGame();
+			return;
 		}
-
+		
 		for (int tileIndex : patheticLoser.getDeeds())
 		{
 			while(inAuction)
@@ -1087,6 +1088,19 @@ public class Monopoly {
 	}
 
 	public void endGame() {
+		
+		int [] netWorths = new int[players.size()];
+		
+		for(int i = 0; i < players.size(); i++){
+			
+			netWorths[i] = calculateNetWorth(players.get(i));
+			
+		}
+			
+	}
+	
+	public void resetGame(){
+		
 		board = new Board();
 		bank = new Bank();
 		players = new ArrayList<Player>();
@@ -1094,7 +1108,8 @@ public class Monopoly {
 		this.phase = GamePhase.WAITING;
 		this.inAuction = false;
 		this.numberBankrupt = 0;
-		this.numberOfHouses = 0;	
+		this.numberOfHouses = 0;
+		
 	}
 
 	//Helper method to help determine the WINNER WINNER CHICKEN DINNER!!!
