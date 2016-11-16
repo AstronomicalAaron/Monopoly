@@ -571,6 +571,14 @@ More pastel-y versions of the monopoly colors -->.brown {
 	height: 100%;
 }
 
+.card-info {
+	position: absolute;
+	background: #ddd;
+	border: 2px solid black;
+	left: 0px;
+	top: 280px;
+}
+
 #board-grid {
 	float: left;
 	width: 100%;

@@ -443,6 +443,10 @@ app.controller('monopolyController', function($scope) {
 			'margin-top': marginTop
 		};
 	}
+	
+	$scope.cardOwner = function(index) {
+		return $scope.state.players[index];
+	}
 });
 
 $.fn.animateRotate = function(start, end, duration, easing, complete) {
