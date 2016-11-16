@@ -1097,4 +1097,27 @@ public class Monopoly {
 		this.numberBankrupt = 0;
 		this.numberOfHouses = 0;	
 	}
+
+	//Helper method to help determine the WINNER WINNER CHICKEN DINNER!!!
+	public int calculateNetWorth(Player p){
+
+		int totalNetWorth = 0;
+
+		totalNetWorth += p.getMoney();
+
+		for(int i : p.getDeeds()){
+
+			totalNetWorth += board.getTiles().get(i).propertyCost;
+			
+			for(int j = 0; j < board.getTiles().get(i).numHouses; j++)
+				totalNetWorth += board.getTiles().get(i).houseCost;
+			
+			if(board.getTiles().get(i).getHasHotel())
+				totalNetWorth += board.getTiles().get(i).hotelCost;
+
+		}
+
+		return totalNetWorth;
+
+	}
 }
