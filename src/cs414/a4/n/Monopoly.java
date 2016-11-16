@@ -50,6 +50,7 @@ public class Monopoly {
 	private String nameOfAuctionTile = "";
 
 	private String cardString = "";
+	private Card currentCard;
 
 	private int rolledValue = 0;
 
@@ -120,13 +121,11 @@ public class Monopoly {
 		return winner;
 	}
 
-	public String landOnChance(){
+	public String landOnChance(Card chanceCard){
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
-
-		Card chanceCard = new Card(cardType.CHANCE);
 
 		//Player draws chance card that gives them credit
 		if(chanceCard.getPayment() > 0){ 
@@ -270,11 +269,9 @@ public class Monopoly {
 
 	}
 
-	public String landOnCommunity(){
+	public String landOnCommunity(Card comChestCard){
 
 		Player currentPlayer = players.get(currentPlayerIndex);
-
-		Card comChestCard = new Card(cardType.COMMUNITY);
 
 		//Player draws community chest card that gives them credit
 		if(comChestCard.getPayment() > 0){ 
@@ -558,11 +555,15 @@ public class Monopoly {
 			bank.awardFreeParking(currentPlayer);		
 			break;
 		case COMMUNITYCHEST:
-			cardString = landOnCommunity();
-			break;
+			currentCard = new Card(cardType.COMMUNITY);
+			cardString = currentCard.getCardDesc();
+			phase = GamePhase.SHOWCARD;
+			return;
 		case CHANCE:
-			cardString = landOnChance();
-			break;
+			currentCard = new Card(cardType.CHANCE);
+			cardString = currentCard.getCardDesc();
+			phase = GamePhase.SHOWCARD;
+			return;
 		default:
 			break;
 		}
@@ -1194,5 +1195,25 @@ public class Monopoly {
 
 		return totalNetWorth;
 
+	}
+
+	public void acknowledgeCard() {
+		
+		if (currentCard == null) {
+			return; // TODO: Log
+		}
+		
+		if (currentCard.type == cardType.CHANCE) {
+			landOnChance(currentCard);
+		}
+		else if (currentCard.type == cardType.COMMUNITY) {
+			landOnCommunity(currentCard);
+		}
+		
+		// Reset card
+		currentCard = null;
+		cardString = null;
+		
+		startManagement();
 	}
 }

@@ -32,6 +32,8 @@ public class Card {
 	private Random rand;
 	private int cardIndex;
 	private String freeJailDesc;
+	
+	public cardType type;
 
 	public Card(cardType type){
 		
@@ -39,6 +41,7 @@ public class Card {
 		rand = new Random(System.currentTimeMillis());
 		cardIndex = rand.nextInt(15);
 		freeJailDesc = "";
+		this.type = type;
 
 		readDescription(type);
 

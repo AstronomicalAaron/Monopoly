@@ -337,6 +337,10 @@ app.controller('monopolyController', function($scope) {
 		$scope.getOp('payrent');
 	}
 	
+	$scope.ackCard = function() {
+		$scope.getOp('ackcard');
+	}
+	
 	var rollAnimationStarted = false;
 	
 	$scope.phaseRolling = function() {
@@ -452,7 +456,20 @@ app.controller('monopolyController', function($scope) {
 	}
 	
 	$scope.cardOwner = function(card) {
+		if (card == undefined) return null;
+		if ($scope.state.players[card.ownerIndex] == undefined) return null;
 		return $scope.state.players[card.ownerIndex].name;
+	}
+	
+	$scope.hasMonopoly = function(card) {
+		if (card == null) return false;
+		var has = true;
+		$scope.state.board.tiles.forEach(function(el, i, arr) {
+			if (el.color == card.color && el.ownerIndex != $scope.state.currentPlayerIndex) {
+				has = false;
+			}
+		});
+		return has;
 	}
 });
 
