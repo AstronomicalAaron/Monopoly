@@ -337,6 +337,10 @@ app.controller('monopolyController', function($scope) {
 		$scope.getOp('payrent');
 	}
 	
+	$scope.ackCard = function() {
+		$scope.getOp('ackcard');
+	}
+	
 	var rollAnimationStarted = false;
 	
 	$scope.phaseRolling = function() {

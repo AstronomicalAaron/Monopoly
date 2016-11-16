@@ -384,6 +384,11 @@
 											<button ng-click='jailChoice(true)' class='green'>Bail Out ($50)</button>
 											<button ng-click='jailChoice(false)'>Try For Doubles...</button>
 										</div>
+										<div id='show-card' ng-show='state.phase=="SHOWCARD"'>
+											<div>{{ $scope.currentTile.type }}</div>
+											<div>{{ $scope.state.cardString }}</div>
+											<button ng-click='ackCard()' />
+										</div>
 									</div>
 									<div id='players'>
 										<div class='player-tile' ng-repeat='player in state.players' ng-class='playerClass(player)'>

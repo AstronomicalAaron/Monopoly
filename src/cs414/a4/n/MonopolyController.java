@@ -164,6 +164,13 @@ public class MonopolyController {
     	game.endGame();
     	return game;
     }
+    
+    @RequestMapping(value = "/ackcard", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly ackCard() {
+    	game.acknowledgeCard();
+    	return game;
+    }
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(MonopolyController.class, args);
