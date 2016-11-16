@@ -32,25 +32,25 @@ public class Monopoly {
 	private ArrayList<Player> players;
 
 	private int currentPlayerIndex;
-	
+
 	private int numberBankrupt = 0;
-	
+
 	private boolean inAuction;
 
 	private double highestBid = 0;
-	
+
 	private int highestBidderIndex = -1;
-	
+
 	private int auctionTimeLeft = 10;
 
 	private String nameOfAuctionTile = "";
-	
+
 	private String cardString = "";
-	
+
 	private int rolledValue = 0;
-	
+
 	private boolean rolledDoubles = false;
-	
+
 	private int numberOfHouses = 0;
 
 	public Monopoly() {
@@ -66,19 +66,19 @@ public class Monopoly {
 	public Board getBoard() {
 		return board;
 	}
-	
+
 	public double getHighestBid() {
 		return highestBid;
 	}
-	
+
 	public double getAuctionTimeLeft() {
 		return auctionTimeLeft;
 	}
-	
+
 	public String getNameOfAuctionTile() {
 		return nameOfAuctionTile;
 	}
-	
+
 	public int getHighestBidderIndex() {
 		return highestBidderIndex;
 	}
@@ -94,143 +94,141 @@ public class Monopoly {
 	public int getCurrentPlayerIndex() {
 		return currentPlayerIndex;
 	}
-	
+
 	public String getCardString() {
 		return cardString;
 	}
-	
-	
-	
+
 	public String landOnChance(){
-		
+
 		Player currentPlayer = players.get(currentPlayerIndex);
-		
+
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
-		
+
 		Card chanceCard = new Card(cardType.CHANCE);
-		
+
 		//Player draws chance card that gives them credit
 		if(chanceCard.getPayment() > 0){ 
-			
+
 			bank.transfer(currentPlayer, (double)chanceCard.getPayment());
-			
+
 		}
-		
+
 		//Player draws chance card in which they either have to pay bank or other players a penalty
 		if(chanceCard.getCardIndex() != 5 && chanceCard.getDefPent() > 0){
-			
+
 			//When player draws card at index 3 they have to pay each player $50
 			if(chanceCard.getCardIndex() == 3){
-				
+
 				for(Player p : players){
-					
+
 					if(!p.equals(currentPlayer)){
-						
+
 						currentPlayer.transfer(p, (double)chanceCard.getDefPent());
-						
+
 					}
-					
+
 				}
-				
+
 			}else{
-				
+
 				currentPlayer.transfer(bank, (double)chanceCard.getDefPent());
-				
+
 			}			
-			
+
 		}
-		
+
 		if(chanceCard.getCardIndex() == 5){
-			
+
 			//When player draws the chance card at index 5
 			int totalPenalty = 0;
-			
+
 			int sumHouses = 0;
-			
+
 			int sumHotel = 0;
-			
+
 			for(int i : currentPlayer.getDeeds()){
-				
+
 				sumHouses += board.getTiles().get(i).getNumHouses();
-				
+
 				if(board.getTiles().get(i).getHasHotel()){
-					
+
 					sumHotel++;
-					
+
 				}
-				
+
 			}
-			
+
 			totalPenalty = (sumHouses*chanceCard.getDefPent()) + (sumHotel*chanceCard.getSecdPent());
-			
+
 			//If player doesn't have hotels or houses, they receive no penalty
 			currentPlayer.transfer(bank, (double) totalPenalty);
-			
+
 			return chanceCard.getCardDesc();
-			
+
 		}
-		
+
 		//Move player's token on board depending on which card they draw.
 		if(chanceCard.moveToIndex() != -1){
-			
+
 			double currentMoney = currentPlayer.getMoney();
-			
+
 			if(chanceCard.getCardIndex() == 0){
-				
+
 				//Cannot collect $200 when player goes to jail
-				
+
 				currentPlayer.getToken().moveTo(chanceCard.moveToIndex());
-				
+
 				if(currentMoney == currentMoney + 200){
-					
+
 					currentPlayer.transfer(bank, 200.0);
-					
+
 				}
-				
+
 				//Player is now in jail and jail rules apply				
 				currentPlayer.jail();
-				
+
 			}
-			
+
 			if(chanceCard.getCardIndex() == 12)
 				currentPlayer.getToken().moveTo(-1 * chanceCard.moveToIndex());
 			else
 				currentPlayer.getToken().moveTo(chanceCard.moveToIndex());		
-			
+
 		}
-		
+
 		//Player draws get-out-of-jail-free card
 		if(chanceCard.getCardIndex() == 2){
-			
+
 			currentPlayer.setHasFreeJailCard(true);
-			
+
 			//Removes card out of deck
 			chanceCard.removeFreedomCard();
-			
+
 		}
-		
+
 		int amountOnDice = board.getDice()[0].getValue() + board.getDice()[1].getValue();
-		
+
 		//Utility indices are: 12, 28
 		if(chanceCard.getCardIndex() == 4){
-			
+
 			if(currentTileIndex < 12 || currentTileIndex >= 28){
-				
+
 				currentPlayer.getToken().moveTo(12);
 				payRent(amountOnDice*10);
-				
+
 			}else{
-				
+
 				currentPlayer.getToken().moveTo(28);
 				payRent(amountOnDice*10);
-				
+
 			}
-			
+
 		}
-		
+
 		//Railroad Indices are: 5, 15, 25, 35
 		if(chanceCard.getCardIndex() == 6){
-			
+
 			if(currentTileIndex < 5 || currentTileIndex >= 35)
 				currentPlayer.getToken().moveTo(5);
 			else if(currentTileIndex < 15 || currentTileIndex >= 5)
@@ -239,41 +237,138 @@ public class Monopoly {
 				currentPlayer.getToken().moveTo(25);
 			else
 				currentPlayer.getToken().moveTo(35);
-			
+
 			payRent(amountOnDice);
 			payRent(amountOnDice);
-			
+
 		}
-		
-		
+
+
 		return chanceCard.getCardDesc();
-		
-		
+
+
 	}
-	
+
 	public String landOnCommunity(){
-		
+
+		Player currentPlayer = players.get(currentPlayerIndex);
+
 		Card comChestCard = new Card(cardType.COMMUNITY);
-		
+
+		//Player draws community chest card that gives them credit
+		if(comChestCard.getPayment() > 0){ 
+
+			bank.transfer(currentPlayer, (double)comChestCard.getPayment());
+
+		}
+
+		//Player draws community chest card in which they either have to pay bank or other players a penalty
+		if(comChestCard.getCardIndex() != 5 && comChestCard.getDefPent() > 0){
+
+			//When player draws card at index 3, each other player pays him $50
+			if(comChestCard.getCardIndex() == 3){
+
+				for(Player p : players){
+
+					if(!p.equals(currentPlayer)){
+
+						p.transfer(currentPlayer, (double)comChestCard.getDefPent());
+
+					}
+
+				}
+
+			}else{
+
+				currentPlayer.transfer(bank, (double)comChestCard.getDefPent());
+
+			}			
+
+		}
+
+		if(comChestCard.getCardIndex() == 5){
+
+			//When player draws the chance card at index 5
+			int totalPenalty = 0;
+
+			int sumHouses = 0;
+
+			int sumHotel = 0;
+
+			for(int i : currentPlayer.getDeeds()){
+
+				sumHouses += board.getTiles().get(i).getNumHouses();
+
+				if(board.getTiles().get(i).getHasHotel()){
+
+					sumHotel++;
+
+				}
+
+			}
+
+			totalPenalty = (sumHouses*comChestCard.getDefPent()) + (sumHotel*comChestCard.getSecdPent());
+
+			//If player doesn't have hotels or houses, they receive no penalty
+			currentPlayer.transfer(bank, (double) totalPenalty);
+
+			return comChestCard.getCardDesc();
+
+		}
+
+		//Move player's token on board depending on which card they draw.
+		if(comChestCard.moveToIndex() != -1){
+
+			double currentMoney = currentPlayer.getMoney();
+
+			if(comChestCard.getCardIndex() == 0){
+
+				//Cannot collect $200 when player goes to jail
+
+				currentPlayer.getToken().moveTo(comChestCard.moveToIndex());
+
+				if(currentMoney == currentMoney + 200){
+
+					currentPlayer.transfer(bank, 200.0);
+
+				}
+
+				//Player is now in jail and jail rules apply				
+				currentPlayer.jail();
+
+			}		
+
+		}
+
+		//Player draws get-out-of-jail-free card
+		if(comChestCard.getCardIndex() == 2){
+
+			currentPlayer.setHasFreeJailCard(true);
+
+			//Removes card out of deck
+			comChestCard.removeFreedomCard();
+
+		}
+
 		return comChestCard.getCardDesc();
-		
+
 	}
-	
+
 	public void setBid(String username, double bid)
 	{
 		int playerIndex = -1;
-		
+
 		for (Player player : players){
 			if (player.getName().equals(username)){
 				playerIndex = players.indexOf(player);
 				break;
 			}
 		}
-		
+
 		if (playerIndex == -1 || players.get(playerIndex).getMoney() < bid){
 			return;
 		}
-		
+
 		players.get(playerIndex).setBid(bid);
 		if(bid > highestBid)
 		{
@@ -316,7 +411,7 @@ public class Monopoly {
 			//Must have 4 or less players
 			return;
 		}
-		
+
 		//For testing purposes
 		//currentPlayerIndex = 0;
 
@@ -330,10 +425,10 @@ public class Monopoly {
 		// Automatically roll the dice for the first player
 		startTurn();
 	}
-	
+
 	private void startTurn() {
 		Player currentPlayer = players.get(currentPlayerIndex);
-		
+
 		if (currentPlayer.isJailed()) {
 			phase = GamePhase.JAILED;
 			return;
@@ -346,37 +441,37 @@ public class Monopoly {
 	private void rollDice(){
 		phase = GamePhase.ROLLING;
 		Player currentPlayer = players.get(currentPlayerIndex);
-		
+
 		int dieOneValue = board.getDice()[0].roll();
 		int dieTwoValue = board.getDice()[1].roll();
 		rolledDoubles = dieOneValue == dieTwoValue;
 		rolledValue = dieOneValue + dieTwoValue;
-		
+
 		if (currentPlayer.isJailed())
 		{
 			new java.util.Timer().schedule( 
-				new java.util.TimerTask() {
-					@Override
-					public void run() {
-						endJailRoll(currentPlayer, rolledDoubles);
-					}
-				}, 
-				3000 
-			);	
+					new java.util.TimerTask() {
+						@Override
+						public void run() {
+							endJailRoll(currentPlayer, rolledDoubles);
+						}
+					}, 
+					3000 
+					);	
 		}
 		else {
 			new java.util.Timer().schedule( 
-				new java.util.TimerTask() {
-					@Override
-					public void run() {
-						doTile(currentPlayer, rolledValue);
-					}
-				}, 
-				3000 
-			);	
+					new java.util.TimerTask() {
+						@Override
+						public void run() {
+							doTile(currentPlayer, rolledValue);
+						}
+					}, 
+					3000 
+					);	
 		}
 	}
-	
+
 	private void endJailRoll(Player currentPlayer, boolean rolledDoubles) {
 		if (rolledDoubles) {
 			currentPlayer.remainingTurnsJailed = 0;
@@ -394,24 +489,14 @@ public class Monopoly {
 		int previousTileIndex = currentPlayer.getToken().getTileIndex();
 		currentPlayer.getToken().moveBy(rolledValue);
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
-	    Tile currentTile = board.getTiles().get(currentTileIndex);
+		Tile currentTile = board.getTiles().get(currentTileIndex);
 		String tileName = currentTile.getName();
-		
-//		// Move the token by 1 if we land on any unimplemented tiles
-//		while (	tileName.equals("CHANCE") || 
-//				tileName.equals("COMMUNITY CHEST")) {
-//			
-//			currentPlayer.getToken().moveBy(1);
-//			currentTileIndex = currentPlayer.getToken().getTileIndex();
-//		    currentTile = board.getTiles().get(currentTileIndex);
-//			tileName = currentTile.getName();
-//		};
-		
+
 		// Pass go
 		if(previousTileIndex > currentTileIndex) {
 			bank.transfer(currentPlayer, 200.0);
 		}
-		
+
 		switch (currentTile.getType()){
 		case PROPERTY:
 		case UTILITY:
@@ -445,9 +530,10 @@ public class Monopoly {
 		default:
 			break;
 		}
+
 		startManagement();
 	}
-	
+
 	private void startManagement()
 	{
 		if (players.get(currentPlayerIndex).getDeeds().isEmpty())
@@ -476,22 +562,22 @@ public class Monopoly {
 
 		if(currentTile.isRailRoad())
 			currentPlayer.setNumRailRoadsOwned(currentPlayer.getNumRailRoadsOwned() + 1);
-		
+
 		if(currentTile.isUtility())
 			currentPlayer.setUtilitiesOwned(currentPlayer.getNumUtilitiesOwned() + 1);
-		
+
 		startManagement();
 	}
-	
+
 	public void auctionProperty(int tileIndex, double startingBid){
 		inAuction = true;
 		phase = GamePhase.AUCTION;
-		
+
 		highestBid = startingBid;
 		highestBidderIndex = -1;
 		auctionTimeLeft = 10;
 		nameOfAuctionTile = board.getTiles().get(tileIndex).getName();
-		
+
 		Owner recipient;
 		if (startingBid == 0) {
 			recipient = bank;
@@ -499,7 +585,7 @@ public class Monopoly {
 		else {
 			recipient = players.get(currentPlayerIndex);
 		}
-		
+
 		new java.util.Timer().scheduleAtFixedRate(
 				new java.util.TimerTask() 
 				{
@@ -525,7 +611,7 @@ public class Monopoly {
 								if(board.getTiles().get(tileIndex).getType() == TileType.RAILROAD) {
 									int numOwned = winner.getNumRailRoadsOwned();
 									winner.setNumRailRoadsOwned(numOwned + 1);
-									
+
 									if(!recipient.equals(bank))
 									{
 										numOwned = recipient.getNumRailRoadsOwned();
@@ -534,7 +620,7 @@ public class Monopoly {
 								} else if (board.getTiles().get(tileIndex).getType() == TileType.UTILITY) {
 									int numOwned = winner.getNumUtilitiesOwned();
 									winner.setUtilitiesOwned(numOwned + 1);
-									
+
 									if(!recipient.equals(bank))
 									{
 										numOwned = recipient.getNumUtilitiesOwned();
@@ -544,7 +630,7 @@ public class Monopoly {
 							}
 							startManagement();
 							this.cancel();
-							
+
 							for (Player p : players){
 								p.setBid(0);
 							}
@@ -582,11 +668,11 @@ public class Monopoly {
 			recipient.transfer(currentPlayer, amount);
 			recipient.getDeeds().add(propIndex);
 		}
-		
+
 		if(board.getTiles().get(propIndex).getType() == TileType.RAILROAD) {
 			int numOwned = currentPlayer.getNumRailRoadsOwned();
 			currentPlayer.setNumRailRoadsOwned(numOwned - 1);
-			
+
 			if(!recipient.equals(bank)){
 				int numOwnedRecipient = recipient.getNumRailRoadsOwned();
 				recipient.setNumRailRoadsOwned(numOwnedRecipient + 1);
@@ -594,13 +680,13 @@ public class Monopoly {
 		} else if (board.getTiles().get(propIndex).getType() == TileType.UTILITY) {
 			int numOwned = currentPlayer.getNumUtilitiesOwned();
 			currentPlayer.setUtilitiesOwned(numOwned - 1);
-			
+
 			if(!recipient.equals(bank)){
 				int numOwnedRecipient = recipient.getNumUtilitiesOwned();
 				recipient.setUtilitiesOwned(numOwnedRecipient + 1);
 			}
 		}
-		
+
 		currentPlayer.getDeeds().remove(propIndex);
 	}
 
@@ -611,7 +697,7 @@ public class Monopoly {
 			throw new IllegalStateException("Can only upgrade property in TURN phase.");
 
 		}
-		
+
 		//Bank is out of houses
 		if(numberOfHouses >= bank.getNumberOfHouses())
 			return;
@@ -641,7 +727,7 @@ public class Monopoly {
 		}
 
 		properties.remove(tile);
-		
+
 		//Check to see if player owns all the properties in same color group
 		for(Tile temp : properties){
 
@@ -669,9 +755,9 @@ public class Monopoly {
 			currentPlayer.transfer(bank, tile.houseCost);
 			tile.numHouses++;
 		}
-		
+
 		numberOfHouses++;
-		
+
 	}
 
 	public void degradeProperty(int index){
@@ -731,7 +817,7 @@ public class Monopoly {
 			bank.transfer(currentPlayer, currentTile.houseCost/2);
 			currentTile.numHouses--;
 		}
-		
+
 		if(numberOfHouses > 0)
 			numberOfHouses--;
 
@@ -815,47 +901,47 @@ public class Monopoly {
 		endTurn();
 
 	}
-	
+
 	public void sellToPlayers(int propertyIndex, double startingBid) {
 		Tile tile = board.getTiles().get(propertyIndex);
-		
+
 		if (startingBid < tile.propertyCost / 2) {
 			return;
 		}
-		
+
 		auctionProperty(propertyIndex, startingBid);
 	}
-	
+
 	public void sellToBank(int propertyIndex) {
-		
+
 		if (phase != GamePhase.TURN) {
 			throw new IllegalStateException("Not currently in TURN phase.");
 		}
-		
+
 		Tile property = board.getTiles().get(propertyIndex);
 		Player currentPlayer = players.get(currentPlayerIndex);
 		int propIndex = currentPlayer.getDeeds().indexOf(property);
-		
+
 		if (property.getHasHotel() || property.numHouses > 0) {
 			return;
 		}
-		
+
 		if (property.isMortgaged()) {
 			return;
 		}
-		
+
 		if (!currentPlayer.getDeeds().contains(property)) {
 			return;
 		}
-		
+
 		bank.transfer(currentPlayer, property.propertyCost / 2);
-		
+
 		currentPlayer.getDeeds().remove(propIndex);
 		property.setOwnerIndex(-1);
 	}
 
 	public void payRent(int amountOnDice){
-		
+
 		Player currentPlayer = players.get(currentPlayerIndex);
 		int tileIndex = currentPlayer.getToken().getTileIndex();
 		Tile currentTile = board.getTiles().get(tileIndex);
@@ -922,7 +1008,7 @@ public class Monopoly {
 
 		}
 	}
-	
+
 	public void jailChoice(boolean choice) {
 		Player player = players.get(currentPlayerIndex);
 		if (choice == true && player.getMoney() >= 50) {
@@ -935,10 +1021,10 @@ public class Monopoly {
 			rollDice();
 		}
 	}
-	
+
 	public void endTurn() {
 		Player currentPlayer = players.get(currentPlayerIndex);
-			if (currentPlayer.getMoney() == 0) {
+		if (currentPlayer.getMoney() == 0) {
 			//Player needs to be able to sell whatever they can to be able to pay taxes
 			//A new button on ui that says pay tax? and if you cant pay tax and have nothing to left to sell than you lose.
 			//phase = GamePhase.TURN;
@@ -946,7 +1032,7 @@ public class Monopoly {
 			//removePlayer(currentPlayer);
 			bankrupt(currentPlayer);
 		}
-		
+
 		// Automatically start the next turn
 		if(rolledDoubles && currentPlayer.doublesRolled < 3) {
 			++currentPlayer.doublesRolled;
@@ -954,12 +1040,12 @@ public class Monopoly {
 			//go to jail you speed
 			currentPlayer.jail();
 		}
-		
+
 		if (!rolledDoubles)
 		{
 			currentPlayer.doublesRolled = 0;
 			currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-			
+
 			//If player is bankrupt, increment to the next player
 			while(players.get(currentPlayerIndex).isBankrupt())
 			{
@@ -980,11 +1066,11 @@ public class Monopoly {
 	public void bankrupt(Player patheticLoser) {
 		patheticLoser.setBankrupt(true);
 		numberBankrupt++;
-		
+
 		if(numberBankrupt == players.size() - 1){
 			endGame();
 		}
-		
+
 		for (int tileIndex : patheticLoser.getDeeds())
 		{
 			while(inAuction)
@@ -995,19 +1081,42 @@ public class Monopoly {
 					e.printStackTrace();
 				}
 			}
-			
+
 			auctionProperty(tileIndex, 0);
 		}
 	}
-	
+
 	public void endGame() {
 		board = new Board();
 		bank = new Bank();
 		players = new ArrayList<Player>();
-		
+
 		this.phase = GamePhase.WAITING;
 		this.inAuction = false;
 		this.numberBankrupt = 0;
 		this.numberOfHouses = 0;	
+	}
+
+	//Helper method to help determine the WINNER WINNER CHICKEN DINNER!!!
+	public int calculateNetWorth(Player p){
+
+		int totalNetWorth = 0;
+
+		totalNetWorth += p.getMoney();
+
+		for(int i : p.getDeeds()){
+
+			totalNetWorth += board.getTiles().get(i).propertyCost;
+			
+			for(int j = 0; j < board.getTiles().get(i).numHouses; j++)
+				totalNetWorth += board.getTiles().get(i).houseCost;
+			
+			if(board.getTiles().get(i).getHasHotel())
+				totalNetWorth += board.getTiles().get(i).hotelCost;
+
+		}
+
+		return totalNetWorth;
+
 	}
 }

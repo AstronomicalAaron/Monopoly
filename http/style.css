@@ -270,11 +270,17 @@ More pastel-y versions of the monopoly colors -->.brown {
 	height: 100%;
 }
 
-#token {
+.token {
 	position: absolute;
-	width: 40px;
-	height: 40px;
-	background-size: 100%;
+	width: 50px;
+	height: 50px;
+	background-size: 80%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: #cde6d0;
+	box-shadow: 3px 3px 6px #444;
+	border-radius: 25px;
+	border: 2px solid #222;
 }
 
 #grid {
@@ -563,6 +569,14 @@ More pastel-y versions of the monopoly colors -->.brown {
 	justify-content: center;
 	flex-direction: column;
 	height: 100%;
+}
+
+.card-info {
+	position: absolute;
+	background: #ddd;
+	border: 2px solid black;
+	left: 0px;
+	top: 280px;
 }
 
 #board-grid {

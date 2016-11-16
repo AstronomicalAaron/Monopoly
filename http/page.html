@@ -166,10 +166,19 @@
 				</tr>
 			</table>	
 		</div>
+		
+		<div class='card-info' ng-show='selected.propertyCost != 0'>
+			<div ng-show='selected.ownerIndex != -1'>Owner: {{ cardOwner(selected) }}</div>
+			<div ng-show='selected.ownerIndex == -1'>Unowned</div>
+			<div ng-show='selected.houseCost > 0 && selected.ownerIndex != -1'>
+				<div ng-show='selected.numHouses < 5'>Houses: {{ selected.numHouses }}</div>
+				<div ng-show='selected.numHouses == 5'>Has Hotel</div>
+			</div>
+		</div>
 	</div>
 
 	<!-- Token -->
-	<div id='token' ng-repeat='player in state.players'
+	<div class='token' ng-repeat='player in state.players'
 		ng-style='tokenStyle(player)'></div>
 
 	<!-- Board -->
