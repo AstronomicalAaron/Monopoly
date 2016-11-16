@@ -1087,7 +1087,7 @@ public class Monopoly {
 		}
 	}
 
-	public void endGame() {
+	public String endGame() {
 		
 		int [] netWorths = new int[players.size()];
 		
@@ -1096,6 +1096,24 @@ public class Monopoly {
 			netWorths[i] = calculateNetWorth(players.get(i));
 			
 		}
+		
+		int maxIndex = 0;
+		
+		for(int i = 0; i < netWorths.length - 1; i++){
+			
+			if(netWorths[i] > netWorths[i+1]){
+				
+				maxIndex = i;
+				
+			}else{
+				
+				maxIndex = i+1;
+				
+			}
+			
+		}
+		
+		return players.get(maxIndex).getName();
 			
 	}
 	
