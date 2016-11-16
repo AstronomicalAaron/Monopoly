@@ -62,6 +62,8 @@ public class Monopoly {
 	private Timer gameTimer;
 	
 	private int timeLeft;
+	
+	private String winner;
 
 	public Monopoly() {
 		board = new Board();
@@ -112,6 +114,10 @@ public class Monopoly {
 
 	public String getCardString() {
 		return cardString;
+	}
+	
+	public String getWinner() {
+		return winner;
 	}
 
 	public String landOnChance(){
@@ -425,7 +431,7 @@ public class Monopoly {
             	if(timeLeft > 0)
             		timeLeft--;
             }
-        }, 0, 60000);
+        }, 60000, 60000);
 		
 		if(players.size() < 2){
 
@@ -455,6 +461,7 @@ public class Monopoly {
 		
 		if(LocalTime.now().isAfter(endTime)){
 			endGame();
+			return;
 		}
 		
 		Player currentPlayer = players.get(currentPlayerIndex);
@@ -1062,6 +1069,11 @@ public class Monopoly {
 			bankrupt(currentPlayer);
 		}
 
+		if(phase == GamePhase.ENDGAME)
+		{
+			return;
+		}
+		
 		// Automatically start the next turn
 		if(rolledDoubles && currentPlayer.doublesRolled < 3) {
 			++currentPlayer.doublesRolled;
@@ -1117,6 +1129,7 @@ public class Monopoly {
 	}
 
 	public String endGame() {
+		phase = GamePhase.ENDGAME;
 		
 		int [] netWorths = new int[players.size()];
 		
@@ -1141,8 +1154,9 @@ public class Monopoly {
 			}
 			
 		}
+		winner = players.get(maxIndex).getName();
 		
-		return players.get(maxIndex).getName();
+		return winner;
 			
 	}
 	
