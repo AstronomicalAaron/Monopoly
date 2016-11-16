@@ -501,7 +501,6 @@ public class Monopoly {
 		currentPlayer.getToken().moveBy(rolledValue);
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
 		Tile currentTile = board.getTiles().get(currentTileIndex);
-		String tileName = currentTile.getName();
 
 		// Pass go
 		if(previousTileIndex > currentTileIndex) {
