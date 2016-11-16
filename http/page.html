@@ -105,6 +105,10 @@
 				is 10 times amount</span> <span>shown on dice.</span>
 
 		</div>
+		
+		
+		
+		
 
 		<div class='taxes' ng-show='isTaxes(selected)'>
 			<!-- TODO -->
@@ -144,12 +148,23 @@
 			</table>
 		</div>
 
-		<div class='chance' ng-show='isChance(selected)'>
-			<!-- TODO -->
+		<div class='chance' ng-show='isChance(currentTile)'>
+			<table>
+					<tr>
+						<td>Chance Card:</td>
+						<td>{{ state.cardString }}</td>
+					</tr>
+			</table>			
 		</div>
 
-		<div class='communityChest' ng-show='isCommunityChest(selected)'>
-			<!-- TODO -->
+		<div class='communityChest'
+			ng-show='isCommunityChest(currentTile)'>
+			<table>
+				<tr>
+					<td>Community Chest Card:</td>
+					<td>{{ state.cardString }}</td>
+				</tr>
+			</table>	
 		</div>
 	</div>
 
@@ -243,7 +258,7 @@
 												</div>
 
 												<div class='utility' ng-show='isUtility(currentTile)'>
-													<img class="utilityImage" style="width: 30%;">
+													<img id="utilityImage" style="width: 30%;">
 
 													<hr>
 													<div class='card-header-utility'
@@ -299,12 +314,20 @@
 												</div>
 
 												<div class='chance' ng-show='isChance(currentTile)'>
-													<!-- TODO -->
+													<table>
+															<tr>
+																<td>Chance Card</td>
+															</tr>
+													</table>			
 												</div>
 
 												<div class='communityChest'
 													ng-show='isCommunityChest(currentTile)'>
-													<!-- TODO -->
+													<table>
+														<tr>
+															<td>Community Chest Card</td>
+														</tr>
+													</table>	
 												</div>
 											</div>
 											<div class='property-controls' ng-show='state.phase=="BUY_PROPERTY"'>

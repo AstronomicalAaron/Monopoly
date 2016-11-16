@@ -36,7 +36,7 @@ public class Card {
 	public Card(cardType type){
 		
 		cards = new ArrayList<String>();
-		rand = new Random();
+		rand = new Random(System.currentTimeMillis());
 		cardIndex = rand.nextInt(15);
 		freeJailDesc = "";
 

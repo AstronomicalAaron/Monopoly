@@ -45,6 +45,8 @@ public class Monopoly {
 
 	private String nameOfAuctionTile = "";
 	
+	private String cardString = "";
+	
 	private int rolledValue = 0;
 	
 	private boolean rolledDoubles = false;
@@ -93,6 +95,9 @@ public class Monopoly {
 		return currentPlayerIndex;
 	}
 	
+	public String getCardString() {
+		return cardString;
+	}
 	
 	
 	
@@ -392,15 +397,15 @@ public class Monopoly {
 	    Tile currentTile = board.getTiles().get(currentTileIndex);
 		String tileName = currentTile.getName();
 		
-		// Move the token by 1 if we land on any unimplemented tiles
-		while (	tileName.equals("CHANCE") || 
-				tileName.equals("COMMUNITY CHEST")) {
-			
-			currentPlayer.getToken().moveBy(1);
-			currentTileIndex = currentPlayer.getToken().getTileIndex();
-		    currentTile = board.getTiles().get(currentTileIndex);
-			tileName = currentTile.getName();
-		};
+//		// Move the token by 1 if we land on any unimplemented tiles
+//		while (	tileName.equals("CHANCE") || 
+//				tileName.equals("COMMUNITY CHEST")) {
+//			
+//			currentPlayer.getToken().moveBy(1);
+//			currentTileIndex = currentPlayer.getToken().getTileIndex();
+//		    currentTile = board.getTiles().get(currentTileIndex);
+//			tileName = currentTile.getName();
+//		};
 		
 		// Pass go
 		if(previousTileIndex > currentTileIndex) {
@@ -431,10 +436,15 @@ public class Monopoly {
 		case FREEPARKING:
 			bank.awardFreeParking(currentPlayer);		
 			break;
+		case COMMUNITYCHEST:
+			cardString = landOnCommunity();
+			break;
+		case CHANCE:
+			cardString = landOnChance();
+			break;
 		default:
 			break;
 		}
-		
 		startManagement();
 	}
 	
