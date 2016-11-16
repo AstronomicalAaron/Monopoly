@@ -395,7 +395,9 @@ app.controller('monopolyController', function($scope) {
 	}
 	
 	$scope.isHovered = function() {
-		return $scope.selected != null;
+		return $scope.selected != null && 
+			$scope.selected.propertyCost > 0 &&
+			!$scope.selected.name.includes("TAX");
 	}
 	
 	$scope.isProperty = function(tile) {
