@@ -92,6 +92,10 @@ public class Tile {
 	public boolean isUtility(){
 		return type.equals(TileType.UTILITY);
 	}
+
+	@JsonIgnore
+		return type.equals(TileType.CHANCE) || type.equals(TileType.COMMUNITYCHEST);
+	}
 	
 	@JsonIgnore
 	public boolean hasOwner(){
