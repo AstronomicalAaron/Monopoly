@@ -476,8 +476,8 @@ public class Monopoly {
 		phase = GamePhase.ROLLING;
 		Player currentPlayer = players.get(currentPlayerIndex);
 
-		int dieOneValue = board.getDice()[0].roll();
-		int dieTwoValue = board.getDice()[1].roll();
+		int dieOneValue = 5; //board.getDice()[0].roll();
+		int dieTwoValue = 2; //board.getDice()[1].roll();
 		rolledDoubles = dieOneValue == dieTwoValue;
 		rolledValue = dieOneValue + dieTwoValue;
 
