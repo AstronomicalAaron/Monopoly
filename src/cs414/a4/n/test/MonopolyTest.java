@@ -91,7 +91,7 @@ public class MonopolyTest {
 
 	@Test
 	public void testStart() {
-		monopoly.start();
+		monopoly.start(10);
 		assert(monopoly.getPhase() != GamePhase.WAITING);
 	}
 

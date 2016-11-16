@@ -60,8 +60,8 @@ public class MonopolyController {
     
     @RequestMapping(value = "/start", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Monopoly start() {
-    	game.start();
+    public Monopoly start(@RequestParam int timelimit) {
+    	game.start(timelimit);
     	return game;
     }
     

@@ -109,6 +109,7 @@ app.controller('monopolyController', function($scope) {
 	
 	$scope.cardHover = false;
 	$scope.cardHeaderStyle = {'background':'white','color':'black'};
+	$scope.timelimit = 10;
 	
 	poll($scope);
 	
@@ -259,7 +260,7 @@ app.controller('monopolyController', function($scope) {
 	}
 	
 	$scope.start = function () {
-		$scope.getOp('start');
+		$scope.getOp('start?timelimit=' + $scope.timelimit);
 	}
 	
 	//Buy property

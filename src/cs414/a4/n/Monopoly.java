@@ -1,5 +1,7 @@
 package cs414.a4.n;
 
+import java.time.LocalTime;
+
 /*************************************************************************************
  *                                      MONOPOLY									 *
  *************************************************************************************
@@ -52,6 +54,8 @@ public class Monopoly {
 	private boolean rolledDoubles = false;
 
 	private int numberOfHouses = 0;
+	
+	private LocalTime endTime;
 
 	public Monopoly() {
 		board = new Board();
@@ -397,10 +401,12 @@ public class Monopoly {
 		players.add(player);
 	}
 
-	public void start() {
+	public void start(int timeLimit) {
 		if (phase != GamePhase.WAITING) {
 			throw new IllegalStateException("Cannot start the game unless in the waiting phase.");
 		}
+		
+		endTime = LocalTime.now().plusMinutes(timeLimit);
 
 		if(players.size() < 2){
 
@@ -427,6 +433,11 @@ public class Monopoly {
 	}
 
 	private void startTurn() {
+		
+		if(LocalTime.now().isAfter(endTime)){
+			endGame();
+		}
+		
 		Player currentPlayer = players.get(currentPlayerIndex);
 
 		if (currentPlayer.isJailed()) {

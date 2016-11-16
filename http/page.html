@@ -210,6 +210,9 @@
 									<div id='phase-ui'>
 										<div id='waiting' ng-show='state.phase=="WAITING"'>
 											<h3>Waiting for players...</h3>
+											Time Limit (Minutes): <input
+												type='number' ng-model='timelimit' value="10"
+												style='width: 80px'/>
 											<button ng-click='start()'>Start</button>
 										</div>
 										<div id='roll' ng-show='phaseRolling()'>
