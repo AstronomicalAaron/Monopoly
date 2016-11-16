@@ -94,6 +94,7 @@ public class Tile {
 	}
 
 	@JsonIgnore
+	public boolean isCommunityChestOrChanceCard(){
 		return type.equals(TileType.CHANCE) || type.equals(TileType.COMMUNITYCHEST);
 	}
 	
