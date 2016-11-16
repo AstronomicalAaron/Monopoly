@@ -54,6 +54,7 @@ public class Player extends Owner {
 	
 	public void jail(){
 		token.moveTo(10);
+		doublesRolled = 0;
 		this.remainingTurnsJailed = 3;
 	}
 	

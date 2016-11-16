@@ -353,10 +353,12 @@
 												<button class='red'     ng-click='passProperty()'>Pass</button>
 											</div>
 											<div class='property-controls' ng-show='state.phase=="TURN" && !selling'>
-												<span ng-show='currentTile.hasHotel==false'>Houses: {{ currentTile.numHouses }}</span>
+												<span ng-show='currentTile.houseCost > 0 && currentTile.hasHotel==false'>Houses: {{ currentTile.numHouses }}</span>
 												<span ng-show='currentTile.hasHotel==true'>Has Hotel</span>
-												<button class='green'   ng-click='upgradeProp()'>Add House</button>
-												<button class='yellow'  ng-click='degradeProp()'>Remove House</button>
+												<button class='green'   ng-click='upgradeProp()'
+													ng-show='currentTile.houseCost > 0 && hasMonopoly(currentTile) && currentTile.numHouses < 5'>Add House</button>
+												<button class='yellow'  ng-click='degradeProp()'
+													ng-show='currentTile.numHouses > 0'>Remove House</button>
 												<button class='blue'    ng-click='selling=true'>Sell Property</button>
 											</div>
 											<div class='property-controls' ng-show='state.phase=="TURN" && selling'>
