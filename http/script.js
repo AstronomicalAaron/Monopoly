@@ -432,8 +432,8 @@ app.controller('monopolyController', function($scope) {
 		var position = tile.position();
 		
 		// Put the token in the center of the tile
-		var marginLeft = tile.width() / 2 - 20;
-		var marginTop = tile.height() / 2 - 20;
+		var marginLeft = tile.width() / 2 - 25;
+		var marginTop = tile.height() / 2 - 25;
 		
 		return {
 			'background-image': 'url("' + player.token.type.toLowerCase() + '.png")',
@@ -444,8 +444,8 @@ app.controller('monopolyController', function($scope) {
 		};
 	}
 	
-	$scope.cardOwner = function(index) {
-		return $scope.state.players[index];
+	$scope.cardOwner = function(card) {
+		return $scope.state.players[card.ownerIndex].name;
 	}
 });
 
