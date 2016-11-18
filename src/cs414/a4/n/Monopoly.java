@@ -1201,14 +1201,8 @@ public class Monopoly {
 
 		for(int i = 0; i < netWorths.length - 1; i++){
 
-			if(netWorths[i] > netWorths[i+1]){
-
+			if(netWorths[i] > netWorths[maxIndex]){
 				maxIndex = i;
-
-			}else{
-
-				maxIndex = i+1;
-
 			}
 
 		}
