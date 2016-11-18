@@ -383,6 +383,9 @@
 											<img src='jail.png' />
 											<button ng-click='jailChoice(true)' class='green'>Bail Out ($50)</button>
 											<button ng-click='jailChoice(false)'>Try For Doubles...</button>
+											<button ng-click='useFreeCard()' 
+													ng-show='state.players[state.currentPlayerIndex].hasFreeJailCard'>
+													Get out of Jail Free!</button>
 										</div>
 										<div id='endgame' ng-show='state.phase=="ENDGAME"'>
 											<h3>Game Over!</h3>
