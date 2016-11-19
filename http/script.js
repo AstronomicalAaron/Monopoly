@@ -106,7 +106,7 @@ function update($scope, json) {
 		// Check for sold tiles
 		$scope.state.board.tiles.forEach(function(tile, i, arr) {
 			var $cell = $('#' + i);
-			if (!$cell.hasClass('covered') && tile.ownerIndex != $scope.state.currentPlayerIndex) {
+			if (!$cell.is('.covered') && tile.ownerIndex != $scope.state.currentPlayerIndex) {
 				$cell.addClass('covered');
 			}
 		});
