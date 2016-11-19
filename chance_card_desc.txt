@@ -8,7 +8,7 @@
 "Your building and loan matures! Collect $150":150:0:-1
 "Advance to Illinois Ave":0:0:24
 "Take a walk on the board walk ADVANCE TOKEN TO BOARD WALK":0:0:39
-"Pay poor tax of $15":0:15:0
+"Pay poor tax of $15":0:15:-1
 "Advance to ST. CHARLES PLACE, if you pass GO, collect $200":0:0:11
 "Go back 3 spaces":0:0:3
 "Bank pays you dividend of $50":50:0:-1
