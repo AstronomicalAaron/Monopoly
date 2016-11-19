@@ -111,7 +111,7 @@ boolean thrown = false;
 
 	@Test
 	public void testAuctionProperty() {
-		monopoly.auctionProperty(1, 0);
+		monopoly.auctionProperty(monopoly.getBank(), 1, 0);
 		assert(monopoly.getBoard().getTiles().get(1).getOwnerIndex() == -1);
 	}
 
