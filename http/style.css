@@ -285,6 +285,7 @@ More pastel-y versions of the monopoly colors -->.brown {
 	box-shadow: 3px 3px 6px #444;
 	border-radius: 25px;
 	border: 2px solid #222;
+	z-index: 1000;
 }
 
 #grid {
