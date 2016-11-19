@@ -280,7 +280,7 @@ app.controller('monopolyController', function($scope) {
 	}
 	
 	$scope.sellToBank = function() {
-		$scope.getOp('selltobank');
+		$scope.getOp('selltobank?propertyIndex=' + $scope.selectedIndex);
 	}
 	//
 	

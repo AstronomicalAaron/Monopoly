@@ -1073,13 +1073,12 @@ public class Monopoly {
 		auctionProperty(propertyIndex, startingBid);
 	}
 
-	public void sellToBank() {
+	public void sellToBank(int propertyIndex) {
 		if (phase != GamePhase.TURN) {
 			throw new IllegalStateException("Not currently in TURN phase.");
 		}
 		
 		Player currentPlayer = players.get(currentPlayerIndex);
-		int propertyIndex = currentPlayer.getToken().getTileIndex();
 		Tile property = board.getTiles().get(propertyIndex);
 		
 
@@ -1092,7 +1091,7 @@ public class Monopoly {
 			return;
 		}
 
-		if (!currentPlayer.getDeeds().contains(property)) {
+		if (!currentPlayer.getDeeds().contains(propertyIndex)) {
 			return;
 		}
 

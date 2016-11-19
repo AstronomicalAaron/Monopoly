@@ -81,8 +81,9 @@ public class MonopolyController {
     
     @RequestMapping(value = "/selltobank", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Monopoly sellToBank() {
-    	game.sellToBank();
+    public Monopoly sellToBank(
+    		@RequestParam int propertyIndex) {
+    	game.sellToBank(propertyIndex);
     	return game;
     }
     
