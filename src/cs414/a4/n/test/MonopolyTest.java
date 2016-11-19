@@ -197,7 +197,7 @@ boolean thrown = false;
 		boolean thrown = false;
 		
 		try	{
-			monopoly.sellToBank(1);
+			monopoly.sellToBank();
 		}
 		catch (IllegalStateException e){
 			thrown = true;

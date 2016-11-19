@@ -1073,14 +1073,15 @@ public class Monopoly {
 		auctionProperty(propertyIndex, startingBid);
 	}
 
-	public void sellToBank(int propertyIndex) {
-
+	public void sellToBank() {
 		if (phase != GamePhase.TURN) {
 			throw new IllegalStateException("Not currently in TURN phase.");
 		}
 		
-		Tile property = board.getTiles().get(propertyIndex);
 		Player currentPlayer = players.get(currentPlayerIndex);
+		int propertyIndex = currentPlayer.getToken().getTileIndex();
+		Tile property = board.getTiles().get(propertyIndex);
+		
 
 		if (property.getHasHotel() || property.numHouses > 0) {
 			return;
