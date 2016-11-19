@@ -725,15 +725,17 @@ public class Monopoly {
 			throw new IllegalStateException("Not currently in BUY_PROPERTY phase.");
 		}
 
-		currentPlayer.transfer(bank, currentTile.propertyCost);
-		currentPlayer.getDeeds().add(currentPlayer.getToken().getTileIndex());
-		currentTile.setOwnerIndex(currentPlayerIndex);
-
-		if(currentTile.isRailRoad())
-			currentPlayer.setNumRailRoadsOwned(currentPlayer.getNumRailRoadsOwned() + 1);
-
-		if(currentTile.isUtility())
-			currentPlayer.setUtilitiesOwned(currentPlayer.getNumUtilitiesOwned() + 1);
+		if(!currentTile.isMortgaged()) {
+			currentPlayer.transfer(bank, currentTile.propertyCost);
+			currentPlayer.getDeeds().add(currentPlayer.getToken().getTileIndex());
+			currentTile.setOwnerIndex(currentPlayerIndex);
+	
+			if(currentTile.isRailRoad())
+				currentPlayer.setNumRailRoadsOwned(currentPlayer.getNumRailRoadsOwned() + 1);
+	
+			if(currentTile.isUtility())
+				currentPlayer.setUtilitiesOwned(currentPlayer.getNumUtilitiesOwned() + 1);
+		}
 
 		startManagement();
 	}
@@ -1010,6 +1012,7 @@ public class Monopoly {
 		if(currentTile.getHasHotel() || currentTile.numHouses > 0){
 			return;
 		}
+		
 
 		//Want to check if the player actually owns the tile and has a mortgage on it
 		if(currentTile.isMortgaged() &&
@@ -1017,7 +1020,6 @@ public class Monopoly {
 
 			currentPlayer.transfer(getBank(), currentTile.mortgageValue + (currentTile.mortgageValue * 0.1));
 			currentTile.setMortgaged(false);
-
 		}
 
 	}
@@ -1052,6 +1054,7 @@ public class Monopoly {
 				currentPlayer.transfer(bank, mortgageAmount);
 				//Update mortgage status
 				currentTile.setMortgaged(true);
+				currentPlayer.getDeeds().add(currentTileIndex);
 			}
 
 		}
@@ -1078,7 +1081,6 @@ public class Monopoly {
 		
 		Tile property = board.getTiles().get(propertyIndex);
 		Player currentPlayer = players.get(currentPlayerIndex);
-		int propIndex = currentPlayer.getDeeds().indexOf(property);
 
 		if (property.getHasHotel() || property.numHouses > 0) {
 			return;
@@ -1095,7 +1097,7 @@ public class Monopoly {
 
 		bank.transfer(currentPlayer, property.propertyCost / 2);
 
-		currentPlayer.getDeeds().remove(propIndex);
+		currentPlayer.getDeeds().remove(propertyIndex);
 		property.setOwnerIndex(-1);
 	}
 
