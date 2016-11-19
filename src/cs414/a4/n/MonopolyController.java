@@ -100,7 +100,13 @@ public class MonopolyController {
     @ResponseBody
     public Monopoly passProperty(
     		@RequestParam int tileIndex) {
-    	game.auctionProperty(tileIndex, 0);
+    	Runnable r = new Runnable() {
+    		public void run() {
+    			game.auctionProperty(game.getBank(), tileIndex, 0);
+    			game.startManagement();
+    		}
+    	};
+    	new Thread(r).run();
     	return game;
     }
     

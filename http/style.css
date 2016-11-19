@@ -286,6 +286,7 @@ More pastel-y versions of the monopoly colors -->.brown {
 	border-radius: 25px;
 	border: 2px solid #222;
 	z-index: 99;
+	pointer-events: none;
 }
 
 #grid {
@@ -671,7 +672,8 @@ More pastel-y versions of the monopoly colors -->.brown {
 }
 
 #endgame{
-	background-color: #0066ff;
+	color: #eee;
+	background-color: #0072bb;
 	display: block;
 	padding: 25px;
 	text-align: center;

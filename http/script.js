@@ -469,13 +469,19 @@ app.controller('monopolyController', function($scope) {
 		var marginLeft = tile.width() / 2 - 25;
 		var marginTop = tile.height() / 2 - 25;
 		
-		return {
+		var style = {
 			'background-image': 'url("' + player.token.type.toLowerCase() + '.png")',
 			left: position.left,
 			top: position.top,
 			'margin-left': marginLeft,
 			'margin-top': marginTop
 		};
+		
+		if ($scope.currentPlayer != null && $scope.currentPlayer == player) {
+			style['background-color'] = '#fccd4d';
+		}
+		
+		return style;
 	}
 	
 	$scope.cardOwner = function(card) {

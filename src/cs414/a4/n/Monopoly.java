@@ -489,6 +489,22 @@ public class Monopoly {
 					timeLeft--;
 			}
 		}, 60000, 60000);
+		
+		turnTimeLeft = 60;
+		turnTimer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				if (phase != GamePhase.TURN && phase != GamePhase.BUY_PROPERTY &&
+					phase != GamePhase.JAILED && phase != GamePhase.SHOWCARD) {
+					return;
+				}
+
+				if(turnTimeLeft > 0)
+					turnTimeLeft--;
+				else
+					endTurn();
+			}
+		}, 1000, 1000);
 
 		if(players.size() < 2){
 
@@ -522,19 +538,6 @@ public class Monopoly {
 		}
 
 		turnTimeLeft = 60;
-		turnTimer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				if (phase == GamePhase.AUCTION) {
-					return;
-				}
-
-				if(turnTimeLeft > 0)
-					turnTimeLeft--;
-				else
-					endTurn();
-			}
-		}, 0, 1000);
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 
@@ -698,12 +701,11 @@ public class Monopoly {
 		default:
 			break;
 		}
-
+		
 		startManagement();
-
 	}
 
-	private void startManagement()
+	void startManagement()
 	{
 		if (players.get(currentPlayerIndex).getDeeds().isEmpty())
 		{
@@ -763,9 +765,8 @@ public class Monopoly {
 
 					seller.transfer(winner, tile, highestBid);
 				}
-				else {
-					inAuction = false;
-				}
+				
+				inAuction = false;
 			}
 
 			try {
@@ -778,8 +779,6 @@ public class Monopoly {
 		for (Player p : players){
 			p.setBid(0);
 		}
-
-		startManagement();
 	}
 
 	public void sellProperty(int propertyIndex, int recIndex, double amount){
@@ -1044,6 +1043,7 @@ public class Monopoly {
 		Runnable r = new Runnable(){
 			public void run(){
 				auctionProperty(players.get(currentPlayerIndex), propertyIndex, startingBid);
+				startManagement();
 			}
 		};
 		
@@ -1164,9 +1164,6 @@ public class Monopoly {
 	}
 
 	public void endTurn() {
-		turnTimer.cancel();
-		turnTimer = new Timer();
-
 		Player currentPlayer = players.get(currentPlayerIndex);
 		if (currentPlayer.getMoney() == 0) {
 			//Player needs to be able to sell whatever they can to be able to pay taxes
