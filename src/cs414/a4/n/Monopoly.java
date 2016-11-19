@@ -219,8 +219,6 @@ public class Monopoly {
 			//If player doesn't have hotels or houses, they receive no penalty
 			currentPlayer.transfer(bank, (double) totalPenalty);
 
-			return;
-
 		}
 
 		//Move player's token on board depending on which card they draw.
