@@ -623,6 +623,7 @@ public class Monopoly {
 		if (rolledDoubles) {
 			currentPlayer.remainingTurnsJailed = 0;
 			rolledDoubles = false;
+			startManagement();
 		}
 		else {
 			currentPlayer.remainingTurnsJailed--;
