@@ -259,8 +259,6 @@ public class Monopoly {
 					phase = GamePhase.BUY_PROPERTY;
 					return;
 				}
-				
-				startManagement();
 
 			}else{
 				currentPlayer.getToken().moveTo(28);
@@ -274,7 +272,7 @@ public class Monopoly {
 					phase = GamePhase.BUY_PROPERTY;
 					return;
 				}
-
+				
 			}
 
 		}
@@ -290,7 +288,7 @@ public class Monopoly {
 				currentPlayer.getToken().moveTo(25);
 			else
 				currentPlayer.getToken().moveTo(35);
-
+			
 			currentTile = board.getTiles().get(currentTileIndex);
 			if (currentTile.hasOwner()) {
 				if (currentTile.getOwnerIndex() != currentPlayerIndex) {
@@ -301,9 +299,11 @@ public class Monopoly {
 			else {
 				phase = GamePhase.BUY_PROPERTY;
 				return;
-			}
+			}			
 
 		}
+		
+		startManagement();
 
 	}
 
@@ -407,7 +407,9 @@ public class Monopoly {
 			currentPlayer.setHasFreeJailCard(true);
 
 		}
-
+		
+		startManagement();
+		
 	}
 
 	public void setBid(String username, double bid)
@@ -514,8 +516,8 @@ public class Monopoly {
 		phase = GamePhase.ROLLING;
 		Player currentPlayer = players.get(currentPlayerIndex);
 
-		int dieOneValue = 3;//board.getDice()[0].roll();
-		int dieTwoValue = 4;//board.getDice()[1].roll();
+		int dieOneValue = 1;//board.getDice()[0].roll();
+		int dieTwoValue = 1;//board.getDice()[1].roll();
 		rolledDoubles = dieOneValue == dieTwoValue;
 		rolledValue = dieOneValue + dieTwoValue;
 
@@ -1262,15 +1264,18 @@ public class Monopoly {
 
 		if (currentCard.type == cardType.CHANCE) {
 			landOnChance(currentCard);
+			return;
 		}
 		else if (currentCard.type == cardType.COMMUNITY) {
 			landOnCommunity(currentCard);
+			return;
 		}
 
 		// Reset card
 		currentCard = null;
 		cardString = null;
-
+		
 		startManagement();
+
 	}
 }
