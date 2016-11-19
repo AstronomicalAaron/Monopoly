@@ -1,4 +1,4 @@
-package cs414.a4.n;
+package cs414.a5.n;
 
 /*************************************************************************************
  *                                      MONOPOLY									 *
@@ -15,25 +15,42 @@ package cs414.a4.n;
  *************************************************************************************/
 
 /*************************************************************************************
- * 										CHAT MESSAGE								 *
+ * 											BANK									 *
  *************************************************************************************/
 
-public class ChatMessage {
-
-	private String sender;
+public class Bank extends Owner {
 	
-	private String message;
-
-	public ChatMessage(String sender, String message) {
-		this.sender = sender;
-		this.message = message;
+	private double freeParkingPool = 100;
+	
+	private final int numberOfHouses = 32;
+	
+	public Bank() {
+		super("Bank", 2000000);
 	}
 	
-	public String getSender() {
-		return sender;
+	public int getNumberOfHouses(){
+		return numberOfHouses;
 	}
 	
-	public String getMessage() {
-		return message;
+	public double getFreeParkingPool() {
+		return freeParkingPool;
+	}
+	
+	public void payTax(Player player, Tile tile)
+	{
+		if (tile.getName().equals("LUXURY TAX")) {
+			freeParkingPool += player.transfer(this, 75.0);
+		}
+		else if (player.getMoney() > 2000){
+			freeParkingPool += player.transfer(this, 200.0);
+		}
+		else{
+			freeParkingPool += player.transfer(this, 0.1 * player.getMoney());
+		}
+	}
+	
+	public void awardFreeParking(Player player){
+		this.transfer(player, freeParkingPool);
+		freeParkingPool = 100;
 	}
 }

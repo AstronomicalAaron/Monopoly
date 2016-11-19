@@ -1,4 +1,4 @@
-package cs414.a4.n.test;
+package cs414.a5.n;
 
 /*************************************************************************************
  *                                      MONOPOLY									 *
@@ -7,7 +7,7 @@ package cs414.a4.n.test;
  *                                   UPDATED ON: 10/28/2016						     *
  *                                   VERSION: 0.0.1									 *
  *                                     WRITTEN BY:									 *
- * 	    								Joey Bzdek	                                 *
+ * 	    							   Joey Bzdek	                                 *
  * 								    Dylan Crescibene 								 *
  * 									 Chris Geohring 								 *
  * 									Aaron Barczewski 								 *
@@ -15,48 +15,13 @@ package cs414.a4.n.test;
  *************************************************************************************/
 
 /*************************************************************************************
- * 										BOARD TEST									 *
+ * 											TILE LIST								 *
  *************************************************************************************/
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import java.util.ArrayList;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import cs414.a4.n.Board;
-import cs414.a4.n.TileList;
-import cs414.a4.n.TileType;
-
-public class BoardTest {
-	Board b;
-	@Before
-	public void setUp() throws Exception {
-		b = new Board();
-	}
-
-	@Test
-	public void testBoard() {
-		assertNotNull(b);
-	}
-
-	@Test
-	public void testGetTiles() {
-		TileList t = b.getTiles();
-		assertEquals(t.get(0).getType(), TileType.GO);
-	}
-
-	@Test
-	public void testGetDice() {
-		assertNotNull(b.getDice());
-		int rollValue = b.getDice()[0].roll();
-		assert(rollValue >= 0 && rollValue<= 6);
-		
-	}
-
-	@Test
-	public void testGetGo() {
-		assertEquals(b.getGo(), b.getTiles().get(0));
-	}
+public class TileList extends ArrayList<Tile> {
+	// To make eclipse happy
+	private static final long serialVersionUID = 1L;
 
 }

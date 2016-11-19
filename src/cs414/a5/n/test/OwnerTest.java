@@ -1,4 +1,4 @@
-package cs414.a4.n.test;
+package cs414.a5.n.test;
 
 /*************************************************************************************
  *                                      MONOPOLY									 *
@@ -7,49 +7,24 @@ package cs414.a4.n.test;
  *                                   UPDATED ON: 10/28/2016						     *
  *                                   VERSION: 0.0.1									 *
  *                                     WRITTEN BY:									 *
- * 	    								Joey Bzdek	                                 *
+ * 	    							   Joey Bzdek	                                 *
  * 								    Dylan Crescibene 								 *
  * 									 Chris Geohring 								 *
- * 									Aaron Barczewski         						 *
+ * 									Aaron Barczewski								 *
  * 																					 *
  *************************************************************************************/
 
 /*************************************************************************************
- * 										DIE TEST									 *
+ * 										OWNER TEST									 *
  *************************************************************************************/
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
 import org.junit.Test;
 
-import cs414.a4.n.Die;
-
-public class DieTest {
-
-	Die die;
-	int rollValue;
-	@Before
-	public void setUp() throws Exception {
-		die = new Die();
-	}
+public class OwnerTest {
 
 	@Test
-	public void testDie() {
-		assertNotNull(die);
+	public void testTransfer() {
+		
 	}
-
-	@Test
-	public void testRoll() {
-		rollValue = die.roll();
-		assert(rollValue >= 0 && rollValue <= 6);
-	}
-
-	@Test
-	public void testGetValue() {
-		//Equal to the roll in testRoll()
-		assertEquals(rollValue, die.getValue());
-	}
-
 
 }

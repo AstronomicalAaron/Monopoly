@@ -1,4 +1,4 @@
-package cs414.a4.n.test;
+package cs414.a5.n.test;
 
 /*************************************************************************************
  *                                      MONOPOLY									 *
@@ -23,9 +23,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import cs414.a4.n.Monopoly;
-import cs414.a4.n.Tile;
-import cs414.a4.n.TileType;
+import cs414.a5.n.Monopoly;
+import cs414.a5.n.Tile;
+import cs414.a5.n.TileType;
 
 public class TileTest {
 	

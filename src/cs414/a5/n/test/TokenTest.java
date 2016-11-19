@@ -1,4 +1,4 @@
-package cs414.a4.n.test;
+package cs414.a5.n.test;
 
 /*************************************************************************************
  *                                      MONOPOLY									 *
@@ -10,42 +10,56 @@ package cs414.a4.n.test;
  * 	    							   Joey Bzdek	                                 *
  * 								    Dylan Crescibene 								 *
  * 									 Chris Geohring 								 *
- * 									Aaron Barczewski								 *
+ * 									Aaron Barczewski 								 *
  * 																					 *
  *************************************************************************************/
 
 /*************************************************************************************
- * 										TEST ALL									 *
+ * 										TOKEN TEST									 *
  *************************************************************************************/
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import static org.junit.Assert.*;
 
-import junit.framework.JUnit4TestAdapter;
+import org.junit.Before;
+import org.junit.Test;
 
-// declare all test classes in the program
-@RunWith (Suite.class)
-@Suite.SuiteClasses({BankTest.class, BoardTest.class, DieTest.class, MonopolyTest.class, PlayerTest.class, TileTest.class, 
-	TokenTest.class})
- 
-public class TestAll 
-{
-	/**
-	 * Runs all test and indicates failure of any
-	 * @param args
-	 */
-	public static void main(String[] args)
-	{
-		junit.textui.TestRunner.run(suite());
+import cs414.a5.n.Token;
+import cs414.a5.n.TokenType;
+
+public class TokenTest {
+	Token t;
+	@Before
+	public void setUp() throws Exception {
+		t = new Token(TokenType.DOG);
 	}
-	
-	/**
-	 * create a TestAdapter
-	 * @return
-	 */
-	public static junit.framework.Test suite()
-	{
-		return new JUnit4TestAdapter(TestAll.class);
+
+	@Test
+	public void testToken() {
+		assertNotNull(t);
+	}
+
+	@Test
+	public void testGetType() {
+		assertEquals(t.getType(), TokenType.DOG);
+	}
+
+	@Test
+	public void testGetTileIndex() {
+		assertEquals(t.getTileIndex(), 0);
+	}
+
+	@Test
+	public void testMoveTo() {
+		assertEquals(t.getTileIndex(), 0);
+		t.moveTo(2);
+		assertEquals(t.getTileIndex(), 2);
+	}
+
+	@Test
+	public void testMoveBy() {
+		assertEquals(t.getTileIndex(), 0);
+		t.moveBy(1);
+		assertEquals(t.getTileIndex(), 1);
 	}
 
 }

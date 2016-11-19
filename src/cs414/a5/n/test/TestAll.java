@@ -1,4 +1,4 @@
-package cs414.a4.n;
+package cs414.a5.n.test;
 
 /*************************************************************************************
  *                                      MONOPOLY									 *
@@ -7,7 +7,7 @@ package cs414.a4.n;
  *                                   UPDATED ON: 10/28/2016						     *
  *                                   VERSION: 0.0.1									 *
  *                                     WRITTEN BY:									 *
- * 	    								Joey Bzdek	                                 *
+ * 	    							   Joey Bzdek	                                 *
  * 								    Dylan Crescibene 								 *
  * 									 Chris Geohring 								 *
  * 									Aaron Barczewski								 *
@@ -15,42 +15,37 @@ package cs414.a4.n;
  *************************************************************************************/
 
 /*************************************************************************************
- * 											BANK									 *
+ * 										TEST ALL									 *
  *************************************************************************************/
 
-public class Bank extends Owner {
-	
-	private double freeParkingPool = 100;
-	
-	private final int numberOfHouses = 32;
-	
-	public Bank() {
-		super("Bank", 2000000);
-	}
-	
-	public int getNumberOfHouses(){
-		return numberOfHouses;
-	}
-	
-	public double getFreeParkingPool() {
-		return freeParkingPool;
-	}
-	
-	public void payTax(Player player, Tile tile)
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
+import junit.framework.JUnit4TestAdapter;
+
+// declare all test classes in the program
+@RunWith (Suite.class)
+@Suite.SuiteClasses({BankTest.class, BoardTest.class, DieTest.class, MonopolyTest.class, PlayerTest.class, TileTest.class, 
+	TokenTest.class})
+ 
+public class TestAll 
+{
+	/**
+	 * Runs all test and indicates failure of any
+	 * @param args
+	 */
+	public static void main(String[] args)
 	{
-		if (tile.getName().equals("LUXURY TAX")) {
-			freeParkingPool += player.transfer(this, 75.0);
-		}
-		else if (player.getMoney() > 2000){
-			freeParkingPool += player.transfer(this, 200.0);
-		}
-		else{
-			freeParkingPool += player.transfer(this, 0.1 * player.getMoney());
-		}
+		junit.textui.TestRunner.run(suite());
 	}
 	
-	public void awardFreeParking(Player player){
-		this.transfer(player, freeParkingPool);
-		freeParkingPool = 100;
+	/**
+	 * create a TestAdapter
+	 * @return
+	 */
+	public static junit.framework.Test suite()
+	{
+		return new JUnit4TestAdapter(TestAll.class);
 	}
+
 }

@@ -1,4 +1,4 @@
-package cs414.a4.n.test;
+package cs414.a5.n;
 
 /*************************************************************************************
  *                                      MONOPOLY									 *
@@ -10,21 +10,21 @@ package cs414.a4.n.test;
  * 	    							   Joey Bzdek	                                 *
  * 								    Dylan Crescibene 								 *
  * 									 Chris Geohring 								 *
- * 									Aaron Barczewski								 *
+ * 									Aaron Barczewski									 *
  * 																					 *
  *************************************************************************************/
 
 /*************************************************************************************
- * 										OWNER TEST									 *
+ * 										TOKEN TYPE									 *
  *************************************************************************************/
 
-import org.junit.Test;
-
-public class OwnerTest {
-
-	@Test
-	public void testTransfer() {
-		
-	}
-
+public enum TokenType {
+	CAR,
+	DOG,
+	HAT,
+	IRON,
+	SHIP,
+	SHOE,
+	THIMBLE,
+	WHEELBARROW
 }

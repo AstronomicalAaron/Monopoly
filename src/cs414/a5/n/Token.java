@@ -1,4 +1,4 @@
-package cs414.a4.n;
+package cs414.a5.n;
 
 /*************************************************************************************
  *                                      MONOPOLY									 *
@@ -7,24 +7,40 @@ package cs414.a4.n;
  *                                   UPDATED ON: 10/28/2016						     *
  *                                   VERSION: 0.0.1									 *
  *                                     WRITTEN BY:									 *
- * 	    							   Joey Bzdek	                                 *
+ * 	    							    Joey Bzdek	                                 *
  * 								    Dylan Crescibene 								 *
  * 									 Chris Geohring 								 *
- * 									Aaron Barczewski									 *
+ * 									Aaron Barczewski								 *
  * 																					 *
  *************************************************************************************/
 
 /*************************************************************************************
- * 										TOKEN TYPE									 *
+ * 											TOKEN									 *
  *************************************************************************************/
 
-public enum TokenType {
-	CAR,
-	DOG,
-	HAT,
-	IRON,
-	SHIP,
-	SHOE,
-	THIMBLE,
-	WHEELBARROW
+public class Token {
+	
+	private TokenType type;
+	
+	private int tileIndex;
+	
+	public Token(TokenType type) {
+		this.type = type;
+	}
+	
+	public TokenType getType() {
+		return type;
+	}
+	
+	public int getTileIndex() {
+		return tileIndex;
+	}
+	
+	public void moveTo(int tileIndex) {
+		this.tileIndex = tileIndex;
+	}
+	
+	public void moveBy(int amount) {
+		tileIndex = (tileIndex + amount) % 40;
+	}
 }

@@ -1,4 +1,4 @@
-package cs414.a4.n.test;
+package cs414.a5.n.test;
 
 import static org.junit.Assert.*;
 
@@ -23,8 +23,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import cs414.a4.n.Player;
-import cs414.a4.n.TokenType;
+import cs414.a5.n.Player;
+import cs414.a5.n.TokenType;
 
 public class PlayerTest {
 

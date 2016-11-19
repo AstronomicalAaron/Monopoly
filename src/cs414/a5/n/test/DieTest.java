@@ -1,4 +1,4 @@
-package cs414.a4.n.test;
+package cs414.a5.n.test;
 
 /*************************************************************************************
  *                                      MONOPOLY									 *
@@ -7,15 +7,15 @@ package cs414.a4.n.test;
  *                                   UPDATED ON: 10/28/2016						     *
  *                                   VERSION: 0.0.1									 *
  *                                     WRITTEN BY:									 *
- * 	    							   Joey Bzdek	                                 *
+ * 	    								Joey Bzdek	                                 *
  * 								    Dylan Crescibene 								 *
  * 									 Chris Geohring 								 *
- * 									Aaron Barczewski 								 *
+ * 									Aaron Barczewski         						 *
  * 																					 *
  *************************************************************************************/
 
 /*************************************************************************************
- * 										TOKEN TEST									 *
+ * 										DIE TEST									 *
  *************************************************************************************/
 
 import static org.junit.Assert.*;
@@ -23,43 +23,33 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import cs414.a4.n.Token;
-import cs414.a4.n.TokenType;
+import cs414.a5.n.Die;
 
-public class TokenTest {
-	Token t;
+public class DieTest {
+
+	Die die;
+	int rollValue;
 	@Before
 	public void setUp() throws Exception {
-		t = new Token(TokenType.DOG);
+		die = new Die();
 	}
 
 	@Test
-	public void testToken() {
-		assertNotNull(t);
+	public void testDie() {
+		assertNotNull(die);
 	}
 
 	@Test
-	public void testGetType() {
-		assertEquals(t.getType(), TokenType.DOG);
+	public void testRoll() {
+		rollValue = die.roll();
+		assert(rollValue >= 0 && rollValue <= 6);
 	}
 
 	@Test
-	public void testGetTileIndex() {
-		assertEquals(t.getTileIndex(), 0);
+	public void testGetValue() {
+		//Equal to the roll in testRoll()
+		assertEquals(rollValue, die.getValue());
 	}
 
-	@Test
-	public void testMoveTo() {
-		assertEquals(t.getTileIndex(), 0);
-		t.moveTo(2);
-		assertEquals(t.getTileIndex(), 2);
-	}
-
-	@Test
-	public void testMoveBy() {
-		assertEquals(t.getTileIndex(), 0);
-		t.moveBy(1);
-		assertEquals(t.getTileIndex(), 1);
-	}
 
 }
