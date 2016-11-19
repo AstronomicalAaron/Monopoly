@@ -35,11 +35,13 @@ public class Card {
 	
 	public cardType type;
 
-	public Card(cardType type){
+	public Card(cardType type, boolean ignoreTwo){
 		
 		cards = new ArrayList<String>();
 		rand = new Random(System.currentTimeMillis());
-		cardIndex = rand.nextInt(15);
+		do{
+			cardIndex = 4;
+		}while(ignoreTwo && cardIndex==2);			
 		freeJailDesc = "";
 		this.type = type;
 

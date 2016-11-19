@@ -219,9 +219,9 @@
 									<div id='phase-ui'>
 										<div id='waiting' ng-show='state.phase=="WAITING"'>
 											<h3>Waiting for players...</h3>
-											Time Limit (Minutes): <input
+											<div style='margin-bottom: 10px'>Time Limit (Minutes): <input
 												type='number' ng-model='timelimit' value="10"
-												style='width: 80px'/>
+												min=1 max=600 style='width: 60px'/></div>
 											<button ng-click='start()'>Start</button>
 										</div>
 										<div id='roll' ng-show='phaseRolling()'>
@@ -387,11 +387,19 @@
 											<img src='jail.png' />
 											<button ng-click='jailChoice(true)' class='green'>Bail Out ($50)</button>
 											<button ng-click='jailChoice(false)'>Try For Doubles...</button>
+											<button ng-click='useFreeCard()' 
+													ng-show='state.players[state.currentPlayerIndex].hasFreeJailCard'>
+													Get out of Jail Free!</button>
 										</div>
+										<div id='endgame' ng-show='state.phase=="ENDGAME"'>
+											<h3>Game Over!</h3>
+											<h5>Winner: {{ state.winner }}!</h5>
+										<button ng-click='resetGame()'>New Game</button>
+									</div>
 										<div id='show-card' ng-show='state.phase=="SHOWCARD"'>
 											<div>{{ currentTile.type }}</div>
 											<div>{{ state.cardString }}</div>
-											<button ng-click='ackCard()'>Ok</button>
+											<button id='ok-button' ng-click='ackCard()'>Ok</button>
 										</div>
 									</div>
 									<div id='players'>

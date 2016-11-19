@@ -69,7 +69,8 @@ function phaseChange($scope) {
 	// Disable UI for inactive player
 	if (   ($scope.state.phase == 'TURN' ||
 			$scope.state.phase == 'BUY_PROPERTY' ||
-			$scope.state.phase == 'JAILED')
+			$scope.state.phase == 'JAILED' ||
+			$scope.state.phase == 'SHOWCARD')
 			&&
 			$scope.currentPlayer.name !== $scope.username) {
 				
@@ -370,6 +371,10 @@ app.controller('monopolyController', function($scope) {
 	
 	$scope.jailChoice = function(choice) {
 		$scope.getOp('jailchoice?choice=' + choice);
+	}
+	
+	$scope.useFreeCard = function() {
+		$scope.getOp('usefreecard');
 	}
 	
 	$scope.cardStyle = function (tile) {

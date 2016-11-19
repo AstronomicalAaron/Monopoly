@@ -59,12 +59,15 @@ public class Monopoly {
 	private int numberOfHouses = 0;
 
 	private LocalTime endTime;
-	
+
 	private Timer gameTimer;
+	
 	private int timeLeft;
 	
 	private Timer turnTimer;
 	private int turnTimeLeft;
+
+	private String winner;
 
 	public Monopoly() {
 		board = new Board();
@@ -97,7 +100,7 @@ public class Monopoly {
 	public int getHighestBidderIndex() {
 		return highestBidderIndex;
 	}
-	
+
 	public int getTimeLeft() {
 		return timeLeft;
 	}
@@ -122,11 +125,31 @@ public class Monopoly {
 		return cardString;
 	}
 
-	public String landOnChance(Card chanceCard){
+	public String getWinner() {
+		return winner;
+	}
+
+	public void useFreeCard(){
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 
+		if(currentPlayer.getHasFreeJailCard() && currentPlayer.isJailed()){
+
+			currentPlayer.remainingTurnsJailed = 0;
+			currentPlayer.getToken().moveBy(1);
+			endTurn();
+
+		}
+
+	}
+
+	public void landOnChance(Card chanceCard){
+		
+		Player currentPlayer = players.get(currentPlayerIndex);
+
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
+
+		Tile currentTile = board.getTiles().get(currentTileIndex);
 
 		//Player draws chance card that gives them credit
 		if(chanceCard.getPayment() > 0){ 
@@ -185,7 +208,7 @@ public class Monopoly {
 			//If player doesn't have hotels or houses, they receive no penalty
 			currentPlayer.transfer(bank, (double) totalPenalty);
 
-			return chanceCard.getCardDesc();
+			return;
 
 		}
 
@@ -211,10 +234,15 @@ public class Monopoly {
 
 			}
 
-			if(chanceCard.getCardIndex() == 12)
-				currentPlayer.getToken().moveTo(-1 * chanceCard.moveToIndex());
-			else
-				currentPlayer.getToken().moveTo(chanceCard.moveToIndex());		
+			if(chanceCard.getCardIndex() == 12){
+				currentPlayer.getToken().moveBy(-1*chanceCard.moveToIndex());
+				currentTile = board.getTiles().get(currentTileIndex);
+				tileOperation(currentTile, currentPlayer);
+			}else{
+				currentPlayer.getToken().moveTo(chanceCard.moveToIndex());
+				currentTile = board.getTiles().get(currentTileIndex);
+				tileOperation(currentTile, currentPlayer);				
+			}
 
 		}
 
@@ -223,25 +251,37 @@ public class Monopoly {
 
 			currentPlayer.setHasFreeJailCard(true);
 
-			//Removes card out of deck
-			chanceCard.removeFreedomCard();
-
 		}
-
-		int amountOnDice = board.getDice()[0].getValue() + board.getDice()[1].getValue();
 
 		//Utility indices are: 12, 28
 		if(chanceCard.getCardIndex() == 4){
-
 			if(currentTileIndex < 12 || currentTileIndex >= 28){
-
 				currentPlayer.getToken().moveTo(12);
-				payRent(amountOnDice*10);
+				currentTile = board.getTiles().get(currentTileIndex);
+				if (currentTile.hasOwner()) {
+					if (currentTile.getOwnerIndex() != currentPlayerIndex) {
+						payRent(rolledValue*10);
+					}
+				}
+				else {
+					phase = GamePhase.BUY_PROPERTY;
+					return;
+				}
+				
+				startManagement();
 
 			}else{
-
 				currentPlayer.getToken().moveTo(28);
-				payRent(amountOnDice*10);
+				currentTile = board.getTiles().get(currentTileIndex);
+				if (currentTile.hasOwner()) {
+					if (currentTile.getOwnerIndex() != currentPlayerIndex) {
+						payRent(rolledValue*10);
+					}
+				}
+				else {
+					phase = GamePhase.BUY_PROPERTY;
+					return;
+				}
 
 			}
 
@@ -259,18 +299,23 @@ public class Monopoly {
 			else
 				currentPlayer.getToken().moveTo(35);
 
-			payRent(amountOnDice);
-			payRent(amountOnDice);
+			currentTile = board.getTiles().get(currentTileIndex);
+			if (currentTile.hasOwner()) {
+				if (currentTile.getOwnerIndex() != currentPlayerIndex) {
+					payRent(rolledValue);
+					payRent(rolledValue);
+				}
+			}
+			else {
+				phase = GamePhase.BUY_PROPERTY;
+				return;
+			}
 
 		}
 
-
-		return chanceCard.getCardDesc();
-
-
 	}
 
-	public String landOnCommunity(Card comChestCard){
+	public void landOnCommunity(Card comChestCard){
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 
@@ -305,6 +350,13 @@ public class Monopoly {
 
 		}
 
+		//Player draws get-out-of-jail-free card
+		if(comChestCard.getCardIndex() == 2){
+
+			currentPlayer.setHasFreeJailCard(true);
+
+		}
+
 		if(comChestCard.getCardIndex() == 5){
 
 			//When player draws the chance card at index 5
@@ -330,8 +382,6 @@ public class Monopoly {
 
 			//If player doesn't have hotels or houses, they receive no penalty
 			currentPlayer.transfer(bank, (double) totalPenalty);
-
-			return comChestCard.getCardDesc();
 
 		}
 
@@ -364,12 +414,7 @@ public class Monopoly {
 
 			currentPlayer.setHasFreeJailCard(true);
 
-			//Removes card out of deck
-			comChestCard.removeFreedomCard();
-
 		}
-
-		return comChestCard.getCardDesc();
 
 	}
 
@@ -420,17 +465,17 @@ public class Monopoly {
 		if (phase != GamePhase.WAITING) {
 			throw new IllegalStateException("Cannot start the game unless in the waiting phase.");
 		}
-		
+
 		endTime = LocalTime.now().plusMinutes(timeLimit);
 		timeLeft = timeLimit;
 		gameTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-            	if(timeLeft > 0)
-            		timeLeft--;
-            }
-        }, 0, 60000);
-		
+			@Override
+			public void run() {
+				if(timeLeft > 0)
+					timeLeft--;
+			}
+		}, 60000, 60000);
+
 		if(players.size() < 2){
 
 			//Must have more than 2 players to start a game
@@ -456,9 +501,10 @@ public class Monopoly {
 	}
 
 	private void startTurn() {
-		
+
 		if(LocalTime.now().isAfter(endTime)){
 			endGame();
+			return;
 		}
 		
 		turnTimeLeft = 30;
@@ -487,8 +533,8 @@ public class Monopoly {
 		phase = GamePhase.ROLLING;
 		Player currentPlayer = players.get(currentPlayerIndex);
 
-		int dieOneValue = board.getDice()[0].roll();
-		int dieTwoValue = board.getDice()[1].roll();
+		int dieOneValue = 3;//board.getDice()[0].roll();
+		int dieTwoValue = 4;//board.getDice()[1].roll();
 		rolledDoubles = dieOneValue == dieTwoValue;
 		rolledValue = dieOneValue + dieTwoValue;
 
@@ -541,6 +587,12 @@ public class Monopoly {
 			bank.transfer(currentPlayer, 200.0);
 		}
 
+		tileOperation(currentTile, currentPlayer);
+		
+	}
+	
+	private void tileOperation(Tile currentTile, Player currentPlayer){
+		
 		switch (currentTile.getType()){
 		case PROPERTY:
 		case UTILITY:
@@ -566,12 +618,24 @@ public class Monopoly {
 			bank.awardFreeParking(currentPlayer);		
 			break;
 		case COMMUNITYCHEST:
-			currentCard = new Card(cardType.COMMUNITY);
+			boolean ignoreTwoCom = false;
+			for(Player p : players){
+				if(p.getHasFreeJailCard()){
+					ignoreTwoCom = true;
+				}					
+			}
+			currentCard = new Card(cardType.COMMUNITY, ignoreTwoCom);
 			cardString = currentCard.getCardDesc();
 			phase = GamePhase.SHOWCARD;
 			return;
 		case CHANCE:
-			currentCard = new Card(cardType.CHANCE);
+			boolean ignoreTwo = false;
+			for(Player p : players){
+				if(p.getHasFreeJailCard()){
+					ignoreTwo = true;
+				}					
+			}
+			currentCard = new Card(cardType.CHANCE, ignoreTwo);
 			cardString = currentCard.getCardDesc();
 			phase = GamePhase.SHOWCARD;
 			return;
@@ -580,6 +644,7 @@ public class Monopoly {
 		}
 
 		startManagement();
+		
 	}
 
 	private void startManagement()
@@ -1084,6 +1149,11 @@ public class Monopoly {
 			bankrupt(currentPlayer);
 		}
 
+		if(phase == GamePhase.ENDGAME)
+		{
+			return;
+		}
+
 		// Automatically start the next turn
 		if(rolledDoubles && currentPlayer.doublesRolled < 3) {
 			++currentPlayer.doublesRolled;
@@ -1122,7 +1192,7 @@ public class Monopoly {
 			endGame();
 			return;
 		}
-		
+
 		for (int tileIndex : patheticLoser.getDeeds())
 		{
 			while(inAuction)
@@ -1139,39 +1209,35 @@ public class Monopoly {
 	}
 
 	public String endGame() {
-		
 		gameTimer.cancel();
 		
+		phase = GamePhase.ENDGAME;
+
 		int [] netWorths = new int[players.size()];
-		
+
 		for(int i = 0; i < players.size(); i++){
-			
+
 			netWorths[i] = calculateNetWorth(players.get(i));
-			
+
 		}
-		
+
 		int maxIndex = 0;
-		
-		for(int i = 0; i < netWorths.length - 1; i++){
-			
-			if(netWorths[i] > netWorths[i+1]){
-				
+
+		for(int i = 0; i < netWorths.length; i++){
+
+			if(netWorths[i] > netWorths[maxIndex]){
 				maxIndex = i;
-				
-			}else{
-				
-				maxIndex = i+1;
-				
 			}
-			
+
 		}
-		
-		return players.get(maxIndex).getName();
-			
+		winner = players.get(maxIndex).getName();
+
+		return winner;
+
 	}
-	
+
 	public void resetGame(){
-		
+
 		board = new Board();
 		bank = new Bank();
 		players = new ArrayList<Player>();
@@ -1180,7 +1246,7 @@ public class Monopoly {
 		this.inAuction = false;
 		this.numberBankrupt = 0;
 		this.numberOfHouses = 0;
-		
+
 	}
 
 	//Helper method to help determine the WINNER WINNER CHICKEN DINNER!!!
@@ -1193,10 +1259,10 @@ public class Monopoly {
 		for(int i : p.getDeeds()){
 
 			totalNetWorth += board.getTiles().get(i).propertyCost;
-			
+
 			for(int j = 0; j < board.getTiles().get(i).numHouses; j++)
 				totalNetWorth += board.getTiles().get(i).houseCost;
-			
+
 			if(board.getTiles().get(i).getHasHotel())
 				totalNetWorth += board.getTiles().get(i).hotelCost;
 
@@ -1207,22 +1273,22 @@ public class Monopoly {
 	}
 
 	public void acknowledgeCard() {
-		
+
 		if (currentCard == null) {
 			return; // TODO: Log
 		}
-		
+
 		if (currentCard.type == cardType.CHANCE) {
 			landOnChance(currentCard);
 		}
 		else if (currentCard.type == cardType.COMMUNITY) {
 			landOnCommunity(currentCard);
 		}
-		
+
 		// Reset card
 		currentCard = null;
 		cardString = null;
-		
+
 		startManagement();
 	}
 }
