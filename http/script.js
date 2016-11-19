@@ -111,7 +111,7 @@ app.controller('monopolyController', function($scope) {
 	
 	$scope.cardHover = false;
 	$scope.cardHeaderStyle = {'background':'white','color':'black'};
-	$scope.timelimit = 10;
+	$scope.timelimit = 20;
 	$scope.rollVal1 = 1;
 	$scope.rollVal2 = 1;
 	
