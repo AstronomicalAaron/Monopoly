@@ -102,7 +102,7 @@ public class Tile {
 	
 	@JsonIgnore
 	public boolean hasOwner(){
-		return ownerIndex != -1;
+		return ownerIndex >= 0;
 	}
 	
 	public boolean getHasHotel(){

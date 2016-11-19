@@ -189,7 +189,8 @@ public class Monopoly {
 
 				currentPlayer.transfer(bank, (double)chanceCard.getDefPent());
 
-			}			
+			}
+
 
 		}
 
@@ -245,11 +246,13 @@ public class Monopoly {
 
 			if(chanceCard.getCardIndex() == 12){
 				currentPlayer.getToken().moveBy(-1*chanceCard.moveToIndex());
+				currentTileIndex = currentPlayer.getToken().getTileIndex();
 				currentTile = board.getTiles().get(currentTileIndex);
 				tileOperation(currentTile, currentPlayer);
 				return;
 			}else{
 				currentPlayer.getToken().moveTo(chanceCard.moveToIndex());
+				currentTileIndex = currentPlayer.getToken().getTileIndex();
 				currentTile = board.getTiles().get(currentTileIndex);
 				tileOperation(currentTile, currentPlayer);
 				return;
@@ -268,10 +271,11 @@ public class Monopoly {
 		if(chanceCard.getCardIndex() == 4){
 			if(currentTileIndex < 12 || currentTileIndex >= 28){
 				currentPlayer.getToken().moveTo(12);
+				currentTileIndex = currentPlayer.getToken().getTileIndex();
 				currentTile = board.getTiles().get(currentTileIndex);
 				if (currentTile.hasOwner()) {
 					if (currentTile.getOwnerIndex() != currentPlayerIndex) {
-						payRent(rolledValue*10);
+						payRent();
 					}
 				}
 				else {
@@ -281,10 +285,11 @@ public class Monopoly {
 
 			}else{
 				currentPlayer.getToken().moveTo(28);
+				currentTileIndex = currentPlayer.getToken().getTileIndex();
 				currentTile = board.getTiles().get(currentTileIndex);
 				if (currentTile.hasOwner()) {
 					if (currentTile.getOwnerIndex() != currentPlayerIndex) {
-						payRent(rolledValue*10);
+						payRent();
 					}
 				}
 				else {
@@ -308,17 +313,18 @@ public class Monopoly {
 			else
 				currentPlayer.getToken().moveTo(35);
 
+			currentTileIndex = currentPlayer.getToken().getTileIndex();
 			currentTile = board.getTiles().get(currentTileIndex);
 			if (currentTile.hasOwner()) {
 				if (currentTile.getOwnerIndex() != currentPlayerIndex) {
-					payRent(rolledValue);
-					payRent(rolledValue);
+					payRent();
+					payRent();
 				}
 			}
 			else {
 				phase = GamePhase.BUY_PROPERTY;
 				return;
-			}			
+			}
 
 		}
 
@@ -405,8 +411,6 @@ public class Monopoly {
 
 				//Cannot collect $200 when player goes to jail
 
-				currentPlayer.getToken().moveTo(comChestCard.moveToIndex());
-
 				if(currentMoney == currentMoney + 200){
 
 					currentPlayer.transfer(bank, 200.0);
@@ -416,7 +420,9 @@ public class Monopoly {
 				//Player is now in jail and jail rules apply				
 				currentPlayer.jail();
 
-			}		
+			}
+
+			currentPlayer.getToken().moveTo(comChestCard.moveToIndex());
 
 		}
 
@@ -655,7 +661,7 @@ public class Monopoly {
 		case RAILROAD:
 			if (currentTile.hasOwner()) {
 				if (currentTile.getOwnerIndex() != currentPlayerIndex) {
-					payRent(rolledValue);
+					payRent();
 				}
 			}
 			else {
@@ -721,20 +727,23 @@ public class Monopoly {
 
 		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
 
-		if(phase != GamePhase.BUY_PROPERTY){
-			throw new IllegalStateException("Not currently in BUY_PROPERTY phase.");
-		}
-
 		if(!currentTile.isMortgaged()) {
 			currentPlayer.transfer(bank, currentTile.propertyCost);
 			currentPlayer.getDeeds().add(currentPlayer.getToken().getTileIndex());
 			currentTile.setOwnerIndex(currentPlayerIndex);
 
-			if(currentTile.isRailRoad())
+			if(currentTile.isRailRoad()){
+
 				currentPlayer.setNumRailRoadsOwned(currentPlayer.getNumRailRoadsOwned() + 1);
 
-			if(currentTile.isUtility())
+			}				
+
+			if(currentTile.isUtility()){
+
 				currentPlayer.setUtilitiesOwned(currentPlayer.getNumUtilitiesOwned() + 1);
+
+			}
+
 		}
 
 		startManagement();
@@ -1046,9 +1055,9 @@ public class Monopoly {
 				auctionProperty(players.get(currentPlayerIndex), propertyIndex, startingBid);
 			}
 		};
-		
+
 		new Thread(r).start();
-		
+
 	}
 
 	public void sellToBank(int propertyIndex) {
@@ -1081,7 +1090,7 @@ public class Monopoly {
 		property.setOwnerIndex(-1);
 	}
 
-	public void payRent(int amountOnDice){
+	public void payRent(){
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 		int tileIndex = currentPlayer.getToken().getTileIndex();
@@ -1089,7 +1098,7 @@ public class Monopoly {
 		Player propOwner = players.get(currentTile.getOwnerIndex());
 
 		if(currentTile.isMortgaged()){
-			endTurn();
+			startManagement();
 			return;
 		}
 
@@ -1097,7 +1106,7 @@ public class Monopoly {
 			if(currentTile.numHouses == 0)
 				currentPlayer.transfer(propOwner, currentTile.rent);
 			else if(currentTile.numHouses == 1)
-				currentPlayer.transfer(propOwner,  currentTile.with1House);
+				currentPlayer.transfer(propOwner, currentTile.with1House);
 			else if(currentTile.numHouses == 2)
 				currentPlayer.transfer(propOwner, currentTile.with2Houses);
 			else if(currentTile.numHouses == 3)
@@ -1132,21 +1141,21 @@ public class Monopoly {
 					e.printStackTrace();
 				}
 			}
-			if(currentTile.getType() == TileType.UTILITY){
+		}
 
-				if(propOwner.getNumUtilitiesOwned() == 1) {			
-					currentPlayer.transfer(propOwner, (double)4*amountOnDice);
-				} else if (propOwner.getNumUtilitiesOwned() == 2) {			
-					currentPlayer.transfer(propOwner, (double)10*amountOnDice);
-				} else {
-					try {
-						throw new Exception("Cannot pay rent, no such rent option available.");
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+		if(currentTile.getType() == TileType.UTILITY){
+
+			if(propOwner.getNumUtilitiesOwned() == 1) {			
+				currentPlayer.transfer(propOwner, (double)4*rolledValue);
+			} else if (propOwner.getNumUtilitiesOwned() == 2) {			
+				currentPlayer.transfer(propOwner, (double)10*rolledValue);
+			} else {
+				try {
+					throw new Exception("Cannot pay rent, no such rent option available.");
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
-
 		}
 	}
 
@@ -1174,13 +1183,13 @@ public class Monopoly {
 			//phase = GamePhase.TURN;
 			//False in this case means player is bankrupt
 			//removePlayer(currentPlayer);
-			
+
 			Runnable r = new Runnable() {
 				public void run(){
 					bankrupt(currentPlayer);
 				}
 			};
-			
+
 			new Thread(r).start();
 		}
 
@@ -1218,7 +1227,7 @@ public class Monopoly {
 	public void setRolledDoubles(boolean rolledDoubles) {
 		this.rolledDoubles = rolledDoubles;
 	}
-	
+
 	public void bankrupt(Player patheticLoser) {
 		patheticLoser.setBankrupt(true);
 		numberBankrupt++;
@@ -1305,18 +1314,17 @@ public class Monopoly {
 		}
 
 		if (currentCard.type == cardType.CHANCE) {
-			landOnChance(currentCard);
-			return;
+			landOnChance(currentCard);			
 		}
-		else if (currentCard.type == cardType.COMMUNITY) {
+
+		if (currentCard.type == cardType.COMMUNITY) {
 			landOnCommunity(currentCard);
-			return;
 		}
+
 		// Reset card
 		currentCard = null;
-		cardString = null;
-		
-		startManagement();
+		cardString = null;		
 
 	}
+
 }

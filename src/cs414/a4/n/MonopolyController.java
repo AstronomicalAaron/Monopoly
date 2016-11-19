@@ -100,7 +100,7 @@ public class MonopolyController {
     @ResponseBody
     public Monopoly passProperty(
     		@RequestParam int tileIndex) {
-    	game.auctionProperty(tileIndex, 0);
+    	game.auctionProperty(tileIndex);
     	return game;
     }
     

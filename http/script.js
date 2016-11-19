@@ -71,7 +71,8 @@ function phaseChange($scope) {
 			$scope.state.phase == 'BUY_PROPERTY' ||
 			$scope.state.phase == 'JAILED' ||
 			$scope.state.phase == 'SHOWCARD' ||
-			$scope.state.phase == 'CHEAT_ROLL')
+			$scope.state.phase == 'CHEAT_ROLL' ||
+			$scope.state.phase == 'SHOWRENT')
 			&&
 			$scope.currentPlayer.name !== $scope.username) {
 				

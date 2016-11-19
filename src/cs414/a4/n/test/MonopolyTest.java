@@ -212,7 +212,7 @@ boolean thrown = false;
 		player.getToken().moveTo(1);
 		monopoly.getBoard().getTiles().get(1).setOwnerIndex(1);
 		
-		monopoly.payRent(2);
+		monopoly.payRent();
 		
 		assertEquals(player.getMoney(), 1498, 0);
 	}
