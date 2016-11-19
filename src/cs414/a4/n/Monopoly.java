@@ -523,6 +523,10 @@ public class Monopoly {
 		turnTimer.schedule(new TimerTask() {
             @Override
             public void run() {
+            	if (phase == GamePhase.AUCTION) {
+            		return;
+            	}
+            	
             	if(turnTimeLeft > 0)
             		turnTimeLeft--;
             	else
