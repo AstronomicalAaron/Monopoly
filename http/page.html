@@ -19,14 +19,14 @@
 
 	<nav id='menu' class='menu' hidden>
 		<div id='menu-header'>Monopoly</div>
-		<button ng-click='resetGame()'>Reset</button>
-		<div>
+		<div style="margin-top:25px;">
 			<span>Cheat Mode: </span>
 			<span ng-show="state.cheatModeOn" class='green-text' >ON</span>
 			<span ng-show="!state.cheatModeOn" class='red-text' >OFF</span>
 			<button class='green' ng-click='setCheatModeOn(true)'>Cheat Mode On</button>
 			<button class='red' ng-click='setCheatModeOn(false)'>Cheat Mode Off</button>
 		</div>
+		<button style="margin-top:50px;" ng-click='resetGame()'>Reset</button>
 	</nav>
 	
 	<!-- Join -->
