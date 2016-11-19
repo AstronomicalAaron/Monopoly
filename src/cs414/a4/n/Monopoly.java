@@ -61,14 +61,14 @@ public class Monopoly {
 	private LocalTime endTime;
 
 	private Timer gameTimer;
-	
+
 	private int timeLeft;
-	
+
 	private Timer turnTimer;
 	private int turnTimeLeft;
 
 	private String winner;
-	
+
 	private boolean cheatModeOn = false;
 
 	public Monopoly() {
@@ -106,7 +106,7 @@ public class Monopoly {
 	public int getTimeLeft() {
 		return timeLeft;
 	}
-	
+
 	public int getTurnTimeLeft() {
 		return turnTimeLeft;
 	}
@@ -134,11 +134,11 @@ public class Monopoly {
 	public boolean getCheatModeOn() {
 		return cheatModeOn;
 	}
-	
+
 	public void setCheatModeOn(boolean val) {
 		cheatModeOn = val;
 	}
-	
+
 	public void useFreeCard(){
 
 		Player currentPlayer = players.get(currentPlayerIndex);
@@ -153,9 +153,9 @@ public class Monopoly {
 		}
 
 	}
-	
+
 	public void landOnChance(Card chanceCard){
-		
+
 		Player currentPlayer = players.get(currentPlayerIndex);
 
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
@@ -291,7 +291,7 @@ public class Monopoly {
 					phase = GamePhase.BUY_PROPERTY;
 					return;
 				}
-				
+
 			}
 
 		}
@@ -307,7 +307,7 @@ public class Monopoly {
 				currentPlayer.getToken().moveTo(25);
 			else
 				currentPlayer.getToken().moveTo(35);
-			
+
 			currentTile = board.getTiles().get(currentTileIndex);
 			if (currentTile.hasOwner()) {
 				if (currentTile.getOwnerIndex() != currentPlayerIndex) {
@@ -321,7 +321,7 @@ public class Monopoly {
 			}			
 
 		}
-		
+
 		startManagement();
 
 	}
@@ -426,9 +426,9 @@ public class Monopoly {
 			currentPlayer.setHasFreeJailCard(true);
 
 		}
-		
+
 		startManagement();
-		
+
 	}
 
 	public void setBid(String username, double bid)
@@ -519,22 +519,22 @@ public class Monopoly {
 			endGame();
 			return;
 		}
-		
+
 		turnTimeLeft = 60;
 		turnTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-            	if (phase == GamePhase.AUCTION) {
-            		return;
-            	}
-            	
-            	if(turnTimeLeft > 0)
-            		turnTimeLeft--;
-            	else
-            		endTurn();
-            }
-        }, 0, 1000);
-		
+			@Override
+			public void run() {
+				if (phase == GamePhase.AUCTION) {
+					return;
+				}
+
+				if(turnTimeLeft > 0)
+					turnTimeLeft--;
+				else
+					endTurn();
+			}
+		}, 0, 1000);
+
 		Player currentPlayer = players.get(currentPlayerIndex);
 
 		if (currentPlayer.isJailed()) {
@@ -583,7 +583,7 @@ public class Monopoly {
 					);	
 		}
 	}
-	
+
 	public void hackedRoll(int val1, int val2) {
 		Player currentPlayer = players.get(currentPlayerIndex);
 
@@ -643,11 +643,11 @@ public class Monopoly {
 		}
 
 		tileOperation(currentTile, currentPlayer);
-		
+
 	}
-	
+
 	private void tileOperation(Tile currentTile, Player currentPlayer){
-		
+
 		switch (currentTile.getType()){
 		case PROPERTY:
 		case UTILITY:
@@ -699,7 +699,7 @@ public class Monopoly {
 		}
 
 		startManagement();
-		
+
 	}
 
 	private void startManagement()
@@ -728,10 +728,10 @@ public class Monopoly {
 			currentPlayer.transfer(bank, currentTile.propertyCost);
 			currentPlayer.getDeeds().add(currentPlayer.getToken().getTileIndex());
 			currentTile.setOwnerIndex(currentPlayerIndex);
-	
+
 			if(currentTile.isRailRoad())
 				currentPlayer.setNumRailRoadsOwned(currentPlayer.getNumRailRoadsOwned() + 1);
-	
+
 			if(currentTile.isUtility())
 				currentPlayer.setUtilitiesOwned(currentPlayer.getNumUtilitiesOwned() + 1);
 		}
@@ -1011,7 +1011,7 @@ public class Monopoly {
 		if(currentTile.getHasHotel() || currentTile.numHouses > 0){
 			return;
 		}
-		
+
 
 		//Want to check if the player actually owns the tile and has a mortgage on it
 		if(currentTile.isMortgaged() &&
@@ -1076,10 +1076,10 @@ public class Monopoly {
 		if (phase != GamePhase.TURN) {
 			throw new IllegalStateException("Not currently in TURN phase.");
 		}
-		
+
 		Player currentPlayer = players.get(currentPlayerIndex);
 		Tile property = board.getTiles().get(propertyIndex);
-		
+
 
 		if (property.getHasHotel() || property.numHouses > 0) {
 			return;
@@ -1187,7 +1187,7 @@ public class Monopoly {
 	public void endTurn() {
 		turnTimer.cancel();
 		turnTimer = new Timer();
-		
+
 		Player currentPlayer = players.get(currentPlayerIndex);
 		if (currentPlayer.getMoney() == 0) {
 			//Player needs to be able to sell whatever they can to be able to pay taxes
@@ -1259,7 +1259,7 @@ public class Monopoly {
 
 	public String endGame() {
 		gameTimer.cancel();
-		
+
 		phase = GamePhase.ENDGAME;
 
 		int [] netWorths = new int[players.size()];
@@ -1329,22 +1329,17 @@ public class Monopoly {
 
 		if (currentCard.type == cardType.CHANCE) {
 			landOnChance(currentCard);
-			// Reset card
-			currentCard = null;
-			cardString = null;
-			startManagement();
 			return;
 		}
 		else if (currentCard.type == cardType.COMMUNITY) {
 			landOnCommunity(currentCard);
-			// Reset card
-			currentCard = null;
-			cardString = null;
-			startManagement();
 			return;
 		}
+		// Reset card
+		currentCard = null;
+		cardString = null;
 		
-		
+		startManagement();
 
 	}
 }
