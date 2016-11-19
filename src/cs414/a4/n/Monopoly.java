@@ -1329,18 +1329,22 @@ public class Monopoly {
 
 		if (currentCard.type == cardType.CHANCE) {
 			landOnChance(currentCard);
+			// Reset card
+			currentCard = null;
+			cardString = null;
+			startManagement();
 			return;
 		}
 		else if (currentCard.type == cardType.COMMUNITY) {
 			landOnCommunity(currentCard);
+			// Reset card
+			currentCard = null;
+			cardString = null;
+			startManagement();
 			return;
 		}
-
-		// Reset card
-		currentCard = null;
-		cardString = null;
 		
-		startManagement();
+		
 
 	}
 }
