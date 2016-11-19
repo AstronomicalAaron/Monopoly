@@ -776,6 +776,7 @@ public class Monopoly {
 				}
 				
 				inAuction = false;
+
 			}
 
 			try {
@@ -788,6 +789,7 @@ public class Monopoly {
 		for (Player p : players){
 			p.setBid(0);
 		}
+		startManagement();
 	}
 
 	public void sellProperty(int propertyIndex, int recIndex, double amount){
