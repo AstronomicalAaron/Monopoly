@@ -370,7 +370,7 @@
 										<button ng-click='resetGame()'>New Game</button>
 									</div>
 										<div id='show-card' ng-show='state.phase=="SHOWCARD"'>
-											<div>{{ currentTile.type }}</div>
+											<div>{{ state.board.tiles[state.players[state.currentPlayerIndex].token.tileIndex].type }}</div>
 											<div>{{ state.cardString }}</div>
 											<button id='ok-button' ng-click='ackCard()'>Ok</button>
 										</div>
