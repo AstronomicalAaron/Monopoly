@@ -65,6 +65,8 @@ public class Monopoly {
 	private int timeLeft;
 
 	private String winner;
+	
+	private boolean cheatModeOn = false;
 
 	public Monopoly() {
 		board = new Board();
@@ -121,6 +123,14 @@ public class Monopoly {
 		return winner;
 	}
 
+	public boolean getCheatModeOn() {
+		return cheatModeOn;
+	}
+	
+	public void setCheatModeOn(boolean val) {
+		cheatModeOn = val;
+	}
+	
 	public void useFreeCard(){
 
 		Player currentPlayer = players.get(currentPlayerIndex);
@@ -134,7 +144,7 @@ public class Monopoly {
 		}
 
 	}
-
+	
 	public void landOnChance(Card chanceCard){
 
 		Player currentPlayer = players.get(currentPlayerIndex);
@@ -530,6 +540,9 @@ public class Monopoly {
 			phase = GamePhase.JAILED;
 			return;
 		}
+		else if (cheatModeOn) {
+			phase = GamePhase.CHEAT_ROLL;
+		}
 		else {
 			rollDice();
 		}
@@ -539,8 +552,8 @@ public class Monopoly {
 		phase = GamePhase.ROLLING;
 		Player currentPlayer = players.get(currentPlayerIndex);
 
-		int dieOneValue = 5; //board.getDice()[0].roll();
-		int dieTwoValue = 2; //board.getDice()[1].roll();
+		int dieOneValue = board.getDice()[0].roll();
+		int dieTwoValue = board.getDice()[1].roll();
 		rolledDoubles = dieOneValue == dieTwoValue;
 		rolledValue = dieOneValue + dieTwoValue;
 
@@ -565,6 +578,39 @@ public class Monopoly {
 						}
 					}, 
 					3000 
+					);	
+		}
+	}
+	
+	public void hackedRoll(int val1, int val2) {
+		Player currentPlayer = players.get(currentPlayerIndex);
+
+		int dieOneValue = val1;
+		int dieTwoValue = val2;
+		rolledDoubles = dieOneValue == dieTwoValue;
+		rolledValue = dieOneValue + dieTwoValue;
+
+		if (currentPlayer.isJailed())
+		{
+			new java.util.Timer().schedule( 
+					new java.util.TimerTask() {
+						@Override
+						public void run() {
+							endJailRoll(currentPlayer, rolledDoubles);
+						}
+					}, 
+					0 
+					);	
+		}
+		else {
+			new java.util.Timer().schedule( 
+					new java.util.TimerTask() {
+						@Override
+						public void run() {
+							doTile(currentPlayer, rolledValue);
+						}
+					}, 
+					0 
 					);	
 		}
 	}

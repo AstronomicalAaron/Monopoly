@@ -110,6 +110,8 @@ app.controller('monopolyController', function($scope) {
 	$scope.cardHover = false;
 	$scope.cardHeaderStyle = {'background':'white','color':'black'};
 	$scope.timelimit = 10;
+	$scope.rollVal1 = 1;
+	$scope.rollVal2 = 1;
 	
 	poll($scope);
 	
@@ -374,6 +376,14 @@ app.controller('monopolyController', function($scope) {
 	
 	$scope.useFreeCard = function() {
 		$scope.getOp('usefreecard');
+	}
+	
+	$scope.hackedRoll = function(val1, val2) {
+		$scope.getOp('hackedroll?val1=' + val1 + '&val2=' + val2);
+	}
+	
+	$scope.setCheatModeOn = function(val) {
+		$scope.getOp('setcheatmodeon?val=' + val);
 	}
 	
 	$scope.cardStyle = function (tile) {

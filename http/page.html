@@ -20,10 +20,13 @@
 	<nav id='menu' class='menu' hidden>
 		<div id='menu-header'>Monopoly</div>
 		<button ng-click='resetGame()'>Reset</button>
-		<h1>Servers:</h1>
-		<ul>
-			<li ng-repeat='s in servers'><a>{{ s.name }}</a></li>
-		</ul>
+		<div>
+			<span>Cheat Mode: </span>
+			<span ng-show="state.cheatModeOn" class='green-text' >ON</span>
+			<span ng-show="!state.cheatModeOn" class='red-text' >OFF</span>
+			<button class='green' ng-click='setCheatModeOn(true)'>Cheat Mode On</button>
+			<button class='red' ng-click='setCheatModeOn(false)'>Cheat Mode Off</button>
+		</div>
 	</nav>
 	
 	<!-- Join -->
@@ -386,6 +389,11 @@
 											<button ng-click='useFreeCard()' 
 													ng-show='state.players[state.currentPlayerIndex].hasFreeJailCard'>
 													Get out of Jail Free!</button>
+										</div>
+										<div id='cheat-roll' ng-show='state.phase=="CHEAT_ROLL"'>
+											<input type="number" min="1" ng-max="6" ng-model="rollVal1">
+											<input type="number" min="1" ng-max="6" ng-model="rollVal2">
+											<button ng-click='hackedRoll(rollVal1, rollVal2)'>ROLL DAT SHII</button>
 										</div>
 										<div id='endgame' ng-show='state.phase=="ENDGAME"'>
 											<h3>Game Over!</h3>
