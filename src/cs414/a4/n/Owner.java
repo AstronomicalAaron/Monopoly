@@ -22,6 +22,8 @@ import java.util.*;
 
 public abstract class Owner {
 
+	int index;
+	
 	private String name;
 	
 	private double money;
@@ -54,6 +56,37 @@ public abstract class Owner {
 		
 		return deedIndices.contains(tileIndex);
 		
+	}
+	
+	public double transfer(Owner recipient, Tile tile, double price) {
+		if (!(this instanceof Bank)) {
+			int i = this.getDeeds().indexOf(tile.index);
+			this.getDeeds().remove(i);
+		}
+		recipient.getDeeds().add(tile.index);
+		tile.setOwnerIndex(recipient.index);
+		
+		if(tile.getType() == TileType.RAILROAD) {
+			int numOwned = recipient.getNumRailRoadsOwned();
+			recipient.setNumRailRoadsOwned(numOwned + 1);
+
+			if(this.name != "Bank")
+			{
+				numOwned = this.getNumRailRoadsOwned();
+				this.setNumRailRoadsOwned(numOwned - 1);
+			}
+		} else if (tile.getType() == TileType.UTILITY) {
+			int numOwned = recipient.getNumUtilitiesOwned();
+			recipient.setUtilitiesOwned(numOwned + 1);
+
+			if(this.name != "Bank")
+			{
+				numOwned = this.getNumUtilitiesOwned();
+				this.setUtilitiesOwned(numOwned - 1);
+			}
+		}
+		
+		return recipient.transfer(this, price);
 	}
 
 	public double transfer(Owner recipient, Double amount) {

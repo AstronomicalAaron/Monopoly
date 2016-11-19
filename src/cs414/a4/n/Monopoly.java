@@ -471,6 +471,7 @@ public class Monopoly {
 
 		Player player = new Player(name, token);
 		player.getToken().moveTo(0);
+		player.index = players.size();
 		players.add(player);
 	}
 
@@ -739,7 +740,7 @@ public class Monopoly {
 		startManagement();
 	}
 
-	public void auctionProperty(int tileIndex, double startingBid){
+	public void auctionProperty(Owner seller, int tileIndex, double startingBid){
 		inAuction = true;
 		phase = GamePhase.AUCTION;
 
@@ -748,66 +749,37 @@ public class Monopoly {
 		auctionTimeLeft = 10;
 		nameOfAuctionTile = board.getTiles().get(tileIndex).getName();
 
-		Owner recipient;
-		if (startingBid == 0) {
-			recipient = bank;
-		}
-		else {
-			recipient = players.get(currentPlayerIndex);
-		}
-
-		new java.util.Timer().scheduleAtFixedRate(
-				new java.util.TimerTask() 
+		while (inAuction) {
+			if(auctionTimeLeft > 0)
+			{
+				auctionTimeLeft--;
+			}
+			else
+			{
+				if (highestBid > startingBid)
 				{
-					@Override
-					public void run() {
-						if(auctionTimeLeft > 0)
-						{
-							auctionTimeLeft--;
-						}
-						else
-						{
-							if (highestBid > startingBid)
-							{
-								Player winner = players.get(highestBidderIndex);
-								winner.transfer(recipient, highestBid);
-								if (!(recipient instanceof Bank)) {
-									int i = recipient.getDeeds().indexOf(tileIndex);
-									recipient.getDeeds().remove(i);
-								}
-								winner.getDeeds().add(tileIndex);
-								board.getTiles().get(tileIndex).setOwnerIndex(highestBidderIndex);
-								inAuction = false;
-								if(board.getTiles().get(tileIndex).getType() == TileType.RAILROAD) {
-									int numOwned = winner.getNumRailRoadsOwned();
-									winner.setNumRailRoadsOwned(numOwned + 1);
+					Player winner = players.get(highestBidderIndex);
+					Tile tile = board.getTiles().get(tileIndex);
 
-									if(!recipient.equals(bank))
-									{
-										numOwned = recipient.getNumRailRoadsOwned();
-										recipient.setNumRailRoadsOwned(numOwned - 1);
-									}
-								} else if (board.getTiles().get(tileIndex).getType() == TileType.UTILITY) {
-									int numOwned = winner.getNumUtilitiesOwned();
-									winner.setUtilitiesOwned(numOwned + 1);
+					seller.transfer(winner, tile, highestBid);
+				}
+				else {
+					inAuction = false;
+				}
+			}
 
-									if(!recipient.equals(bank))
-									{
-										numOwned = recipient.getNumUtilitiesOwned();
-										recipient.setUtilitiesOwned(numOwned - 1);
-									}
-								}
-							}
-							startManagement();
-							this.cancel();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 
-							for (Player p : players){
-								p.setBid(0);
-							}
-						}
-					}
-				}, 
-				0, 1000 );
+		for (Player p : players){
+			p.setBid(0);
+		}
+
+		startManagement();
 	}
 
 	public void sellProperty(int propertyIndex, int recIndex, double amount){
@@ -1069,7 +1041,14 @@ public class Monopoly {
 			return;
 		}
 
-		auctionProperty(propertyIndex, startingBid);
+		Runnable r = new Runnable(){
+			public void run(){
+				auctionProperty(players.get(currentPlayerIndex), propertyIndex, startingBid);
+			}
+		};
+		
+		new Thread(r).start();
+		
 	}
 
 	public void sellToBank(int propertyIndex) {
@@ -1195,7 +1174,14 @@ public class Monopoly {
 			//phase = GamePhase.TURN;
 			//False in this case means player is bankrupt
 			//removePlayer(currentPlayer);
-			bankrupt(currentPlayer);
+			
+			Runnable r = new Runnable() {
+				public void run(){
+					bankrupt(currentPlayer);
+				}
+			};
+			
+			new Thread(r).start();
 		}
 
 		if(phase == GamePhase.ENDGAME)
@@ -1204,9 +1190,9 @@ public class Monopoly {
 		}
 
 		// Automatically start the next turn
-		if(rolledDoubles && currentPlayer.doublesRolled < 3) {
+		if(rolledDoubles && currentPlayer.doublesRolled < 3 && !currentPlayer.isBankrupt()) {
 			++currentPlayer.doublesRolled;
-		} else if (rolledDoubles && currentPlayer.doublesRolled == 3) {
+		} else if (rolledDoubles && currentPlayer.doublesRolled == 3 && !currentPlayer.isBankrupt()) {
 			//go to jail you speed
 			currentPlayer.jail();
 		}
@@ -1232,28 +1218,19 @@ public class Monopoly {
 	public void setRolledDoubles(boolean rolledDoubles) {
 		this.rolledDoubles = rolledDoubles;
 	}
-
+	
 	public void bankrupt(Player patheticLoser) {
 		patheticLoser.setBankrupt(true);
 		numberBankrupt++;
 
-		if(numberBankrupt == players.size() - 1){
+		if(numberBankrupt == players.size() - 1){ //All but 1 bankrupt
 			endGame();
 			return;
 		}
 
-		for (int tileIndex : patheticLoser.getDeeds())
-		{
-			while(inAuction)
-			{
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-
-			auctionProperty(tileIndex, 0);
+		for (int tileIndex : patheticLoser.getDeeds()) {
+			Tile tile = board.getTiles().get(tileIndex);
+			auctionProperty(bank, tileIndex, tile.propertyCost / 2);
 		}
 	}
 

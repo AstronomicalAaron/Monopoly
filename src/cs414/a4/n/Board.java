@@ -27,6 +27,12 @@ public class Board {
 
 	public Board() {
 		tiles = Json.<TileList>deserializeFromFile("resources/tiles.json", TileList.class);
+		
+		// cache tile indices
+		for (int i = 0; i < tiles.size(); ++i) {
+			tiles.get(i).index = i;
+		}
+		
 		dice = new Die[] { new Die(), new Die() };
 	}
 

@@ -30,6 +30,8 @@ public class Tile {
 	private boolean mortgaged = false;
 	private boolean hasHotel = false;
 	
+	int index;
+	
 	public String color;
 	public double rent;
 	public double with1House;
