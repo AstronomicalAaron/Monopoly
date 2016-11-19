@@ -61,14 +61,17 @@ public class Monopoly {
 	private LocalTime endTime;
 	
 	private Timer gameTimer;
-	
 	private int timeLeft;
+	
+	private Timer turnTimer;
+	private int turnTimeLeft;
 
 	public Monopoly() {
 		board = new Board();
 		bank = new Bank();
 		players = new ArrayList<Player>();
 		gameTimer = new Timer();
+		turnTimer = new Timer();
 	}
 
 	public GamePhase getPhase() {
@@ -97,6 +100,10 @@ public class Monopoly {
 	
 	public int getTimeLeft() {
 		return timeLeft;
+	}
+	
+	public int getTurnTimeLeft() {
+		return turnTimeLeft;
 	}
 
 	public Bank getBank() {
@@ -453,6 +460,17 @@ public class Monopoly {
 		if(LocalTime.now().isAfter(endTime)){
 			endGame();
 		}
+		
+		turnTimeLeft = 30;
+		turnTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+            	if(turnTimeLeft > 0)
+            		turnTimeLeft--;
+            	else
+            		endTurn();
+            }
+        }, 0, 1000);
 		
 		Player currentPlayer = players.get(currentPlayerIndex);
 
@@ -1053,6 +1071,9 @@ public class Monopoly {
 	}
 
 	public void endTurn() {
+		turnTimer.cancel();
+		turnTimer = new Timer();
+		
 		Player currentPlayer = players.get(currentPlayerIndex);
 		if (currentPlayer.getMoney() == 0) {
 			//Player needs to be able to sell whatever they can to be able to pay taxes
@@ -1118,6 +1139,8 @@ public class Monopoly {
 	}
 
 	public String endGame() {
+		
+		gameTimer.cancel();
 		
 		int [] netWorths = new int[players.size()];
 		

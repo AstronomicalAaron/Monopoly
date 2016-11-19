@@ -115,7 +115,7 @@ app.controller('monopolyController', function($scope) {
 	
 	$scope.getOp = function(path, callback) {
 		$.getJSON(path, function(json) {
-			update($scope, json)
+			update($scope, json);
 			
 			if (callback != undefined) {
 				callback(true);
