@@ -989,7 +989,7 @@ public class Monopoly {
 
 	}
 
-	public void liftMortgage(){
+	public void liftMortgage(int propertyIndex){
 		//Player lifts a mortgage buy paying the full mortgage value + another 10%
 		//interest
 
@@ -1001,7 +1001,7 @@ public class Monopoly {
 
 		Player currentPlayer = players.get(currentPlayerIndex);
 
-		Tile currentTile = board.getTiles().get(currentPlayer.getToken().getTileIndex());
+		Tile currentTile = board.getTiles().get(propertyIndex);
 
 		//Can't lift a mortgage on a upgraded property
 		if(currentTile.getHasHotel() || currentTile.numHouses > 0){
@@ -1013,6 +1013,7 @@ public class Monopoly {
 				currentPlayer.getDeeds().contains(currentTile)){
 
 			currentPlayer.transfer(getBank(), currentTile.mortgageValue + (currentTile.mortgageValue * 0.1));
+			currentTile.setMortgaged(false);
 
 		}
 
@@ -1081,10 +1082,7 @@ public class Monopoly {
 		}
 
 		if (property.isMortgaged()) {
-			currentPlayer.transfer(bank, property.propertyCost*1.1);
-			property.setMortgaged(false);
-			bank.transfer(currentPlayer, property.propertyCost);
-			property.setOwnerIndex(-1);
+			liftMortgage(propertyIndex);
 			return;
 		}
 
