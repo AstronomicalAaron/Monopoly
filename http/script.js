@@ -365,7 +365,10 @@ app.controller('monopolyController', function($scope) {
 	$scope.playerClass = function (player) {
 		
 		if ($scope.currentPlayer != null && $scope.currentPlayer.name == player.name) {
-			return "golden"
+			return "golden";
+		}
+		else if (player.bankrupt) {
+			return "gray";
 		}
 		else {
 			return "";
