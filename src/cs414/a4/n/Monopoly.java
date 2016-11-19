@@ -248,10 +248,12 @@ public class Monopoly {
 				currentPlayer.getToken().moveBy(-1*chanceCard.moveToIndex());
 				currentTile = board.getTiles().get(currentTileIndex);
 				tileOperation(currentTile, currentPlayer);
+				return;
 			}else{
 				currentPlayer.getToken().moveTo(chanceCard.moveToIndex());
 				currentTile = board.getTiles().get(currentTileIndex);
-				tileOperation(currentTile, currentPlayer);				
+				tileOperation(currentTile, currentPlayer);
+				return;
 			}
 
 		}
@@ -552,8 +554,8 @@ public class Monopoly {
 		phase = GamePhase.ROLLING;
 		Player currentPlayer = players.get(currentPlayerIndex);
 
-		int dieOneValue = board.getDice()[0].roll();
-		int dieTwoValue = board.getDice()[1].roll();
+		int dieOneValue = 4;// board.getDice()[0].roll();
+		int dieTwoValue = 3;//board.getDice()[1].roll();
 
 		rolledDoubles = dieOneValue == dieTwoValue;
 		rolledValue = dieOneValue + dieTwoValue;

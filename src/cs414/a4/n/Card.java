@@ -40,7 +40,7 @@ public class Card {
 		cards = new ArrayList<String>();
 		rand = new Random(System.currentTimeMillis());
 		do{
-			cardIndex = rand.nextInt(15);
+			cardIndex = 8;//rand.nextInt(15);
 		}while(ignoreTwo && cardIndex==2);			
 		freeJailDesc = "";
 		this.type = type;
