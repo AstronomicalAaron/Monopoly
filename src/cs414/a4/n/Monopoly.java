@@ -1038,29 +1038,17 @@ public class Monopoly {
 			return;
 		}
 
-		if(currentPlayer.hasDeed(currentTileIndex)){
-
-			if(currentTile.isMortgaged()){
-
-				endTurn();
-				return;
-
-			}else{
-				double mortgageAmount = currentTile.mortgageValue;
-
-				if(currentPlayer.getMoney() >= mortgageAmount) {
-					currentPlayer.transfer(bank, mortgageAmount);
-					//Update mortgage status
-					currentTile.setMortgaged(true);
-				}
-
-			}
-
-
+		if(currentTile.isMortgaged()){
+			endTurn();
+			return;
 		}else{
+			double mortgageAmount = currentTile.mortgageValue;
 
-			//create an error message that the property is owned by a
-			//different player
+			if(currentPlayer.getMoney() >= mortgageAmount) {
+				currentPlayer.transfer(bank, mortgageAmount);
+				//Update mortgage status
+				currentTile.setMortgaged(true);
+			}
 
 		}
 
