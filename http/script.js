@@ -318,12 +318,6 @@ app.controller('monopolyController', function($scope) {
 	}
 	//
 	
-	//Go to jail
-	$scope.goToJail = function(){
-		
-	}
-	//
-	
 	$scope.endTurn = function(){
 		$scope.getOp('endturn');
 	}
