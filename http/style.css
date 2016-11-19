@@ -663,8 +663,8 @@ More pastel-y versions of the monopoly colors -->.brown {
 #show-card{
 	background-color: #ff8c00;
 	display: block;
-	width: 400;
-	height: 200;
+	width: 400px;
+	height: 200px;
 	padding: 25px;
 	text-align: center;
 	-moz-box-shadow: inset 0 0 10px #000000;
