@@ -519,7 +519,7 @@ public class Monopoly {
 			return;
 		}
 		
-		turnTimeLeft = 30;
+		turnTimeLeft = 60;
 		turnTimer.schedule(new TimerTask() {
             @Override
             public void run() {
