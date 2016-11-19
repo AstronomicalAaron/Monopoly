@@ -1071,7 +1071,7 @@ public class Monopoly {
 		if (phase != GamePhase.TURN) {
 			throw new IllegalStateException("Not currently in TURN phase.");
 		}
-
+		
 		Tile property = board.getTiles().get(propertyIndex);
 		Player currentPlayer = players.get(currentPlayerIndex);
 		int propIndex = currentPlayer.getDeeds().indexOf(property);
@@ -1081,6 +1081,10 @@ public class Monopoly {
 		}
 
 		if (property.isMortgaged()) {
+			currentPlayer.transfer(bank, property.propertyCost*1.1);
+			property.setMortgaged(false);
+			bank.transfer(currentPlayer, property.propertyCost);
+			property.setOwnerIndex(-1);
 			return;
 		}
 
