@@ -102,11 +102,12 @@ function update($scope, json) {
 		phaseChange($scope);
 		lastPhase = $scope.state.phase;
 	}
-	else {
+	else if ($scope.state.phase == "TURN") {
 		// Check for sold tiles
 		$scope.state.board.tiles.forEach(function(tile, i, arr) {
 			var $cell = $('#' + i);
 			if (!$cell.is('.covered') && tile.ownerIndex != $scope.state.currentPlayerIndex) {
+				$cell.removeClass('selected');
 				$cell.addClass('covered');
 			}
 		});
@@ -290,6 +291,7 @@ app.controller('monopolyController', function($scope) {
 	
 	$scope.sellToBank = function() {
 		$scope.getOp('selltobank?propertyIndex=' + $scope.selectedIndex);
+		$scope.currentTile = null;
 	}
 	//
 	
