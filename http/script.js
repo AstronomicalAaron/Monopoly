@@ -69,7 +69,9 @@ function phaseChange($scope) {
 	// Disable UI for inactive player
 	if (   ($scope.state.phase == 'TURN' ||
 			$scope.state.phase == 'BUY_PROPERTY' ||
-			$scope.state.phase == 'JAILED')
+			$scope.state.phase == 'JAILED' ||
+			$scope.state.phase == 'SHOWCARD' ||
+			$scope.state.phase == 'CHEAT_ROLL')
 			&&
 			$scope.currentPlayer.name !== $scope.username) {
 				
