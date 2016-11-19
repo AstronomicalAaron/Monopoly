@@ -162,12 +162,12 @@
 	</div>
 
 	<!-- Time Remaining -->
-	<div style='position: fixed; top: 10px; right: 10px; background: #cde6d0; 
+	<div style='position: fixed; top: 10px; right: 10px; background: #cde6d0; z-index: 99;
 		padding: 5px; border-size:2px; border-style:solid; border-color:black; box-shadow: 0px 0px 48px #000;'>
 		 Time Left: {{ state.timeLeft }} min
 	</div>
 	<div style='width: 30px; height: 30px; background-color: #cc4444; position: fixed; top: 43px; right: 10px;
-				border: 3px solid black; text-align: center; padding-top: 3px; box-sizing: border-box;'
+				border: 3px solid black; text-align: center; padding-top: 3px; box-sizing: border-box; z-index: 99;'
 				ng-show='state.turnTimeLeft > 0'>{{ state.turnTimeLeft }}</div>
 	
 	<!-- Token -->
