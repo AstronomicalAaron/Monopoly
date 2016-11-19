@@ -58,9 +58,9 @@ function phaseChange($scope) {
 				$cell.addClass('covered');
 			}
 		});
-		// Clear tile selection
 	}
 	else {
+		// Clear tile selection
 		$('.covered').removeClass('covered');
 	}
 	// Clear the selection
@@ -101,6 +101,15 @@ function update($scope, json) {
 	if (lastPhase !== $scope.state.phase) {
 		phaseChange($scope);
 		lastPhase = $scope.state.phase;
+	}
+	else {
+		// Check for sold tiles
+		$scope.state.board.tiles.forEach(function(tile, i, arr) {
+			var $cell = $('#' + i);
+			if (!$cell.hasClass('covered') && tile.ownerIndex != $scope.state.currentPlayerIndex) {
+				$cell.addClass('covered');
+			}
+		});
 	}
 	
 	$scope.$apply();

@@ -1091,13 +1091,15 @@ public class Monopoly {
 			return;
 		}
 
-		if (!currentPlayer.getDeeds().contains(propertyIndex)) {
+		ArrayList<Integer> deedsList = currentPlayer.getDeeds();
+		int deedIndex = deedsList.indexOf(propertyIndex);
+		if (deedIndex == -1) {
 			return;
 		}
 
 		bank.transfer(currentPlayer, property.propertyCost / 2);
 
-		currentPlayer.getDeeds().remove(propertyIndex);
+		currentPlayer.getDeeds().remove(deedIndex);
 		property.setOwnerIndex(-1);
 	}
 
