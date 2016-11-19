@@ -150,25 +150,6 @@
 				</tr>
 			</table>
 		</div>
-
-		<div class='chance' ng-show='isChance(currentTile)'>
-			<table>
-					<tr>
-						<td>Chance Card:</td>
-						<td>{{ state.cardString }}</td>
-					</tr>
-			</table>			
-		</div>
-
-		<div class='communityChest'
-			ng-show='isCommunityChest(currentTile)'>
-			<table>
-				<tr>
-					<td>Community Chest Card:</td>
-					<td>{{ state.cardString }}</td>
-				</tr>
-			</table>	
-		</div>
 		
 		<div class='card-info' ng-show='selected.propertyCost != 0'>
 			<div ng-show='selected.ownerIndex != -1'>Owner: {{ cardOwner(selected) }}</div>
@@ -337,22 +318,6 @@
 													</table>
 												</div>
 
-												<div class='chance' ng-show='isChance(currentTile)'>
-													<table>
-															<tr>
-																<td>Chance Card</td>
-															</tr>
-													</table>			
-												</div>
-
-												<div class='communityChest'
-													ng-show='isCommunityChest(currentTile)'>
-													<table>
-														<tr>
-															<td>Community Chest Card</td>
-														</tr>
-													</table>	
-												</div>
 											</div>
 											<div class='property-controls' ng-show='state.phase=="BUY_PROPERTY"'>
 												<button class='green'   ng-click='buyProperty()'>Buy</button>

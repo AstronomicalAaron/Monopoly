@@ -122,8 +122,9 @@ public class MonopolyController {
     
     @RequestMapping(value = "/liftmortgage", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Monopoly liftMortgage() {
-    	game.liftMortgage();
+    public Monopoly liftMortgage(
+    		@RequestParam int index) {
+    	game.liftMortgage(index);
     	return game;
     }
     

@@ -162,7 +162,7 @@ boolean thrown = false;
 		boolean thrown = false;
 		
 		try	{
-			monopoly.liftMortgage();
+			monopoly.liftMortgage(1);
 		}
 		catch (IllegalStateException e){
 			thrown = true;
