@@ -136,7 +136,7 @@ public class Monopoly {
 	}
 
 	public void landOnChance(Card chanceCard){
-
+		
 		Player currentPlayer = players.get(currentPlayerIndex);
 
 		int currentTileIndex = currentPlayer.getToken().getTileIndex();
@@ -229,35 +229,11 @@ public class Monopoly {
 			if(chanceCard.getCardIndex() == 12){
 				currentPlayer.getToken().moveBy(-1*chanceCard.moveToIndex());
 				currentTile = board.getTiles().get(currentTileIndex);
-				if (currentTile.hasOwner()) {
-					if (currentTile.getOwnerIndex() != currentPlayerIndex) {
-						payRent(rolledValue);
-					}
-				}
-				else {
-					phase = GamePhase.BUY_PROPERTY;
-					return;
-				}
+				tileOperation(currentTile, currentPlayer);
 			}else{
 				currentPlayer.getToken().moveTo(chanceCard.moveToIndex());
 				currentTile = board.getTiles().get(currentTileIndex);
-				if(currentTile.isProperty() ||
-						currentTile.isUtility() ||
-						currentTile.isRailRoad()){
-					if (currentTile.hasOwner()) {
-						if (currentTile.getOwnerIndex() != currentPlayerIndex) {
-							payRent(rolledValue);
-						}
-					}
-					else {
-						phase = GamePhase.BUY_PROPERTY;
-						return;
-					}
-					
-				}else if(currentTile.getType() == TileType.TAXES){
-					
-				}
-				
+				tileOperation(currentTile, currentPlayer);				
 			}
 
 		}
@@ -271,9 +247,7 @@ public class Monopoly {
 
 		//Utility indices are: 12, 28
 		if(chanceCard.getCardIndex() == 4){
-
 			if(currentTileIndex < 12 || currentTileIndex >= 28){
-
 				currentPlayer.getToken().moveTo(12);
 				currentTile = board.getTiles().get(currentTileIndex);
 				if (currentTile.hasOwner()) {
@@ -285,9 +259,10 @@ public class Monopoly {
 					phase = GamePhase.BUY_PROPERTY;
 					return;
 				}
+				
+				startManagement();
 
 			}else{
-
 				currentPlayer.getToken().moveTo(28);
 				currentTile = board.getTiles().get(currentTileIndex);
 				if (currentTile.hasOwner()) {
@@ -539,8 +514,8 @@ public class Monopoly {
 		phase = GamePhase.ROLLING;
 		Player currentPlayer = players.get(currentPlayerIndex);
 
-		int dieOneValue = 5; //board.getDice()[0].roll();
-		int dieTwoValue = 2; //board.getDice()[1].roll();
+		int dieOneValue = 3;//board.getDice()[0].roll();
+		int dieTwoValue = 4;//board.getDice()[1].roll();
 		rolledDoubles = dieOneValue == dieTwoValue;
 		rolledValue = dieOneValue + dieTwoValue;
 
@@ -593,6 +568,12 @@ public class Monopoly {
 			bank.transfer(currentPlayer, 200.0);
 		}
 
+		tileOperation(currentTile, currentPlayer);
+		
+	}
+	
+	private void tileOperation(Tile currentTile, Player currentPlayer){
+		
 		switch (currentTile.getType()){
 		case PROPERTY:
 		case UTILITY:
@@ -644,6 +625,7 @@ public class Monopoly {
 		}
 
 		startManagement();
+		
 	}
 
 	private void startManagement()
