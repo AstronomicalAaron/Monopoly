@@ -20,10 +20,13 @@
 	<nav id='menu' class='menu' hidden>
 		<div id='menu-header'>Monopoly</div>
 		<button ng-click='resetGame()'>Reset</button>
-		<h1>Servers:</h1>
-		<ul>
-			<li ng-repeat='s in servers'><a>{{ s.name }}</a></li>
-		</ul>
+		<div>
+			<span>Cheat Mode: </span>
+			<span ng-show="state.cheatModeOn" class='green-text' >ON</span>
+			<span ng-show="!state.cheatModeOn" class='red-text' >OFF</span>
+			<button class='green' ng-click='setCheatModeOn(true)'>Cheat Mode On</button>
+			<button class='red' ng-click='setCheatModeOn(false)'>Cheat Mode Off</button>
+		</div>
 	</nav>
 	
 	<!-- Join -->
@@ -180,7 +183,11 @@
 	<!-- Time Remaining -->
 	<div style='position: fixed; top: 10px; right: 10px; background: #cde6d0; 
 		padding: 5px; border-size:2px; border-style:solid; border-color:black; box-shadow: 0px 0px 48px #000;'>
-		 Time Left: {{ state.timeLeft }} min</div>
+		 Time Left: {{ state.timeLeft }} min
+	</div>
+	<div style='width: 30px; height: 30px; background-color: #cc4444; position: fixed; top: 43px; right: 10px;
+				border: 3px solid black; text-align: center; padding-top: 3px; box-sizing: border-box;'
+				ng-show='state.turnTimeLeft > 0'>{{ state.turnTimeLeft }}</div>
 	
 	<!-- Token -->
 	<div class='token' ng-repeat='player in state.players'
@@ -386,6 +393,11 @@
 											<button ng-click='useFreeCard()' 
 													ng-show='state.players[state.currentPlayerIndex].hasFreeJailCard'>
 													Get out of Jail Free!</button>
+										</div>
+										<div id='cheat-roll' ng-show='state.phase=="CHEAT_ROLL"'>
+											<input type="number" min="1" ng-max="6" ng-model="rollVal1">
+											<input type="number" min="1" ng-max="6" ng-model="rollVal2">
+											<button ng-click='hackedRoll(rollVal1, rollVal2)'>ROLL DAT SHII</button>
 										</div>
 										<div id='endgame' ng-show='state.phase=="ENDGAME"'>
 											<h3>Game Over!</h3>

@@ -70,7 +70,8 @@ function phaseChange($scope) {
 	if (   ($scope.state.phase == 'TURN' ||
 			$scope.state.phase == 'BUY_PROPERTY' ||
 			$scope.state.phase == 'JAILED' ||
-			$scope.state.phase == 'SHOWCARD')
+			$scope.state.phase == 'SHOWCARD' ||
+			$scope.state.phase == 'CHEAT_ROLL')
 			&&
 			$scope.currentPlayer.name !== $scope.username) {
 				
@@ -111,12 +112,14 @@ app.controller('monopolyController', function($scope) {
 	$scope.cardHover = false;
 	$scope.cardHeaderStyle = {'background':'white','color':'black'};
 	$scope.timelimit = 10;
+	$scope.rollVal1 = 1;
+	$scope.rollVal2 = 1;
 	
 	poll($scope);
 	
 	$scope.getOp = function(path, callback) {
 		$.getJSON(path, function(json) {
-			update($scope, json)
+			update($scope, json);
 			
 			if (callback != undefined) {
 				callback(true);
@@ -375,6 +378,14 @@ app.controller('monopolyController', function($scope) {
 	
 	$scope.useFreeCard = function() {
 		$scope.getOp('usefreecard');
+	}
+	
+	$scope.hackedRoll = function(val1, val2) {
+		$scope.getOp('hackedroll?val1=' + val1 + '&val2=' + val2);
+	}
+	
+	$scope.setCheatModeOn = function(val) {
+		$scope.getOp('setcheatmodeon?val=' + val);
 	}
 	
 	$scope.cardStyle = function (tile) {

@@ -27,5 +27,6 @@ public enum GamePhase {
 	AUCTION,
 	JAILED,
 	ENDGAME,
-	SHOWCARD
+	SHOWCARD,
+	CHEAT_ROLL
 }

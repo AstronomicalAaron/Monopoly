@@ -158,6 +158,23 @@ public class MonopolyController {
     	return game;
     }
     
+    @RequestMapping(value = "/hackedroll", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly hackedRoll(
+    		@RequestParam int val1,
+    		@RequestParam int val2) {
+    	game.hackedRoll(val1, val2);
+    	return game;
+    }
+    
+    @RequestMapping(value = "/setcheatmodeon", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Monopoly hackedRoll(
+    		@RequestParam boolean val) {
+    	game.setCheatModeOn(val);
+    	return game;
+    }
+    
     @RequestMapping(value = "/resetgame", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Monopoly resetGame() {

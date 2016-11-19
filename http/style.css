@@ -118,6 +118,10 @@ More pastel-y versions of the monopoly colors -->.brown {
 	color: #136c37;
 }
 
+.red-text {
+	color: #ed1b24;
+}
+
 .blue {
 	background: #59A3D3;
 	background-image: url('material.png');

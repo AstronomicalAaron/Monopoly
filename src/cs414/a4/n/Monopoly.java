@@ -61,16 +61,22 @@ public class Monopoly {
 	private LocalTime endTime;
 
 	private Timer gameTimer;
-
+	
 	private int timeLeft;
+	
+	private Timer turnTimer;
+	private int turnTimeLeft;
 
 	private String winner;
+	
+	private boolean cheatModeOn = false;
 
 	public Monopoly() {
 		board = new Board();
 		bank = new Bank();
 		players = new ArrayList<Player>();
 		gameTimer = new Timer();
+		turnTimer = new Timer();
 	}
 
 	public GamePhase getPhase() {
@@ -100,6 +106,10 @@ public class Monopoly {
 	public int getTimeLeft() {
 		return timeLeft;
 	}
+	
+	public int getTurnTimeLeft() {
+		return turnTimeLeft;
+	}
 
 	public Bank getBank() {
 		return bank;
@@ -121,6 +131,14 @@ public class Monopoly {
 		return winner;
 	}
 
+	public boolean getCheatModeOn() {
+		return cheatModeOn;
+	}
+	
+	public void setCheatModeOn(boolean val) {
+		cheatModeOn = val;
+	}
+	
 	public void useFreeCard(){
 
 		Player currentPlayer = players.get(currentPlayerIndex);
@@ -134,7 +152,7 @@ public class Monopoly {
 		}
 
 	}
-
+	
 	public void landOnChance(Card chanceCard){
 		
 		Player currentPlayer = players.get(currentPlayerIndex);
@@ -500,12 +518,26 @@ public class Monopoly {
 			endGame();
 			return;
 		}
-
+		
+		turnTimeLeft = 30;
+		turnTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+            	if(turnTimeLeft > 0)
+            		turnTimeLeft--;
+            	else
+            		endTurn();
+            }
+        }, 0, 1000);
+		
 		Player currentPlayer = players.get(currentPlayerIndex);
 
 		if (currentPlayer.isJailed()) {
 			phase = GamePhase.JAILED;
 			return;
+		}
+		else if (cheatModeOn) {
+			phase = GamePhase.CHEAT_ROLL;
 		}
 		else {
 			rollDice();
@@ -516,8 +548,9 @@ public class Monopoly {
 		phase = GamePhase.ROLLING;
 		Player currentPlayer = players.get(currentPlayerIndex);
 
-		int dieOneValue = 1;//board.getDice()[0].roll();
-		int dieTwoValue = 1;//board.getDice()[1].roll();
+		int dieOneValue = board.getDice()[0].roll();
+		int dieTwoValue = board.getDice()[1].roll();
+
 		rolledDoubles = dieOneValue == dieTwoValue;
 		rolledValue = dieOneValue + dieTwoValue;
 
@@ -542,6 +575,39 @@ public class Monopoly {
 						}
 					}, 
 					3000 
+					);	
+		}
+	}
+	
+	public void hackedRoll(int val1, int val2) {
+		Player currentPlayer = players.get(currentPlayerIndex);
+
+		int dieOneValue = val1;
+		int dieTwoValue = val2;
+		rolledDoubles = dieOneValue == dieTwoValue;
+		rolledValue = dieOneValue + dieTwoValue;
+
+		if (currentPlayer.isJailed())
+		{
+			new java.util.Timer().schedule( 
+					new java.util.TimerTask() {
+						@Override
+						public void run() {
+							endJailRoll(currentPlayer, rolledDoubles);
+						}
+					}, 
+					0 
+					);	
+		}
+		else {
+			new java.util.Timer().schedule( 
+					new java.util.TimerTask() {
+						@Override
+						public void run() {
+							doTile(currentPlayer, rolledValue);
+						}
+					}, 
+					0 
 					);	
 		}
 	}
@@ -1119,6 +1185,9 @@ public class Monopoly {
 	}
 
 	public void endTurn() {
+		turnTimer.cancel();
+		turnTimer = new Timer();
+		
 		Player currentPlayer = players.get(currentPlayerIndex);
 		if (currentPlayer.getMoney() == 0) {
 			//Player needs to be able to sell whatever they can to be able to pay taxes
@@ -1189,6 +1258,8 @@ public class Monopoly {
 	}
 
 	public String endGame() {
+		gameTimer.cancel();
+		
 		phase = GamePhase.ENDGAME;
 
 		int [] netWorths = new int[players.size()];
@@ -1201,16 +1272,10 @@ public class Monopoly {
 
 		int maxIndex = 0;
 
-		for(int i = 0; i < netWorths.length - 1; i++){
+		for(int i = 0; i < netWorths.length; i++){
 
-			if(netWorths[i] > netWorths[i+1]){
-
+			if(netWorths[i] > netWorths[maxIndex]){
 				maxIndex = i;
-
-			}else{
-
-				maxIndex = i+1;
-
 			}
 
 		}
