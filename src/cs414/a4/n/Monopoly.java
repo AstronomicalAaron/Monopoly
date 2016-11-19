@@ -146,6 +146,7 @@ public class Monopoly {
 		if(currentPlayer.getHasFreeJailCard() && currentPlayer.isJailed()){
 
 			currentPlayer.remainingTurnsJailed = 0;
+			currentPlayer.setHasFreeJailCard(false);
 			currentPlayer.getToken().moveBy(1);
 			endTurn();
 
