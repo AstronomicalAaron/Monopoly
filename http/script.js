@@ -302,7 +302,7 @@ app.controller('monopolyController', function($scope) {
 	
 	//Lift Mortgage
 	$scope.liftMortgage = function(){
-		$scope.getOp('liftmortgage');
+		$scope.getOp('liftmortgage?index=' + $scope.selectedIndex);
 	}
 	//
 	
