@@ -440,7 +440,7 @@ public class Monopoly {
 	public void setBid(String username, double bid)
 	{
 		int playerIndex = -1;
-
+		bid = Math.round(bid);
 		for (Player player : players){
 			if (player.getName().equals(username)){
 				playerIndex = players.indexOf(player);
