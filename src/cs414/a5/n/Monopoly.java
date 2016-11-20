@@ -755,6 +755,8 @@ public class Monopoly {
 		inAuction = true;
 		phase = GamePhase.AUCTION;
 
+		startingBid = (double)board.getTiles().get(tileIndex).propertyCost;
+		
 		highestBid = startingBid;
 		highestBidderIndex = -1;
 		auctionTimeLeft = 10;
